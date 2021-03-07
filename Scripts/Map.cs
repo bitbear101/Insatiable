@@ -123,7 +123,7 @@ public class Map : Node2D
     private void GetStartTile()
     {
         //The alternative directions to check for a spawn point
-        Vector2 checkTilePosSE, checkTilePosW, checkTilePosS, checkTilePosE, startTile;
+        Vector2 checkTilePosSE, checkTilePosS, checkTilePosE, startTile;
         //Set the starting posisitons for all the directions to the top left of the map
         startTile = new Vector2(2, 2);
         checkTilePosSE = startTile;

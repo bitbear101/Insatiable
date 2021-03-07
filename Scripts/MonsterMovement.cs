@@ -29,11 +29,11 @@ public class MonsterMovement : Node
     private void OnMoveDirectionEvent(MoveDirectionEvent mde)
     {
         //Check if the the direction of movement is valid
-        if (CheckDirection(mde.dir))
-        {
-            //If hte direction of movement is valid we move in that direction
-            Move(mde.dir);
-        }
+        //if (CheckDirection(mde.dir))
+        //{
+        //If hte direction of movement is valid we move in that direction
+        //    Move(mde.dir);
+        //}
     }
 
     private bool CheckDirection(Vector2 dir)
