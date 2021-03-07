@@ -7,10 +7,10 @@ using EventCallback;
 public enum TileType
 {
     FLOOR,
+    STONE,
     WALL,
     DOOR,
     LADDER,
-    STONE,
     NONE
 };
 public class Map : Node2D
@@ -36,6 +36,8 @@ public class Map : Node2D
 
     public override void _Ready()
     {
+        //The stone to floor listener
+        StoneToFloorEvent.RegisterListener(OnStoneToFloorEvent);
         //The listener for the get tile event
         GetTileEvent.RegisterListener(OnGetTileEvent);
         //The listener for the players spawn event
@@ -54,6 +56,14 @@ public class Map : Node2D
         GetExitTile();
     }
 
+    private void OnStoneToFloorEvent(StoneToFloorEvent stfe)
+    {
+        //Change the stone tile to a floor tile in the map list
+        map[(int)(stfe.TileToChange.x * width + stfe.TileToChange.y)] = TileType.FLOOR;
+        //Change the stone tile to a floor tile in the tile map node
+        tileMap.SetCell((int)stfe.TileToChange.x, (int)stfe.TileToChange.y, (int)TileType.FLOOR);
+    }
+
     private void OnGetTileEvent(GetTileEvent gte)
     {
         //Get the tile from the map list
@@ -64,6 +74,7 @@ public class Map : Node2D
     {
         //Return the players spawn point to the message sender
         gpspe.spawnPos = spawnTile * tileSize;
+
     }
 
     private void GenerateNoise()
@@ -95,7 +106,7 @@ public class Map : Node2D
                     tileMap.SetCell(x, y, (int)TileType.WALL);
                     map[x * width + y] = TileType.WALL;
                 }
-                if (x == width || y == height)
+                if (x == width - 1 || y == height - 1)
                 {
                     //Cast the enum value of the tile to an in to get the tile to spawn
                     tileMap.SetCell(x, y, (int)TileType.WALL);
@@ -115,7 +126,7 @@ public class Map : Node2D
         }
         if (index > 0.01f)
         {
-            tile = TileType.WALL;
+            tile = TileType.STONE;
         }
         return tile;
     }

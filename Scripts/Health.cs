@@ -1,14 +1,22 @@
 using Godot;
 using System;
-
-public class Health
+using EventCallback;
+public class Health : Node
 {
     public Health(int _health)
     {
-        //Set the new health when created for the actor
-        health = _health;
+        //The listener for the hit event
+        HitEvent.RegisterListener(OnHitEvent);
     }
-    int health;
+    int health = 5;
+
+    private void OnHitEvent(HitEvent he)
+    {
+        if (he.target.GetInstanceId() == GetParent().GetInstanceId())
+        {
+
+        }
+    }
     private void TakeDamage(int damage)
     {
         health -= damage;

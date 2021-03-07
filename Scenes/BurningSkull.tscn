@@ -24,11 +24,15 @@ script = ExtResource( 3 )
 [node name="Area2D" type="Area2D" parent="." groups=[
 "Monsters",
 ]]
+input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 8, 8 )
 shape = SubResource( 1 )
 
-[node name="DirectionRay" type="RayCast2D" parent="."]
+[node name="DirectionRay" type="RayCast2D" parent="Area2D"]
 position = Vector2( 8, 8 )
+enabled = true
 cast_to = Vector2( 0, 16 )
+collide_with_areas = true
+collide_with_bodies = false

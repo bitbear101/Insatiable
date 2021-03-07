@@ -22,7 +22,7 @@ public class MonsterMovement : Node
     public override void _Ready()
     {
         MoveDirectionEvent.RegisterListener(OnMoveDirectionEvent);
-        directionRay = GetNode<RayCast2D>("../DirectionRay");
+        directionRay = GetNode<RayCast2D>("../Area2D/DirectionRay");
         directionRay.CastTo = Vector2.Up * rayLenght;
     }
 

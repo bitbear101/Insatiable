@@ -14,4 +14,6 @@ mainScenes = [ ExtResource( 6 ) ]
 gameScenes = [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 5 ) ]
 
 [node name="Monster" parent="." instance=ExtResource( 7 )]
-position = Vector2( 160, 160 )
+position = Vector2( 64, 64 )
+z_index = 2
+z_as_relative = false

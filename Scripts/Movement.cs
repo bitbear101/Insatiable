@@ -22,7 +22,7 @@ public class Movement : Node
     public override void _Ready()
     {
         MoveDirectionEvent.RegisterListener(OnMoveDirectionEvent);
-        dirRay = GetNode<RayCast2D>("../DirectionRay");
+        dirRay = GetNode<RayCast2D>("../Area2D/DirectionRay");
     }
 
     private void OnMoveDirectionEvent(MoveDirectionEvent mde)
@@ -37,15 +37,15 @@ public class Movement : Node
 
     private bool CheckDirection(Vector2 dir)
     {
-        //1. Check if we can move from the turn manager
-
         //If the actor can move we set it true
         bool canMoveMap = false, canMoveRay = true;
 
         //Cast the ray towards the direction of movement
         dirRay.CastTo = dir * 16;
+        //Enable the ray to detect collisions
+        dirRay.Enabled = true;
         //Forces the raycast to update and detect the collision with the building object
-        //touchRay.ForceRaycastUpdate();
+        dirRay.ForceRaycastUpdate();
         //Check for collisions
         if (dirRay.IsColliding())
         {
@@ -58,15 +58,19 @@ public class Movement : Node
             }
             if (hitNode.IsInGroup("Monster"))
             {
-                //Call the needed event messages
+                HitEvent he = new HitEvent();
+                he.callerClass = "Movement - CheckDirection";
+                he.target = (Node2D)hitNode.GetParent();
+                he.FireEvent();
             }
         }
+        //Disable hte ray as all detection should be done
+        dirRay.Enabled = false;
         //2. check the direction from the move direction to the map
         GetTileEvent gte = new GetTileEvent();
         gte.callerClass = "Movement - CheckDirection()";
         gte.pos = new Vector2(((Node2D)GetParent()).Position / 16 + dir);
         gte.FireEvent();
-        GD.Print("tile in move direction = " + gte.tile);
         if (gte.tile == TileType.FLOOR)
         {
             canMoveMap = true;
@@ -75,12 +79,16 @@ public class Movement : Node
         {
             //We wont move but we can call the 
             canMoveMap = false;
+            //If the player collides with a stone tile we change it to a floor tile
+            StoneToFloorEvent stfe = new StoneToFloorEvent();
+            stfe.callerClass = "Movement - CheckDirection()";
+            stfe.TileToChange = new Vector2(((Node2D)GetParent()).Position / 16 + dir);
+            stfe.FireEvent();
         }
         else
         {
             canMoveMap = false;
         }
-
         //Return if we can move or not here by comparint if the ray or map is stopping it
         return (canMoveMap && canMoveRay);
     }
@@ -89,10 +97,4 @@ public class Movement : Node
     {
         ((Node2D)GetParent()).Position += dir * 16;
     }
-
-    //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-    //  public override void _Process(float delta)
-    //  {
-    //      
-    //  }
 }

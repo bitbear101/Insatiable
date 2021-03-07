@@ -11,7 +11,7 @@ public enum MonsterType
 
 };
 
-public class Monster : Actor
+public class Monster : Node2D
 {
     //The defualt constructor for the monster class
     public Monster()
