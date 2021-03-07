@@ -1,0 +1,89 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/Menu.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/HUD.cs" type="Script" id=2]
+[ext_resource path="res://Sprites/Title.png" type="Texture" id=3]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="HUD" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD"]
+anchor_right = 1.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level" type="Label" parent="HUD/HBoxContainer"]
+margin_right = 38.0
+margin_bottom = 14.0
+text = "Level:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="XP" type="Label" parent="HUD/HBoxContainer"]
+margin_left = 42.0
+margin_right = 62.0
+margin_bottom = 14.0
+text = "XP:"
+
+[node name="Corruption" type="Label" parent="HUD/HBoxContainer"]
+margin_left = 66.0
+margin_right = 137.0
+margin_bottom = 14.0
+text = "Corruption:"
+
+[node name="Menu" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleVbox" type="VBoxContainer" parent="Menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Menu/TitleVbox"]
+margin_right = 1280.0
+margin_bottom = 512.0
+texture = ExtResource( 3 )
+
+[node name="MenuVbox" type="VBoxContainer" parent="Menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 623.0
+margin_top = 253.0
+margin_right = -168.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartButton" type="Button" parent="Menu/MenuVbox"]
+margin_right = 489.0
+margin_bottom = 20.0
+text = "Start"
+
+[node name="ExitButton" type="Button" parent="Menu/MenuVbox"]
+margin_top = 24.0
+margin_right = 489.0
+margin_bottom = 44.0
+text = "Exit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Menu/MenuVbox/StartButton" to="Menu" method="OnStartButtonPressed"]
+[connection signal="pressed" from="Menu/MenuVbox/ExitButton" to="Menu" method="OnExitButtonPressed"]
