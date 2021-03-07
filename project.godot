@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="7DRL 2021"
+config/name="Insatiable"
 run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
 

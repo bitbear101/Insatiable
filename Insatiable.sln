@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7DRL 2021", "7DRL 2021.csproj", "{4250B258-D87E-45A9-92A8-23E9010CD5DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Insatiable", "Insatiable.csproj", "{4250B258-D87E-45A9-92A8-23E9010CD5DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
