@@ -25,6 +25,7 @@ public class MonsterMovement : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        //Get the raycast node to use in the script
         dirRay = GetNode<RayCast2D>("../HitBox/DirectionRay");
     }
 
@@ -65,6 +66,9 @@ public class MonsterMovement : Node
 
     private void GetPath(Vector2 start, Vector2 end)
     {
+        //Set the coordinates of the nodes from world coordinates to tile map coordinates
+        start /= 16;
+        end /= 16;
         //Get the points on the path and cast it to a list of vector2s
         path = astar2d.GetPointPath(GetID(start), GetID(end)).Cast<Vector2>().ToList();
         //We remove the first entry in the list
@@ -122,17 +126,36 @@ public class MonsterMovement : Node
             ConnectPoints();
             isInRange = true;
             target = (Node2D)area.GetParent();
+            GD.Print("area parent name = " + area.GetParent().Name);
         }
     }
     private void OnRangeAreaExited(Area2D area)
     {
-        isInRange = true;
+        //isInRange = true;
         target = null;
     }
     //Check the line of sight of the target
     private void CheckLOS()
     {
-
+        if(target == null) return;
+        //Cast the ray towards the direction of movement
+        dirRay.CastTo = 
+        //Enable the ray to detect collisions
+        dirRay.Enabled = true;
+        //Forces the raycast to update and detect the collision with the building object
+        dirRay.ForceRaycastUpdate();
+        //Check for collisions
+        if (dirRay.IsColliding())
+        {
+        //Get the node that the ray collided with
+        Node2D hitNode = dirRay.GetCollider() as Node2D;
+        if (hitNode.IsInGroup("Player"))
+         {
+        //Send the needed event messages 
+         }
+         }
+        //Disable hte ray as all detection should be done
+         dirRay.Enabled = false;
     }
 
     private void Move()

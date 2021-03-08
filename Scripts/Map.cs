@@ -79,8 +79,8 @@ public class Map : Node2D
     {
         //Get the cells in the map
         //To get the cells from a poolVector2array to Vector2 you cast the type to an array
-        //guce.cells = tileMap.GetUsedCells().Cast<Vector2>().ToArray();
-        guce.cells = tileMap.GetUsedCells().Cast<Vector2>().ToList();
+        //guce.cells = tileMap.GetUsedCells().Cast<Vector2>().ToList();
+        guce.cells = tileMap.GetUsedCellsById((int)TileType.FLOOR).Cast<Vector2>().ToList();
     }
 
     private void OnGetPlayerSpawnPointEvent(GetPlayerSpawnPointEvent gpspe)
@@ -197,9 +197,4 @@ public class Map : Node2D
 
     }
 
-    //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-    //  public override void _Process(float delta)
-    //  {
-    //      
-    //  }
 }
