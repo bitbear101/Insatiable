@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EventCallback;
 
 //The tile types for the map
@@ -21,13 +22,15 @@ public class Map : Node2D
     Vector2 spawnTile = Vector2.Zero;
     Vector2 exiTile = Vector2.Zero;
     //The size of the map
-    int width = 150, height = 150;
+    int width = 50, height = 50;
     //The size of the tile
     const int tileSize = 16;
     //The number of the level
     int levelNumber = 0;
     //The tile map node in the node tree
     TileMap tileMap;
+    //The visibility map drawn on top of the normal map
+    TileMap visibilityMap;
     List<TileType> map = new List<TileType>();
     //The simplex noise used for the map generation
     OpenSimplexNoise noise = new OpenSimplexNoise();
@@ -42,6 +45,8 @@ public class Map : Node2D
         GetTileEvent.RegisterListener(OnGetTileEvent);
         //The listener for the players spawn event
         GetPlayerSpawnPointEvent.RegisterListener(OnGetPlayerSpawnPointEvent);
+        //The event message to get he used cells from the map
+        GetUsedCellsEvent.RegisterListener(OnGetUsedCellsEvent);
         //Get the tile map node in the scene to be able to control it from the script
         tileMap = GetNode<TileMap>("TileMap");
         //Randomaize the output of the generator
@@ -68,6 +73,14 @@ public class Map : Node2D
     {
         //Get the tile from the map list
         gte.tile = map[(int)(gte.pos.x * width + gte.pos.y)];
+    }
+
+    private void OnGetUsedCellsEvent(GetUsedCellsEvent guce)
+    {
+        //Get the cells in the map
+        //To get the cells from a poolVector2array to Vector2 you cast the type to an array
+        //guce.cells = tileMap.GetUsedCells().Cast<Vector2>().ToArray();
+        guce.cells = tileMap.GetUsedCells().Cast<Vector2>().ToList();
     }
 
     private void OnGetPlayerSpawnPointEvent(GetPlayerSpawnPointEvent gpspe)

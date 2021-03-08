@@ -22,7 +22,7 @@ public class Movement : Node
     public override void _Ready()
     {
         MoveDirectionEvent.RegisterListener(OnMoveDirectionEvent);
-        dirRay = GetNode<RayCast2D>("../Area2D/DirectionRay");
+        dirRay = GetNode<RayCast2D>("../HitBox/DirectionRay");
     }
 
     private void OnMoveDirectionEvent(MoveDirectionEvent mde)
@@ -49,19 +49,21 @@ public class Movement : Node
         //Check for collisions
         if (dirRay.IsColliding())
         {
-            canMoveRay = false;
             //Get the node that the ray collided with
             Node2D hitNode = dirRay.GetCollider() as Node2D;
             if (hitNode.IsInGroup("Corps"))
             {
+                canMoveRay = false;
                 //Send the needed event messages 
             }
             if (hitNode.IsInGroup("Monster"))
             {
+                canMoveRay = false;
                 HitEvent he = new HitEvent();
                 he.callerClass = "Movement - CheckDirection";
                 he.target = (Node2D)hitNode.GetParent();
                 he.FireEvent();
+
             }
         }
         //Disable hte ray as all detection should be done
