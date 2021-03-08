@@ -27,8 +27,16 @@ public class MonsterMovement : Node
     {
         //Get the raycast node to use in the script
         dirRay = GetNode<RayCast2D>("../HitBox/DirectionRay");
+        //the listener for the StoneToFloorEvent
+        StoneToFloorEvent.RegisterListener(OnStoneToFloorEvent);
+        //The move enemy event listener
+        EnemyMoveEvent.RegisterListener(OnEnemyMoveEvent);
     }
-
+    private void OnStoneToFloorEvent(StoneToFloorEvent stfe)
+    {
+        AddMapPoints();
+        ConnectPoints();
+    }
     private void AddMapPoints()
     {
         GetUsedCellsEvent guce = new GetUsedCellsEvent();
@@ -122,8 +130,7 @@ public class MonsterMovement : Node
     {
         if (area.IsInGroup("Player"))
         {
-            AddMapPoints();
-            ConnectPoints();
+
             isInRange = true;
             target = (Node2D)area.GetParent();
             GD.Print("area parent name = " + area.GetParent().Name);
@@ -137,9 +144,9 @@ public class MonsterMovement : Node
     //Check the line of sight of the target
     private void CheckLOS()
     {
-        if(target == null) return;
+        if (target == null) return;
         //Cast the ray towards the direction of movement
-        dirRay.CastTo = 
+        dirRay.CastTo = target.Position;
         //Enable the ray to detect collisions
         dirRay.Enabled = true;
         //Forces the raycast to update and detect the collision with the building object
@@ -147,18 +154,18 @@ public class MonsterMovement : Node
         //Check for collisions
         if (dirRay.IsColliding())
         {
-        //Get the node that the ray collided with
-        Node2D hitNode = dirRay.GetCollider() as Node2D;
-        if (hitNode.IsInGroup("Player"))
-         {
-        //Send the needed event messages 
-         }
-         }
+            //Get the node that the ray collided with
+            Node2D hitNode = dirRay.GetCollider() as Node2D;
+            if (hitNode.IsInGroup("Player"))
+            {
+                inLOS = true;
+            }
+        }
         //Disable hte ray as all detection should be done
-         dirRay.Enabled = false;
+        dirRay.Enabled = false;
     }
 
-    private void Move()
+    private void OnEnemyMoveEvent(EnemyMoveEvent eme)
     {
         //If the target is not in line of sight we exit out of the function without doing anything
         //if (!inLOS) return;
@@ -172,10 +179,7 @@ public class MonsterMovement : Node
         path.RemoveAt(0);
         //}
 
-    }
+        //Check distance from player and if close enough send a message to the enemy script to attack next round
 
-    public override void _Process(float delta)
-    {
-        Move();
     }
 }

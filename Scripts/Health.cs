@@ -15,11 +15,20 @@ public class Health : Node
     {
         if (he.target.GetInstanceId() == GetParent().GetInstanceId())
         {
-            
+            TakeDamage(1);
         }
     }
     private void TakeDamage(int damage)
     {
         health -= damage;
+        //If there is no more health
+        if (health <= 0)
+        {
+            DeathEvent de = new DeathEvent();
+            de.callerClass = "Health - TakeDamage";
+            de.targetID = GetParent().GetInstanceId();
+            de.FireEvent();
+        }
     }
+
 }
