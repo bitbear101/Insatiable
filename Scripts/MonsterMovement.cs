@@ -21,6 +21,8 @@ public class MonsterMovement : Node
     bool inLOS = false;
     //The target of the monster
     Node2D target;
+    //Has the path tiles already been retrieved
+    bool gotTiles = false;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -28,11 +30,11 @@ public class MonsterMovement : Node
         //Get the raycast node to use in the script
         dirRay = GetNode<RayCast2D>("../HitBox/DirectionRay");
         //the listener for the StoneToFloorEvent
-        StoneToFloorEvent.RegisterListener(OnStoneToFloorEvent);
+        UpdateMapCellsEvent.RegisterListener(OnUpdateMapCellsEvent);
         //The move enemy event listener
         EnemyMoveEvent.RegisterListener(OnEnemyMoveEvent);
     }
-    private void OnStoneToFloorEvent(StoneToFloorEvent stfe)
+    private void OnUpdateMapCellsEvent(UpdateMapCellsEvent umce)
     {
         AddMapPoints();
         ConnectPoints();
@@ -40,10 +42,9 @@ public class MonsterMovement : Node
     private void AddMapPoints()
     {
         GetUsedCellsEvent guce = new GetUsedCellsEvent();
-        guce.callerClass = "MonsterMovement";
+        guce.callerClass = "MonsterMovement - AddMapPoints";
         guce.FireEvent();
-
-        GD.Print("MonsterMovement - AddMapPoints : cells count = " + guce.cells.Count);
+        //Get the cells from the tile map
         cells = guce.cells;
         //Loop through the cells
         for (int i = 0; i < cells.Count; i++)
@@ -74,6 +75,15 @@ public class MonsterMovement : Node
 
     private void GetPath(Vector2 start, Vector2 end)
     {
+        if (!gotTiles)
+        {
+            //Add the map cells to the list for connection
+            AddMapPoints();
+            //Connect all the posible walkable tiles
+            ConnectPoints();
+            //Set the got tiles true after this so it doesn't get called again
+            gotTiles = true;
+        }
         //Set the coordinates of the nodes from world coordinates to tile map coordinates
         start /= 16;
         end /= 16;
@@ -90,11 +100,8 @@ public class MonsterMovement : Node
         return (a + b) * (a + b + 1) / 2 + b;
     }
 
-    private bool CheckDirection(Vector2 dir)
+    private void CheckDirection(Vector2 dir)
     {
-        //If the actor can move we set it true
-        bool canMoveRay = true;
-
         //Cast the ray towards the direction of movement
         dirRay.CastTo = dir * 16;
         //Enable the ray to detect collisions
@@ -104,7 +111,6 @@ public class MonsterMovement : Node
         //Check for collisions
         if (dirRay.IsColliding())
         {
-            canMoveRay = false;
             //Get the node that the ray collided with
             Node2D hitNode = dirRay.GetCollider() as Node2D;
             if (hitNode.IsInGroup("Corps"))
@@ -121,18 +127,17 @@ public class MonsterMovement : Node
         }
         //Disable hte ray as all detection should be done
         dirRay.Enabled = false;
-
-        //Return if we can move or not here by comparint if the ray or map is stopping it
-        return (canMoveRay);
     }
 
     private void OnRangeAreaEntered(Area2D area)
     {
+        //If the area that collided with the monsters range area is the player
         if (area.IsInGroup("Player"))
         {
+            //Set is in range to true
             isInRange = true;
+            //Set the target to the the player
             target = (Node2D)area.GetParent();
-            GD.Print("area parent name = " + area.GetParent().Name);
         }
     }
     private void OnRangeAreaExited(Area2D area)
@@ -168,14 +173,30 @@ public class MonsterMovement : Node
     {
         //If the target is not in line of sight we exit out of the function without doing anything
         //if (!inLOS) return;
-
+        GD.Print("MonsterMovement - OnEnemyMoveEvent : GetParent().GetInstanceId() = " + GetParent().GetInstanceId());
+        if (eme.enemyID != GetParent().GetInstanceId()) return;
         if (target == null) return;
         GetPath(((Node2D)GetParent()).Position, target.Position);
-        //if (CheckDirection())
-        //{
-        //Move to the first 
-        ((Node2D)GetParent()).Position = path[0] * 16;
-        path.RemoveAt(0);
+
+        //CheckDirection(path[0]);
+        GD.Print("MonsterMovement - OnEnemyMoveEvent: Path = " + path[0]);
+        GD.Print("MonsterMovement - OnEnemyMoveEvent: path.count = " + path.Count);
+
+        //Check if there are any path vectors left in the list
+        if (path.Count > 1)
+        {
+            ((Node2D)GetParent()).Position = path[0] * 16;
+            path.RemoveAt(0);
+        }
+        else
+        {
+            //If none are left we change to to the attack state
+            SetEnemyStateEvent sese = new SetEnemyStateEvent();
+            sese.callerClass = "MonsterMovement - OnEnemyMoveEvent";
+            sese.enemyID = GetParent().GetInstanceId();
+            sese.newState = EnemyState.ATTACK;
+            sese.FireEvent();
+        }
         //}
 
         //Check distance from player and if close enough send a message to the enemy script to attack next round

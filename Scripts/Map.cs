@@ -65,6 +65,10 @@ public class Map : Node2D
         map[(int)(stfe.TileToChange.x * width + stfe.TileToChange.y)] = TileType.FLOOR;
         //Change the stone tile to a floor tile in the tile map node
         tileMap.SetCell((int)stfe.TileToChange.x, (int)stfe.TileToChange.y, (int)TileType.FLOOR);
+        //Update the astars map of the walkable cells
+        UpdateMapCellsEvent umce = new UpdateMapCellsEvent();
+        umce.callerClass = "Map - OnStoneToFloorEvent()";
+        umce.FireEvent();
     }
 
     private void OnGetTileEvent(GetTileEvent gte)
