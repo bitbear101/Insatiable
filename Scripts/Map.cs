@@ -29,8 +29,6 @@ public class Map : Node2D
     int levelNumber = 0;
     //The tile map node in the node tree
     TileMap tileMap;
-    //The visibility map drawn on top of the normal map
-    TileMap visibilityMap;
     List<TileType> map = new List<TileType>();
     //The simplex noise used for the map generation
     OpenSimplexNoise noise = new OpenSimplexNoise();

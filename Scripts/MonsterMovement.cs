@@ -130,7 +130,6 @@ public class MonsterMovement : Node
     {
         if (area.IsInGroup("Player"))
         {
-
             isInRange = true;
             target = (Node2D)area.GetParent();
             GD.Print("area parent name = " + area.GetParent().Name);

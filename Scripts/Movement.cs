@@ -33,6 +33,11 @@ public class Movement : Node
             //If hte direction of movement is valid we move in that direction
             Move(mde.dir);
         }
+
+        //At the end of the players turn we cycle the turn
+        CycleTurnEvent cte = new CycleTurnEvent();
+        cte.callerClass = "Movement - OnMoveDirectionEvent()";
+        cte.FireEvent();
     }
 
     private bool CheckDirection(Vector2 dir)

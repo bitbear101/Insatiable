@@ -9,22 +9,25 @@ public enum TurnStates
 public class TurnManager : Node
 {
     //The states for the turn manager to loop through
-    TurnStates state;
+    TurnStates currentState;
 
     public override void _Ready()
     {
         //Set hte defualt state for the turn manager to the players turn
-        state = TurnStates.PLAYER_TURN;
+        currentState = TurnStates.PLAYER_TURN;
+        //The listener for the cycling of the turn
+        CycleTurnEvent.RegisterListener(OnCycleTurnEvent);
     }
 
-    public void OnChangeState(TurnStates newState)
+    public void OnCycleTurnEvent(CycleTurnEvent cte)
     {
         //Set the new state
-        state = newState;
+        currentState = (TurnStates)(((int)currentState + 1) % 2);
+        GD.Print("TurnManager - OnCycleTurnEvent: state = " + currentState);
         //Broadcasts the new state to all listeners =================
         BroadcastTurnEvent bte = new BroadcastTurnEvent();
         bte.callerClass = "TurnManager - OnChangeState()";
-        bte.states = state;
+        bte.states = currentState;
         bte.FireEvent();
         //===========================================================
     }
