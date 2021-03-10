@@ -36,7 +36,7 @@ public class MonsterManager : Node2D
             Node2D tempMonster2 = ((Node2D)monsterNodes[1]);
             tempMonster2.Position = new Vector2(32, 16);
             AddChild(tempMonster1);
-            AddChild(tempMonster2);
+            //AddChild(tempMonster2);
         }
     }
 

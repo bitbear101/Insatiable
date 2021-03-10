@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Sprites/Light.png" type="Texture" id=1]
+
+[node name="CanvasModulate" type="CanvasModulate"]
+color = Color( 0.254902, 0.0980392, 0.470588, 1 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 616.102, 361.597 )
+texture = ExtResource( 1 )
+mode = 2
