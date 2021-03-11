@@ -45,7 +45,6 @@ shape = SubResource( 1 )
 position = Vector2( 8, 8 )
 cast_to = Vector2( 0, 16 )
 collide_with_areas = true
-collide_with_bodies = false
 
 [node name="Range" type="Area2D" parent="." groups=[
 "Range",

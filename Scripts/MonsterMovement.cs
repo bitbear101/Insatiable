@@ -17,8 +17,6 @@ public class MonsterMovement : Node
     List<Vector2> path = new List<Vector2>();
     //If the player is in rand start following him
     bool isInRange = false;
-    //Is the target in Line Of Sight LOS
-    bool inLOS = false;
     //The target of the monster
     Node2D target;
     //Has the path tiles already been retrieved
@@ -36,6 +34,7 @@ public class MonsterMovement : Node
     }
     private void OnUpdateMapCellsEvent(UpdateMapCellsEvent umce)
     {
+
         AddMapPoints();
         ConnectPoints();
     }
@@ -144,13 +143,15 @@ public class MonsterMovement : Node
     {
         //isInRange = true;
         target = null;
+        //Set is in range to true
+        isInRange = false;
     }
     //Check the line of sight of the target
-    private void CheckLOS()
+    private bool CheckLOS()
     {
-        if (target == null) return;
+        bool inLOS = false;
         //Cast the ray towards the direction of movement
-        dirRay.CastTo = target.Position;
+        dirRay.CastTo = target.Position - ((Node2D)GetParent()).Position;
         //Enable the ray to detect collisions
         dirRay.Enabled = true;
         //Forces the raycast to update and detect the collision with the building object
@@ -160,6 +161,8 @@ public class MonsterMovement : Node
         {
             //Get the node that the ray collided with
             Node2D hitNode = dirRay.GetCollider() as Node2D;
+
+            GD.Print("MonsterMovement - CheckLOS : hitnode.name = " + hitNode.Name);
             if (hitNode.IsInGroup("Player"))
             {
                 inLOS = true;
@@ -167,24 +170,22 @@ public class MonsterMovement : Node
         }
         //Disable hte ray as all detection should be done
         dirRay.Enabled = false;
+        return inLOS;
     }
 
     private void OnEnemyMoveEvent(EnemyMoveEvent eme)
     {
-        //If the target is not in line of sight we exit out of the function without doing anything
-        //if (!inLOS) return;
-        GD.Print("MonsterMovement - OnEnemyMoveEvent : GetParent().GetInstanceId() = " + GetParent().GetInstanceId());
         if (eme.enemyID != GetParent().GetInstanceId()) return;
-        if (target == null) return;
+        if (!isInRange) return;
+        //If the target is not in line of sight we exit out of the function without doing anything
+        if (!CheckLOS()) return;
         GetPath(((Node2D)GetParent()).Position, target.Position);
-
-        //CheckDirection(path[0]);
-        GD.Print("MonsterMovement - OnEnemyMoveEvent: Path = " + path[0]);
-        GD.Print("MonsterMovement - OnEnemyMoveEvent: path.count = " + path.Count);
 
         //Check if there are any path vectors left in the list
         if (path.Count > 1)
         {
+            //CheckDirection(path[0] - (((Node2D)GetParent()).Position / 16));
+
             ((Node2D)GetParent()).Position = path[0] * 16;
             path.RemoveAt(0);
         }

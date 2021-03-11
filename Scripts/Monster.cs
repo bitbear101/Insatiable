@@ -54,7 +54,6 @@ public class Monster : Node2D
             EnemyMoveEvent eme = new EnemyMoveEvent();
             eme.callerClass = "Monster - _Process(float delta)";
             eme.enemyID = GetInstanceId();
-            GD.Print("Monster - _Process(float delta) : GetInstanceId() = " + GetInstanceId());
             eme.FireEvent();
         }
         else if (currentState == EnemyState.ATTACK)

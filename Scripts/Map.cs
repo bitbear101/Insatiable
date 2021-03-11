@@ -80,8 +80,6 @@ public class Map : Node2D
     private void OnGetUsedCellsEvent(GetUsedCellsEvent guce)
     {
         //Get the cells in the map
-        //To get the cells from a poolVector2array to Vector2 you cast the type to an array
-        //guce.cells = tileMap.GetUsedCells().Cast<Vector2>().ToList();
         guce.cells = tileMap.GetUsedCellsById((int)TileType.FLOOR).Cast<Vector2>().ToList();
     }
 
