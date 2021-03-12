@@ -68,7 +68,6 @@ public class Movement : Node
                 he.callerClass = "Movement - CheckDirection";
                 he.target = (Node2D)hitNode.GetParent();
                 he.FireEvent();
-
             }
         }
         //Disable hte ray as all detection should be done

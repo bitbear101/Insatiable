@@ -99,8 +99,9 @@ public class MonsterMovement : Node
         return (a + b) * (a + b + 1) / 2 + b;
     }
 
-    private void CheckDirection(Vector2 dir)
+    private bool CheckNextTile(Vector2 dir)
     {
+        bool canMove = true;
         //Cast the ray towards the direction of movement
         dirRay.CastTo = dir * 16;
         //Enable the ray to detect collisions
@@ -112,20 +113,22 @@ public class MonsterMovement : Node
         {
             //Get the node that the ray collided with
             Node2D hitNode = dirRay.GetCollider() as Node2D;
-            if (hitNode.IsInGroup("Corps"))
-            {
-                //Send the needed event messages 
-            }
+            //If the ray cast hit returns a object beloning to the group monster
             if (hitNode.IsInGroup("Monster"))
             {
-                HitEvent he = new HitEvent();
-                he.callerClass = "Movement - CheckDirection";
-                he.target = (Node2D)hitNode.GetParent();
-                he.FireEvent();
+                //We set the canMove state tot false;
+                canMove = false;
+            }
+            //If the ray cast hit returns a object beloning to the group play
+            if (hitNode.IsInGroup("Player"))
+            {
+                //We set the canMove state tot false;
+                canMove = false;
             }
         }
         //Disable hte ray as all detection should be done
         dirRay.Enabled = false;
+        return canMove;
     }
 
     private void OnRangeAreaEntered(Area2D area)
@@ -149,25 +152,40 @@ public class MonsterMovement : Node
     //Check the line of sight of the target
     private bool CheckLOS()
     {
+        //The bool to indicate if the target is in line of sight
         bool inLOS = false;
-        //Cast the ray towards the direction of movement
-        dirRay.CastTo = target.Position - ((Node2D)GetParent()).Position;
+        //The vectors that wil represent the corners for the target ssprite (Note brute forcing it is not a good idea but it works)
+        Vector2[] corners = { new Vector2(-7, -7), new Vector2(-7, 7), new Vector2(7, -7), new Vector2(7, 7), Vector2.Zero };
         //Enable the ray to detect collisions
         dirRay.Enabled = true;
-        //Forces the raycast to update and detect the collision with the building object
-        dirRay.ForceRaycastUpdate();
-        //Check for collisions
-        if (dirRay.IsColliding())
+        //Loop through the corners array 
+        foreach (Vector2 corner in corners)
         {
-            //Get the node that the ray collided with
-            Node2D hitNode = dirRay.GetCollider() as Node2D;
 
-            GD.Print("MonsterMovement - CheckLOS : hitnode.name = " + hitNode.Name);
-            if (hitNode.IsInGroup("Player"))
+            GD.Print("MonsterMovement - CheckLOS : going through corners");
+            GD.Print("MonsterMovement - CheckLOS : target.Position = " + target.Position);
+            //Cast the ray to the requested corner
+            dirRay.CastTo = new Vector2(target.GlobalPosition.x + corner.x, target.GlobalPosition.y + corner.y);
+            //dirRay.CastTo = ((target.Position - ((Node2D)GetParent()).Position) + corner);
+            GD.Print("MonsterMovement - CheckLOS : going through corner pos = " + (new Vector2(target.GlobalPosition.x + corner.x, target.GlobalPosition.y + corner.y)));
+            //Forces the raycast to update and detect the collision with the building object
+            dirRay.ForceRaycastUpdate();
+            //Check for collisions
+            if (dirRay.IsColliding())
             {
-                inLOS = true;
+                //Get the node that the ray collided with
+                Node2D hitNode = dirRay.GetCollider() as Node2D;
+
+                if (hitNode.IsInGroup("Player"))
+                {
+                    GD.Print("MonsterMovement - hitNode.IsInGroup Player = true");
+                    inLOS = true;
+                    break;
+                }
             }
         }
+        //Cast the ray towards the direction of movement
+        //dirRay.CastTo = target.Position - ((Node2D)GetParent()).Position;
         //Disable hte ray as all detection should be done
         dirRay.Enabled = false;
         return inLOS;
@@ -175,17 +193,18 @@ public class MonsterMovement : Node
 
     private void OnEnemyMoveEvent(EnemyMoveEvent eme)
     {
+        //If the parent calling the move class is this scripts parent we keep running the method
         if (eme.enemyID != GetParent().GetInstanceId()) return;
+        //If the target is in range we continue running the method
         if (!isInRange) return;
-        //If the target is not in line of sight we exit out of the function without doing anything
-        if (!CheckLOS()) return;
+        //If the target is in line of sight it continues with the method
+        //We get the path from the list of tiles that can be traveled
         GetPath(((Node2D)GetParent()).Position, target.Position);
-
+        //If the player or enemy is in its way it exits out of the move function
+        if (!CheckNextTile(path[0] - (((Node2D)GetParent()).Position / 16))) return;
         //Check if there are any path vectors left in the list
         if (path.Count > 1)
         {
-            //CheckDirection(path[0] - (((Node2D)GetParent()).Position / 16));
-
             ((Node2D)GetParent()).Position = path[0] * 16;
             path.RemoveAt(0);
         }

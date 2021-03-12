@@ -19,24 +19,28 @@ public class InputManager : Node
                 if (keyPress.Scancode == (uint)KeyList.W || keyPress.Scancode == (uint)KeyList.Up)
                 {
                     mde.dir = Vector2.Up;
+                    mde.FireEvent();
                 }
                 else if (keyPress.Scancode == (uint)KeyList.A || keyPress.Scancode == (uint)KeyList.Left)
                 {
                     mde.dir = Vector2.Left;
+                    mde.FireEvent();
                 }
                 else if (keyPress.Scancode == (uint)KeyList.S || keyPress.Scancode == (uint)KeyList.Down)
                 {
                     mde.dir = Vector2.Down;
+                    mde.FireEvent();
                 }
                 else if (keyPress.Scancode == (uint)KeyList.D || keyPress.Scancode == (uint)KeyList.Right)
                 {
                     mde.dir = Vector2.Right;
+                    mde.FireEvent();
                 }
-                if (keyPress.Scancode == (uint)KeyList.Escape)
+                else if (keyPress.Scancode == (uint)KeyList.Escape)
                 {
                     GD.Print("Escape was pressed");
+                    mde.FireEvent();
                 }
-                mde.FireEvent();
             }
         }
     }

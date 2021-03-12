@@ -65,6 +65,7 @@ public class Map : Node2D
         map[(int)(stfe.TileToChange.x * width + stfe.TileToChange.y)] = TileType.FLOOR;
         //Change the stone tile to a floor tile in the tile map node
         tileMap.SetCell((int)stfe.TileToChange.x, (int)stfe.TileToChange.y, (int)TileType.FLOOR);
+        tileMap.UpdateBitmaskArea(stfe.TileToChange);
         //Update the astars map of the walkable cells
         UpdateMapCellsEvent umce = new UpdateMapCellsEvent();
         umce.callerClass = "Map - OnStoneToFloorEvent()";
@@ -127,6 +128,8 @@ public class Map : Node2D
                 }
             }
         }
+        //Update the cell region for the map to make autotile look correct
+        tileMap.UpdateBitmaskRegion(Vector2.Zero, new Vector2(width, height));
     }
 
     private TileType GetTileFromIndex(float index)
