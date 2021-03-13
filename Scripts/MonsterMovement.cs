@@ -124,6 +124,12 @@ public class MonsterMovement : Node
             {
                 //We set the canMove state tot false;
                 canMove = false;
+                //If none are left we change to to the attack state
+                EnemyAttackEvent eae = new EnemyAttackEvent();
+                eae.callerClass = "MonsterMovement - CheckNextTile";
+                eae.target = (Node2D)hitNode.GetParent();
+                eae.enemyID = GetParent().GetInstanceId();
+                eae.FireEvent();
             }
         }
         //Disable hte ray as all detection should be done
@@ -205,21 +211,9 @@ public class MonsterMovement : Node
         //Check if there are any path vectors left in the list
         if (path.Count > 1)
         {
+            //Set the position of the monster to the next position in the path
             ((Node2D)GetParent()).Position = path[0] * 16;
             path.RemoveAt(0);
         }
-        else
-        {
-            //If none are left we change to to the attack state
-            SetEnemyStateEvent sese = new SetEnemyStateEvent();
-            sese.callerClass = "MonsterMovement - OnEnemyMoveEvent";
-            sese.enemyID = GetParent().GetInstanceId();
-            sese.newState = EnemyState.ATTACK;
-            sese.FireEvent();
-        }
-        //}
-
-        //Check distance from player and if close enough send a message to the enemy script to attack next round
-
     }
 }

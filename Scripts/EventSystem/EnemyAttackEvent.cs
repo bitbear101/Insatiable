@@ -4,7 +4,9 @@ namespace EventCallback
 {
     public class EnemyAttackEvent : Event<EnemyAttackEvent>
     {
-//The id to identify which enemy needs to attack
+        //The target tot attack
+        public Node2D target;
+        //The id to identify which enemy needs to attack
         public ulong enemyID;
     }
 }

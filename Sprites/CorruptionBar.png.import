@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Title.png-7362e0bee3c99d95e13efe8bc4e072d5.stex"
+path="res://.import/CorruptionBar.png-8611dad379b0e522af2c81eca562ec3b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Title.png"
-dest_files=[ "res://.import/Title.png-7362e0bee3c99d95e13efe8bc4e072d5.stex" ]
+source_file="res://Sprites/CorruptionBar.png"
+dest_files=[ "res://.import/CorruptionBar.png-8611dad379b0e522af2c81eca562ec3b.stex" ]
 
 [params]
 

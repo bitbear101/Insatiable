@@ -7,8 +7,9 @@ using EventCallback;
 //The tile types for the map
 public enum TileType
 {
+
+    STONE = 1,
     FLOOR,
-    STONE,
     WALL,
     DOOR,
     LADDER,

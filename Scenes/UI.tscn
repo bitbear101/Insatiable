@@ -1,13 +1,16 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Menu.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/HUD.cs" type="Script" id=2]
 [ext_resource path="res://Sprites/Title.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/UI_BarOutline.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/HealtBar.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/CorruptionBar.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/XPBar.png" type="Texture" id=7]
 
 [node name="UI" type="CanvasLayer"]
 
 [node name="HUD" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
@@ -15,32 +18,71 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD"]
-anchor_right = 1.0
-margin_bottom = 14.0
+[node name="HBoxContainer" type="VBoxContainer" parent="HUD"]
+anchor_bottom = 1.0
+margin_right = 71.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Level" type="Label" parent="HUD/HBoxContainer"]
-margin_right = 38.0
-margin_bottom = 14.0
-text = "Level:"
+[node name="Health" type="TextureRect" parent="HUD/HBoxContainer"]
+margin_right = 128.0
+margin_bottom = 24.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 4 )
+
+[node name="HealthFiller" type="TextureRect" parent="HUD/HBoxContainer/Health"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 124.0
+margin_bottom = 20.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="XP" type="Label" parent="HUD/HBoxContainer"]
-margin_left = 42.0
-margin_right = 62.0
-margin_bottom = 14.0
-text = "XP:"
+[node name="Corruption" type="TextureRect" parent="HUD/HBoxContainer"]
+margin_top = 28.0
+margin_right = 128.0
+margin_bottom = 52.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 4 )
 
-[node name="Corruption" type="Label" parent="HUD/HBoxContainer"]
-margin_left = 66.0
-margin_right = 137.0
-margin_bottom = 14.0
-text = "Corruption:"
+[node name="CorruptionFiller" type="TextureRect" parent="HUD/HBoxContainer/Corruption"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 124.0
+margin_bottom = 20.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="XP" type="TextureRect" parent="HUD/HBoxContainer"]
+margin_top = 56.0
+margin_right = 128.0
+margin_bottom = 80.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 4 )
+
+[node name="XPFiller" type="TextureRect" parent="HUD/HBoxContainer/XP"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 124.0
+margin_bottom = 20.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Menu" type="Control" parent="."]
 anchor_right = 1.0
@@ -58,7 +100,7 @@ __meta__ = {
 }
 
 [node name="TitleVbox" type="VBoxContainer" parent="Menu/HBoxContainer"]
-margin_right = 717.0
+margin_right = 638.0
 margin_bottom = 720.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -67,12 +109,12 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="Menu/HBoxContainer/TitleVbox"]
-margin_right = 717.0
-margin_bottom = 717.0
+margin_right = 638.0
+margin_bottom = 614.0
 texture = ExtResource( 3 )
 
 [node name="MenuVbox" type="VBoxContainer" parent="Menu/HBoxContainer"]
-margin_left = 721.0
+margin_left = 642.0
 margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_horizontal = 3
@@ -84,13 +126,13 @@ __meta__ = {
 
 [node name="StartButton" type="Button" parent="Menu/HBoxContainer/MenuVbox"]
 margin_top = 338.0
-margin_right = 559.0
+margin_right = 638.0
 margin_bottom = 358.0
 text = "Start"
 
 [node name="ExitButton" type="Button" parent="Menu/HBoxContainer/MenuVbox"]
 margin_top = 362.0
-margin_right = 559.0
+margin_right = 638.0
 margin_bottom = 382.0
 text = "Exit"
 __meta__ = {

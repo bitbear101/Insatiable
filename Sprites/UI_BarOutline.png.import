@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Title.png-7362e0bee3c99d95e13efe8bc4e072d5.stex"
+path="res://.import/UI_BarOutline.png-3982bfed78c14d7ee74b76b409f61643.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Title.png"
-dest_files=[ "res://.import/Title.png-7362e0bee3c99d95e13efe8bc4e072d5.stex" ]
+source_file="res://Sprites/UI_BarOutline.png"
+dest_files=[ "res://.import/UI_BarOutline.png-3982bfed78c14d7ee74b76b409f61643.stex" ]
 
 [params]
 
