@@ -10,7 +10,7 @@ public class DeathManager : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        DeathEvent de = new DeathEvent(OnDeathEvent);
+        DeathEvent.RegisterListener(OnDeathEvent);
     }
 
     private void OnDeathEvent(DeathEvent de)
