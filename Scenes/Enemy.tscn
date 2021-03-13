@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Sprites/dungeon_tiles.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Monster.cs" type="Script" id=2]
 [ext_resource path="res://Scripts/MonsterMovement.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/Health.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/MonsterAttack.cs" type="Script" id=5]
+[ext_resource path="res://Scenes/Stats.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
@@ -16,12 +17,15 @@ radius = 150.0
 "Monster",
 ]]
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 64, 140, 16, 16 )
+region_rect = Rect2( 64, 144, 16, 16 )
 
 [node name="Movement" type="Node" parent="."]
 script = ExtResource( 3 )
@@ -31,6 +35,8 @@ script = ExtResource( 4 )
 
 [node name="Attack" type="Node" parent="."]
 script = ExtResource( 5 )
+
+[node name="Stats" parent="." instance=ExtResource( 6 )]
 
 [node name="HitBox" type="Area2D" parent="." groups=[
 "Monster",

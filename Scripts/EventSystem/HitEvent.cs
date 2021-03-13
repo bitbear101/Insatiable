@@ -4,7 +4,9 @@ namespace EventCallback
 {
     public class HitEvent : Event<HitEvent>
     {
+        //The actor doing the attacking
+        public ulong attackerID;
         //The target that is hit
-        public Node2D target;
+        public ulong targetID;
     }
 }

@@ -15,9 +15,22 @@ public class Health : Node
     {
         if (he.target.GetInstanceId() == GetParent().GetInstanceId())
         {
-            TakeDamage(1);
+            CalculateDamage();
         }
     }
+    private void CalculateDamage()
+    {
+        //The calculated damage the actor will recive
+        int calculatedDamage;
+
+//Get attacker damage
+
+//Get target defence
+
+        //Get stats
+        TakeDamage();
+    }
+
     private void TakeDamage(int damage)
     {
         health -= damage;
