@@ -7,17 +7,6 @@ public class Movement : Node
     RayCast2D dirRay;
     //The lenght of the raay that checks the movement direction
     int rayLenght = 16;
-    //
-
-    /*
-    1. Get the parents body to be able to move it
-    2. Get and check the direction of movement on the map 
-    3. Check the movement direction for other objects in the was by using raycasts in the direction of movement
-    4. If enemy in way call hit event
-    5. If nothing in the way move in that direction
-    
-    */
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -59,7 +48,18 @@ public class Movement : Node
             if (hitNode.IsInGroup("Corps"))
             {
                 canMoveRay = false;
-                //Send the needed event messages 
+                GetCorpseStatsEvent gcse = new GetCorpseStatsEvent();
+                gcse.callerClass = "Movement - CheckDirection";
+                gcse.corpseID = hitNode.GetParent().GetInstanceID();
+                gcse.FireEvent();
+
+                SetStatsEvent sse = new SetStatsEvent();
+                sse.actorID = GetParent().GetInstanceID();
+                sse.strenght = gcse.strenght;
+                sse.dexterity = gcse.dexterity;
+                sse.intelligence = gcse.intelligence;
+                sse.corruption = gcse.corruption;
+                sse.FireEvent();
             }
             if (hitNode.IsInGroup("Monster"))
             {

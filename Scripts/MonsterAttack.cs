@@ -35,8 +35,11 @@ public class MonsterAttack : Node
             //If the ray cast hit returns a object beloning to the group play
             if (hitNode.IsInGroup("Player"))
             {
-                //Call the hit event
-                GD.Print("MonsterAttack - CheckRange : Calling hit event");
+                HitEvent he = new HitEvent();
+                he.callerClass = "MonsterAttack - CheckRange();
+                he.attackerID = GetParent().GetInstanceID();
+                he.targetID = hitNode.GetParent().GetInstanceID();
+                he.FireEvent();
             }
         }
         //Disable hte ray as all detection should be done

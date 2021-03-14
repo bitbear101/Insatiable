@@ -23,11 +23,11 @@ public class Map : Node2D
     Vector2 spawnTile = Vector2.Zero;
     Vector2 exiTile = Vector2.Zero;
     //The size of the map
-    int width = 50, height = 50;
+    int width = 30, height = 30;
     //The size of the tile
     const int tileSize = 16;
     //The number of the level
-    int levelNumber = 0;
+    int level = 0;
     //The tile map node in the node tree
     TileMap tileMap;
     List<TileType> map = new List<TileType>();
@@ -48,6 +48,21 @@ public class Map : Node2D
         GetUsedCellsEvent.RegisterListener(OnGetUsedCellsEvent);
         //Get the tile map node in the scene to be able to control it from the script
         tileMap = GetNode<TileMap>("TileMap");
+        //The event listener for the generate level event message
+        GenerateLevelEvent.RegisterEventListener(OnGenerateLevelEvent);
+        //The listener for the get map level
+        GetMapLevelEvent.RegisterEventListener(OnGetMapLevelEvent);
+        //The listener for the Get Random Floor Tile Event message
+        GetRandomFloorTileEvent.RegisterEventListener(OnGetRandomFloorTileEvent);
+    }
+
+    private void OnGenerateLevelEvent(GenerateLevelEvent gle)
+    {
+        //Inciment the level whenever a new levl is generated
+        level++;
+        //Set the new map size
+        width += width * 0.25f;
+        height += height * 0.25f;
         //Randomaize the output of the generator
         rng.Randomize();
         //Generates the noise
@@ -92,6 +107,21 @@ public class Map : Node2D
 
     }
 
+    private void OnGetMapLevelEvent(GetMapLevelEvent gmle)
+    {
+        //Returning the requested map level to the message sender
+        gmle.mapLevel = level;
+    }
+
+    private void OnGetRandomFloorTileEvent(GetRandomFloorTileEvent grfte)
+    {
+        //Get all the cells that are floor tile then loop through t them randomly and choose on to send back
+        Vector2[] floorTiles = tileMap.GetUsedCellsById(((int)TileType.FLOOR).Cast<Vector2>().ToArray();
+//Send the Vector2 of one of the randomly slected floor tiles back to the message caller
+        grfte.tilePos = rng.RandiRange(0, floorTiles.Length -1);
+
+    }
+
     private void GenerateNoise()
     {
         //Randomize the seed
@@ -107,7 +137,7 @@ public class Map : Node2D
     public void BuildLevel()
     {
         //Loop through the size of the map to create the base tiles
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < width ; x++)
         {
             for (int y = 0; y < height; y++)
             {

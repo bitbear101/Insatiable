@@ -3,12 +3,18 @@ using System;
 using EventCallback;
 public class Health : Node
 {
+    //The base health of the actor
     int health = 5;
-
     public override void _Ready()
     {
         //The listener for the hit event
         HitEvent.RegisterListener(OnHitEvent);
+        //Get the stats of the actor to work out its full health
+        GetStatsEvent gse = new GetStatsEvent();
+        gse.actorID = GetParent().GetInstanceID();
+        gse.FireEvent();
+        //Set the new health of the new actor
+        health += ((sge.strength * 0.1f) + (sge.level * 0.2f)); 
     }
 
     private void OnHitEvent(HitEvent he)
@@ -16,20 +22,11 @@ public class Health : Node
         if (he.target.GetInstanceId() == GetParent().GetInstanceId())
         {
             CalculateDamageEvent cde = new CalculateDamageEvent();
-cde.
+            cde.attackerID = he.attackerID;
+            cde.targetID = he.targetID.
+            cde.FireEvent();
+            TakeDamage(cde.damage);
         }
-    }
-    private void CalculateDamage()
-    {
-        //The calculated damage the actor will recive
-        int calculatedDamage;
-
-//Get attacker damage
-
-//Get target defence
-
-        //Get stats
-        TakeDamage();
     }
 
     private void TakeDamage(int damage)
@@ -44,5 +41,4 @@ cde.
             de.FireEvent();
         }
     }
-
 }
