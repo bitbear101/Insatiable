@@ -15,7 +15,8 @@ public class Health : Node
     {
         if (he.target.GetInstanceId() == GetParent().GetInstanceId())
         {
-            CalculateDamage();
+            CalculateDamageEvent cde = new CalculateDamageEvent();
+cde.
         }
     }
     private void CalculateDamage()
