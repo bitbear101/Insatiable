@@ -11,20 +11,22 @@ public class Health : Node
         HitEvent.RegisterListener(OnHitEvent);
         //Get the stats of the actor to work out its full health
         GetStatsEvent gse = new GetStatsEvent();
-        gse.actorID = GetParent().GetInstanceID();
+        gse.corpseID = GetParent().GetInstanceId();
         gse.FireEvent();
         //Set the new health of the new actor
-        health += ((sge.strength * 0.1f) + (sge.level * 0.2f)); 
+        health += (int)(((float)gse.strength * 0.1f) + ((float)gse.level * 0.2f)); 
     }
 
     private void OnHitEvent(HitEvent he)
     {
-        if (he.target.GetInstanceId() == GetParent().GetInstanceId())
+        if (he.targetID == GetParent().GetInstanceId())
         {
+            //Calculate the damage for the actor
             CalculateDamageEvent cde = new CalculateDamageEvent();
             cde.attackerID = he.attackerID;
-            cde.targetID = he.targetID.
+            cde.targetID = he.targetID;
             cde.FireEvent();
+            //Inject the calculated damage into the take damage method
             TakeDamage(cde.damage);
         }
     }

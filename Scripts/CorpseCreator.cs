@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using EventCallback;
 
 public class CorpseCreator : Node
@@ -7,7 +8,7 @@ public class CorpseCreator : Node
     //The list of packed scenes for the monster corpses
     [Export]
     List<PackedScene> corpseScenes = new List<PackedScene>();
-        //The list of nodes that will hold the pre loaded scenes
+    //The list of nodes that will hold the pre loaded scenes
     List<Node> corpseNodes = new List<Node>();
 
     public override void _Ready()
@@ -31,47 +32,47 @@ public class CorpseCreator : Node
         GetMonsterTypeEvent gmte = new GetMonsterTypeEvent();
         gmte.monsterID = cce.monsterID;
         gmte.FireEvent();
-        
+
         SetCorpseStatsEvent scse = new SetCorpseStatsEvent();
         switch (gmte.monsterType)
         {
             case MonsterTypes.BEHOLDER:
-            //Create the node for the corpse
-                scse.strength;
-                scse.dexterity;
-                scse.intelligence;
-                scse.corruption;
-            break;
+                //Create the node for the corpse
+                // scse.strength;
+                // scse.dexterity;
+                // scse.intelligence;
+                // scse.corruption;
+                break;
             case MonsterTypes.FIEND:
-                scse.strength;
-                scse.dexterity;
-                scse.intelligence;
-                scse.corruption;
-            break;
+                // scse.strength;
+                // scse.dexterity;
+                // scse.intelligence;
+                // scse.corruption;
+                break;
             case MonsterTypes.SLIME:
-                scse.strength;
-                scse.dexterity;
-                scse.intelligence;
-                scse.corruption;
-            break;
+                // scse.strength;
+                // scse.dexterity;
+                // scse.intelligence;
+                // scse.corruption;
+                break;
             case MonsterTypes.FLAMING_SKULL:
-                scse.strength;
-                scse.dexterity;
-                scse.intelligence;
-                scse.corruption;
-            break;
+                // scse.strength;
+                // scse.dexterity;
+                // scse.intelligence;
+                // scse.corruption;
+                break;
             case MonsterTypes.GOBLIN:
-                scse.strength;
-                scse.dexterity;
-                scse.intelligence;
-                scse.corruption;
-            break;
+                // scse.strength;
+                // scse.dexterity;
+                // scse.intelligence;
+                // scse.corruption;
+                break;
             case MonsterTypes.SKELETON:
-                scse.strength;
-                scse.dexterity;
-                scse.intelligence;
-                scse.corruption;
-            break;
+                // scse.strength;
+                // scse.dexterity;
+                // scse.intelligence;
+                // scse.corruption;
+                break;
         }
         scse.FireEvent();
     }

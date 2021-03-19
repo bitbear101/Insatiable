@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EventCallback;
 
 //The states for the game main loop
@@ -15,13 +16,13 @@ public class Main : Node2D
 {
     //The external list of scenes to instantiate when the game initiates for the first time
     [Export]
-    List<PackedScene> mainScenes = new List<PackedScene>();
+    private List<PackedScene> mainScenes = new List<PackedScene>();
     //The external list of scenes to instantiate when the game is started from the main menu
     [Export]
-    List<PackedScene> gameScenes = new List<PackedScene>();
+    private List<PackedScene> gameScenes = new List<PackedScene>();
     //The external list of scenes to instantiate when the game menu is opened
     [Export]
-    List<PackedScene> menuScenes = new List<PackedScene>();
+    private List<PackedScene> menuScenes = new List<PackedScene>();
     //The list of nodes that will hold the pre loaded scenes
     List<Node> mainNodes = new List<Node>();
     //The list of nodes that will hold the pre loaded scenes
@@ -32,6 +33,10 @@ public class Main : Node2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        //Using a workaround not to crash Godot when exporting lists to use in the inspector
+        mainScenes = mainScenes.ToList();
+        gameScenes = gameScenes.ToList();
+        menuScenes = menuScenes.ToList();
         //Check if the main scenes list is not zero 
         if (mainScenes.Count > 0)
         {

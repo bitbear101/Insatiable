@@ -50,12 +50,12 @@ public class Movement : Node
                 canMoveRay = false;
                 GetCorpseStatsEvent gcse = new GetCorpseStatsEvent();
                 gcse.callerClass = "Movement - CheckDirection";
-                gcse.corpseID = hitNode.GetParent().GetInstanceID();
+                gcse.corpseID = hitNode.GetParent().GetInstanceId();
                 gcse.FireEvent();
 
                 SetStatsEvent sse = new SetStatsEvent();
-                sse.actorID = GetParent().GetInstanceID();
-                sse.strenght = gcse.strenght;
+                sse.actorID = GetParent().GetInstanceId();
+                sse.strength = gcse.strength;
                 sse.dexterity = gcse.dexterity;
                 sse.intelligence = gcse.intelligence;
                 sse.corruption = gcse.corruption;
@@ -66,7 +66,7 @@ public class Movement : Node
                 canMoveRay = false;
                 HitEvent he = new HitEvent();
                 he.callerClass = "Movement - CheckDirection";
-                he.target = (Node2D)hitNode.GetParent();
+                he.targetID = hitNode.GetParent().GetInstanceId();
                 he.FireEvent();
             }
         }

@@ -36,9 +36,9 @@ public class MonsterAttack : Node
             if (hitNode.IsInGroup("Player"))
             {
                 HitEvent he = new HitEvent();
-                he.callerClass = "MonsterAttack - CheckRange();
-                he.attackerID = GetParent().GetInstanceID();
-                he.targetID = hitNode.GetParent().GetInstanceID();
+                he.callerClass = "MonsterAttack - CheckRange()";
+                he.attackerID = GetParent().GetInstanceId();
+                he.targetID = hitNode.GetParent().GetInstanceId();
                 he.FireEvent();
             }
         }

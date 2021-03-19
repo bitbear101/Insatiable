@@ -13,15 +13,17 @@ public class DeathManager : Node
 
     private void OnDeathEvent(DeathEvent de)
     {
-        if((InstanceFromID(de.targetID)).IsInGroup("Monster"))
+        //If the returned object from the id is in the group monster
+        if (((Node)GD.InstanceFromId(de.targetID)).IsInGroup("Monster"))
         {
+            //Send a message out for the creation of a corpse
             CreateCorpseEvent cce = new CreateCorpseEvent();
             cce.callerClass = "DeathManager - OnDeathEvent()";
             cce.monsterID = de.targetID;
             cce.FireEvent();
         }
-
-        (InstanceFromID(de.targetID)).FreeQeue();
-        //Get the id of hte actor dying and if its a monster generate corpse
+        //Free the node of the monster object that has died
+        ((Node)GD.InstanceFromId(de.targetID)).QueueFree();
+        
     }
 }

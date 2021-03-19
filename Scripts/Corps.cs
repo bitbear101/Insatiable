@@ -1,6 +1,6 @@
 using Godot;
 using System;
-
+using EventCallback;
 public class Corps : Node2D
 {
     int strength;
@@ -27,12 +27,12 @@ public class Corps : Node2D
 
     private void OnGetCorpseStatsEvent(GetCorpseStatsEvent gcse)
     {
-        if(gcse.corpseID == GetParent().GetInstanceID())
+        if (gcse.corpseID == GetParent().GetInstanceId())
         {
-        gcse.strength = strength;
-        gcse.dexterity = dexterity;
-        gcse.intelligence = intelligence;
-        gcse.corruption = corruption;
-    }
+            gcse.strength = strength;
+            gcse.dexterity = dexterity;
+            gcse.intelligence = intelligence;
+            gcse.corruption = corruption;
+        }
     }
 }

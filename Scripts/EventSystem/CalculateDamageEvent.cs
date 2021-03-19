@@ -2,7 +2,7 @@ using Godot;
 using System;
 namespace EventCallback
 {
-    public class CalculatDamageEvent : Event<CalculatDamageEvent>
+    public class CalculateDamageEvent : Event<CalculateDamageEvent>
     {
         //The id of the attacker
         public ulong attackerID;

@@ -24,7 +24,7 @@ public class Monster : Node2D
     //The state of the enemy currently
     EnemyState currentState;
     //The type of the monster
-    MonsterType type;
+    MonsterTypes type;
 
     //If it is the monsters turn
     bool myTurn = false;
@@ -33,7 +33,7 @@ public class Monster : Node2D
         //Set the enemies state
         SetEnemyStateEvent.RegisterListener(OnSetEnemyStateEvent);
         //Set the monsters type
-        SetMonsterTypeEvent.RegisterEventListener(OnSetMonsterTypeEvent);
+        SetMonsterTypeEvent.RegisterListener(OnSetMonsterTypeEvent);
         //The listener for the get monster type event
         GetMonsterTypeEvent.RegisterListener(OnGetMonsterTypeEvent);
         //Set the start up state to move for the enemy

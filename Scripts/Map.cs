@@ -49,11 +49,11 @@ public class Map : Node2D
         //Get the tile map node in the scene to be able to control it from the script
         tileMap = GetNode<TileMap>("TileMap");
         //The event listener for the generate level event message
-        GenerateLevelEvent.RegisterEventListener(OnGenerateLevelEvent);
+        GenerateLevelEvent.RegisterListener(OnGenerateLevelEvent);
         //The listener for the get map level
-        GetMapLevelEvent.RegisterEventListener(OnGetMapLevelEvent);
+        GetMapLevelEvent.RegisterListener(OnGetMapLevelEvent);
         //The listener for the Get Random Floor Tile Event message
-        GetRandomFloorTileEvent.RegisterEventListener(OnGetRandomFloorTileEvent);
+        GetRandomFloorTileEvent.RegisterListener(OnGetRandomFloorTileEvent);
     }
 
     private void OnGenerateLevelEvent(GenerateLevelEvent gle)
@@ -61,8 +61,8 @@ public class Map : Node2D
         //Inciment the level whenever a new levl is generated
         level++;
         //Set the new map size
-        width += width * 0.25f;
-        height += height * 0.25f;
+        width += (int)((float)width * 0.25f);
+        height += (int)((float)height * 0.25f);
         //Randomaize the output of the generator
         rng.Randomize();
         //Generates the noise
@@ -116,9 +116,9 @@ public class Map : Node2D
     private void OnGetRandomFloorTileEvent(GetRandomFloorTileEvent grfte)
     {
         //Get all the cells that are floor tile then loop through t them randomly and choose on to send back
-        Vector2[] floorTiles = tileMap.GetUsedCellsById(((int)TileType.FLOOR).Cast<Vector2>().ToArray();
-//Send the Vector2 of one of the randomly slected floor tiles back to the message caller
-        grfte.tilePos = rng.RandiRange(0, floorTiles.Length -1);
+        Vector2[] floorTiles = tileMap.GetUsedCellsById((int)TileType.FLOOR).Cast<Vector2>().ToArray();
+        //Send the Vector2 of one of the randomly slected floor tiles back to the message caller
+        grfte.tilePos = floorTiles[rng.RandiRange(0, floorTiles.Length - 1)];
 
     }
 
@@ -137,7 +137,7 @@ public class Map : Node2D
     public void BuildLevel()
     {
         //Loop through the size of the map to create the base tiles
-        for (int x = 0; x < width ; x++)
+        for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {

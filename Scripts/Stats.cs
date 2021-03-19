@@ -30,17 +30,17 @@ public class Stats : Node
     public override void _Ready()
     {
         //The listener for the Get stats listener 
-        GetStatsEvent.RegisterEventListener(OnGetStatsEvent);
+        GetStatsEvent.RegisterListener(OnGetStatsEvent);
         //Set the damage type
-        SetDamageTypeEvent.RegisterEventListener(OnSetDamageTypeEvent);
+        SetDamageTypeEvent.RegisterListener(OnSetDamageTypeEvent);
         //The listener for hte set stats listener 
-        SetStatsEvent.RegisterEventListener(OnSetStatsEvent);
+        SetStatsEvent.RegisterListener(OnSetStatsEvent);
     }
 
     private void OnGetStatsEvent(GetStatsEvent gse)
     {
         //Check the id of the actor to get the defence o
-        if(gse.actorID == GetParent().GetInstanceID())
+        if(gse.corpseID == GetParent().GetInstanceId())
         {
             gse.strength = strength;
             gse.dexterity = dexterity;
@@ -51,7 +51,7 @@ public class Stats : Node
         private void OnSetStatsEvent(SetStatsEvent sse)
     {
         //Check the id of the actor to get the defence o
-        if(sse.actorID == GetParent().GetInstanceID())
+        if(sse.actorID == GetParent().GetInstanceId())
         {
             strength = sse.strength;
             dexterity = sse.dexterity;
@@ -62,6 +62,6 @@ public class Stats : Node
     private void OnSetDamageTypeEvent(SetDamageTypeEvent sdte)
     {
         //Set the damage type if the acto id is equal the actors parent node
-        if(GetParent().GetInstanceID() == sdte.actorID) damageType = sdte.damageType;
+        if(GetParent().GetInstanceId() == sdte.actorID) damageType = sdte.damageType;
     }
 }
