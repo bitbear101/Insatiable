@@ -107,6 +107,7 @@ public class MonsterManager : Node2D
                 sdte.actorID = monsterToSpawn.GetInstanceId();
                 sdte.damageType = damageType;//Get the type of monster and set the damage type acording
                 sdte.FireEvent();
+AddChild(monsterToSpawn);
             }
         }
 
