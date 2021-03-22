@@ -53,11 +53,11 @@ public class MonsterManager : Node2D
             if (gmle.mapLevel < 6)
             {
                 //The level of monster is selected 
-                int levelOfMonsterToSpawn = gmle.mapLevel % monsterTypesList.Count;
+                int levelOfMonsterToSpawn = monsterTypesList.Count / gmle.maxLevels;
                 //If the levelOfMonsterToSpawn is zero we set it to the max monsterTypesList's count
-                if(levelOfMonsterToSpawn == 0) levelOfMonsterToSpawn = monsterTypesList.Count;
+                //if(levelOfMonsterToSpawn == 0) levelOfMonsterToSpawn = monsterTypesList.Count;
                 //We prepare to spawn in the randomly selected monster
-                Node monsterToSpawn = monsterTypesList[0];
+                Node monsterToSpawn = monsterTypesList[levelOfMonsterToSpawn];
                 //We add the monster to the main monster list
                 monsterList.Add(monsterToSpawn);
 
