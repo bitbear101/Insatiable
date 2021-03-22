@@ -27,7 +27,9 @@ public class Map : Node2D
     //The size of the tile
     const int tileSize = 16;
     //The number of the level
-    int level = 0;
+    int currentLevel = 0;
+//The max amount of levels the game can have
+int maxLevels = 9;
     //The tile map node in the node tree
     TileMap tileMap;
     List<TileType> map = new List<TileType>();
@@ -118,7 +120,9 @@ public class Map : Node2D
     private void OnGetMapLevelEvent(GetMapLevelEvent gmle)
     {
         //Returning the requested map level to the message sender
-        gmle.mapLevel = level;
+        gmle.mapLevel = currentLevel;
+//Return the max levels the game has
+gmle.maxLevels = maxLevels;
     }
 
     private void OnGetRandomFloorTileEvent(GetRandomFloorTileEvent grfte)
