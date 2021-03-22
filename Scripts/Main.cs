@@ -90,10 +90,6 @@ public class Main : Node2D
         {
             AddChild(node);
         }
-        //Send the message event to generate the new event
-        GenerateLevelEvent gme = new GenerateLevelEvent();
-        gme.callerClass = "Main - OnStartGameEvent";
-        gme.FireEvent();
         //Sebnd the event message to spawn the m,onsters from the monster manager
         SpawnMonstersEvent sme = new SpawnMonstersEvent();
         sme.callerClass = "Main - OnStartGameEvent";

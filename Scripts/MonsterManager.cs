@@ -28,10 +28,10 @@ public class MonsterManager : Node2D
         if (monsterScenes.Count > 0)
         {
             //Loop through all the scenes in the list
-            foreach (PackedScene scene in monsterScenes)
+            foreach (PackedScene monsterScene in monsterScenes)
             {
                 //Add the node of the scenes
-                monsterTypesList.Add(scene.Instance());
+                monsterTypesList.Add(monsterScene.Instance());
             }
         }
     }
@@ -41,6 +41,7 @@ public class MonsterManager : Node2D
         //Clear the list of monsters already spawned for the prevoius level
         ClearMonsterList();
 
+        //Get how deep we are in the dungeon (The dungeon level)
         GetMapLevelEvent gmle = new GetMapLevelEvent();
         gmle.callerClass = "MonsterManager - OnSpawnMonsterEvent";
         gmle.FireEvent();
@@ -49,14 +50,15 @@ public class MonsterManager : Node2D
         //Loop through the base amount of montsters and spawn as we go
         for (int i = 0; i < baseMonsterCount + (gmle.mapLevel * 1.25f); i++)
         {
-            //Randomize the number generation every iteration oof the loop
-            rng.Randomize();
-            //Randomize the random number generator every time we spawn monsters for the level
-            rng.Randomize();
             if (gmle.mapLevel < 6)
             {
-                int monsterInList = rng.RandiRange(0, gmle.mapLevel);
-                Node monsterToSpawn = monsterTypesList[monsterInList];
+                //The level of monster is selected 
+                int levelOfMonsterToSpawn = gmle.mapLevel % monsterTypesList.Count;
+                //If the levelOfMonsterToSpawn is zero we set it to the max monsterTypesList's count
+                if(levelOfMonsterToSpawn == 0) levelOfMonsterToSpawn = monsterTypesList.Count;
+                //We prepare to spawn in the randomly selected monster
+                Node monsterToSpawn = monsterTypesList[0];
+                //We add the monster to the main monster list
                 monsterList.Add(monsterToSpawn);
 
                 GetRandomFloorTileEvent grfte = new GetRandomFloorTileEvent();
@@ -70,12 +72,12 @@ public class MonsterManager : Node2D
                 SetMonsterTypeEvent smte = new SetMonsterTypeEvent();
                 smte.callerClass = "MonsterManager - OnSpawnMonsterEvent";
                 smte.monsterID = monsterToSpawn.GetInstanceId();
-                smte.monsterType = (MonsterTypes)monsterInList;
+                smte.monsterType = (MonsterTypes)levelOfMonsterToSpawn;
                 smte.FireEvent();
 
                 DamageType damageType = DamageType.SLASH;
 
-                switch ((MonsterTypes)monsterInList)
+                switch ((MonsterTypes)levelOfMonsterToSpawn)
                 {
                     case MonsterTypes.BEHOLDER:
                         damageType = DamageType.ELECTRIC;

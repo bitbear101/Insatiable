@@ -54,9 +54,17 @@ public class Map : Node2D
         GetMapLevelEvent.RegisterListener(OnGetMapLevelEvent);
         //The listener for the Get Random Floor Tile Event message
         GetRandomFloorTileEvent.RegisterListener(OnGetRandomFloorTileEvent);
+        //Generate the level when instances the first time
+        GenerateLevel();
     }
 
     private void OnGenerateLevelEvent(GenerateLevelEvent gle)
+    {
+        //Call the generate level method
+        GenerateLevel();
+    }
+
+    private void GenerateLevel()
     {
         //Inciment the level whenever a new levl is generated
         level++;
@@ -180,44 +188,14 @@ public class Map : Node2D
 
     private void GetStartTile()
     {
-        //The alternative directions to check for a spawn point
-        Vector2 checkTilePosSE, checkTilePosS, checkTilePosE, startTile;
+        //Get all the cells that are floor tile then loop through t them randomly and choose on to send back
+        Vector2[] floorTiles = tileMap.GetUsedCellsById((int)TileType.FLOOR).Cast<Vector2>().ToArray();
+        //Randomize the seed for the random number generator
+        rng.Randomize();
+        //Get a random spawn tile for the map 
+        int tilePos = rng.RandiRange(1, floorTiles.Length - 1);
         //Set the starting posisitons for all the directions to the top left of the map
-        startTile = new Vector2(2, 2);
-        checkTilePosSE = startTile;
-        checkTilePosS = startTile;
-        checkTilePosE = startTile;
-
-        //If the top left of the maps tile is found to be a floor
-        if (map[(int)startTile.x * (int)startTile.y] == TileType.FLOOR)
-        {
-            //We set the new spawn point to it
-            spawnTile = startTile;
-        }
-        //Loop throught the the tiles until a candidate is found for the spawn tile
-        while (spawnTile == Vector2.Zero)
-        {
-            //Increment the tile check positions by 3 tiles to either side
-            checkTilePosSE += Vector2.One * 2;
-            checkTilePosS += Vector2.Down * 2;
-            checkTilePosE += Vector2.Right * 2;
-            //Check the new tile positions
-            if (map[(int)(checkTilePosSE.x * checkTilePosSE.y)] == TileType.FLOOR)
-            {
-                //We set the new spawn point to it
-                spawnTile = checkTilePosSE;
-            }
-            else if (map[(int)(checkTilePosS.x * checkTilePosS.y)] == TileType.FLOOR)
-            {
-                //We set the new spawn point to it
-                spawnTile = checkTilePosS;
-            }
-            else if (map[(int)(checkTilePosE.x * checkTilePosE.y)] == TileType.FLOOR)
-            {
-                //We set the new spawn point to it
-                spawnTile = checkTilePosE;
-            }
-        }
+        spawnTile = floorTiles[tilePos];
     }
     private void GetExitTile()
     {
