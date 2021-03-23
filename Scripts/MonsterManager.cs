@@ -14,7 +14,7 @@ public class MonsterManager : Node2D
     //The list of monsters spawned on the level
     List<Node> monsterList = new List<Node>();
     //The base amount of monsters to spawn
-    int baseMonsterCount = 10;
+    int baseMonsterCount = 2;
 
     public override void _Ready()
     {
@@ -50,65 +50,63 @@ public class MonsterManager : Node2D
         //Loop through the base amount of montsters and spawn as we go
         for (int i = 0; i < baseMonsterCount + (gmle.mapLevel * 1.25f); i++)
         {
-            if (gmle.mapLevel < 6)
+
+            //The level of monster is selected 
+            int levelOfMonsterToSpawn = monsterTypesList.Count / gmle.maxLevels;
+            //If the levelOfMonsterToSpawn is zero we set it to the max monsterTypesList's count
+            //if(levelOfMonsterToSpawn == 0) levelOfMonsterToSpawn = monsterTypesList.Count;
+            //Create a new node for the monster
+            Node monsterToSpawn = new Node();
+            //We prepare to spawn in the randomly selected monster
+            monsterToSpawn = monsterTypesList[levelOfMonsterToSpawn];
+            //We add the monster to the main monster list
+            monsterList.Add(monsterToSpawn);
+            //Get a random floor tile to spawn monster on
+            GetRandomFloorTileEvent grfte = new GetRandomFloorTileEvent();
+            grfte.callerClass = "MonsterManager - OnSpawnMonstersEvent";
+            grfte.FireEvent();
+            //Set the monsters position to the tile position in the world
+            ((Node2D)monsterToSpawn).Position = grfte.tilePos * 16;
+            //Add the monster node as a child of the monster manager 
+            AddChild(monsterToSpawn);
+            //BEHOLDER, FIEND, SLIME, FLAMING_SKULL, GOBLIN, SKELETON
+            SetMonsterTypeEvent smte = new SetMonsterTypeEvent();
+            smte.callerClass = "MonsterManager - OnSpawnMonsterEvent";
+            smte.monsterID = monsterToSpawn.GetInstanceId();
+            smte.monsterType = (MonsterTypes)levelOfMonsterToSpawn;
+            smte.FireEvent();
+
+            DamageType damageType = DamageType.SLASH;
+
+            switch ((MonsterTypes)levelOfMonsterToSpawn)
             {
-                //The level of monster is selected 
-                int levelOfMonsterToSpawn = monsterTypesList.Count / gmle.maxLevels;
-                //If the levelOfMonsterToSpawn is zero we set it to the max monsterTypesList's count
-                //if(levelOfMonsterToSpawn == 0) levelOfMonsterToSpawn = monsterTypesList.Count;
-                //We prepare to spawn in the randomly selected monster
-                Node monsterToSpawn = monsterTypesList[levelOfMonsterToSpawn];
-                //We add the monster to the main monster list
-                monsterList.Add(monsterToSpawn);
+                case MonsterTypes.BEHOLDER:
+                    damageType = DamageType.ELECTRIC;
+                    break;
+                case MonsterTypes.FIEND:
+                    damageType = DamageType.SLASH;
+                    break;
+                case MonsterTypes.SLIME:
+                    damageType = DamageType.PIERCE;
+                    break;
+                case MonsterTypes.FLAMING_SKULL:
+                    damageType = DamageType.FIRE;
+                    break;
+                case MonsterTypes.GOBLIN:
+                    damageType = DamageType.SLASH;
+                    break;
+                case MonsterTypes.SKELETON:
+                    damageType = DamageType.PIERCE;
+                    break;
 
-                GetRandomFloorTileEvent grfte = new GetRandomFloorTileEvent();
-                grfte.callerClass = "MonsterManager - OnSpawnMonstersEvent";
-                grfte.FireEvent();
-
-                //We set the position of the newly created monster to a randpom floor tile event and then multiply the position 
-                //by the size of the tile sprite to place it correctly in the world
-                ((Node2D)monsterToSpawn).Position = grfte.tilePos * 16;
-                //BEHOLDER, FIEND, SLIME, FLAMING_SKULL, GOBLIN, SKELETON
-                SetMonsterTypeEvent smte = new SetMonsterTypeEvent();
-                smte.callerClass = "MonsterManager - OnSpawnMonsterEvent";
-                smte.monsterID = monsterToSpawn.GetInstanceId();
-                smte.monsterType = (MonsterTypes)levelOfMonsterToSpawn;
-                smte.FireEvent();
-
-                DamageType damageType = DamageType.SLASH;
-
-                switch ((MonsterTypes)levelOfMonsterToSpawn)
-                {
-                    case MonsterTypes.BEHOLDER:
-                        damageType = DamageType.ELECTRIC;
-                        break;
-                    case MonsterTypes.FIEND:
-                        damageType = DamageType.SLASH;
-                        break;
-                    case MonsterTypes.SLIME:
-                        damageType = DamageType.PIERCE;
-                        break;
-                    case MonsterTypes.FLAMING_SKULL:
-                        damageType = DamageType.FIRE;
-                        break;
-                    case MonsterTypes.GOBLIN:
-                        damageType = DamageType.SLASH;
-                        break;
-                    case MonsterTypes.SKELETON:
-                        damageType = DamageType.PIERCE;
-                        break;
-
-                }
-
-                //Set the monsters damage type
-                //Set the monsters damage type
-                SetDamageTypeEvent sdte = new SetDamageTypeEvent();
-                sdte.callerClass = "MonsterManager - OnSpawnMonsterEvent";
-                sdte.actorID = monsterToSpawn.GetInstanceId();
-                sdte.damageType = damageType;//Get the type of monster and set the damage type acording
-                sdte.FireEvent();
-AddChild(monsterToSpawn);
             }
+            //Set the monsters damage type
+            SetDamageTypeEvent sdte = new SetDamageTypeEvent();
+            sdte.callerClass = "MonsterManager - OnSpawnMonsterEvent";
+            sdte.actorID = monsterToSpawn.GetInstanceId();
+            sdte.damageType = damageType;//Get the type of monster and set the damage type acording
+            sdte.FireEvent();
+
         }
 
     }

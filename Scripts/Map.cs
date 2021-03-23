@@ -28,8 +28,8 @@ public class Map : Node2D
     const int tileSize = 16;
     //The number of the level
     int currentLevel = 0;
-//The max amount of levels the game can have
-int maxLevels = 9;
+    //The max amount of levels the game can have
+    int maxLevels = 9;
     //The tile map node in the node tree
     TileMap tileMap;
     List<TileType> map = new List<TileType>();
@@ -69,7 +69,7 @@ int maxLevels = 9;
     private void GenerateLevel()
     {
         //Inciment the level whenever a new levl is generated
-        level++;
+        currentLevel++;
         //Set the new map size
         width += (int)((float)width * 0.25f);
         height += (int)((float)height * 0.25f);
@@ -114,15 +114,14 @@ int maxLevels = 9;
     {
         //Return the players spawn point to the message sender
         gpspe.spawnPos = spawnTile * tileSize;
-
     }
 
     private void OnGetMapLevelEvent(GetMapLevelEvent gmle)
     {
         //Returning the requested map level to the message sender
         gmle.mapLevel = currentLevel;
-//Return the max levels the game has
-gmle.maxLevels = maxLevels;
+        //Return the max levels the game has
+        gmle.maxLevels = maxLevels;
     }
 
     private void OnGetRandomFloorTileEvent(GetRandomFloorTileEvent grfte)
