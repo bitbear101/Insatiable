@@ -13,12 +13,9 @@ extents = Vector2( 8, 8 )
 "Player",
 ]]
 script = ExtResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 1 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 128, 16, 16 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Movement" type="Node" parent="."]
 script = ExtResource( 3 )
@@ -27,6 +24,12 @@ script = ExtResource( 3 )
 script = ExtResource( 4 )
 
 [node name="Stats" parent="." instance=ExtResource( 5 )]
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 128, 16, 16 )
 
 [node name="HitBox" type="Area2D" parent="." groups=[
 "Player",

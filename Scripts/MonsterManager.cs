@@ -7,40 +7,29 @@ public class MonsterManager : Node2D
 {
 
     //The external list of monster scenes to instantiate when the game initiates for the first time
-    [Export]
-    private List<PackedScene> monsterScenes = new List<PackedScene>();
-    //The list of nodes that will hold the pre loaded scenes
-    List<Node> monsterTypesList = new List<Node>();
+    [Export] List<PackedScene> monsterScenes = new List<PackedScene>();
     //The list of monsters spawned on the level
     List<Node> monsterList = new List<Node>();
     //The base amount of monsters to spawn
-    int baseMonsterCount = 2;
+    int baseMonsterCount = 1;
 
     public override void _Ready()
     {
         //Set the list of monster scenes to a list, workaround for Godot not to crash with c# lists as export
         monsterScenes = monsterScenes.ToList();
+        monsterList = monsterList.ToList();
         //The listener for the turn managers state
         BroadcastTurnEvent.RegisterListener(OnBroadcastTurnEvent);
         //The event listenenr for the monster spawner event
         SpawnMonstersEvent.RegisterListener(OnSpawnMonstersEvent);
-        //Check if the main scenes list is not zero 
-        if (monsterScenes.Count > 0)
-        {
-            //Loop through all the scenes in the list
-            foreach (PackedScene monsterScene in monsterScenes)
-            {
-                //Add the node of the scenes
-                monsterTypesList.Add(monsterScene.Instance());
-            }
-        }
+        //Removes the monster form the list when sent
+        RemoveMonsterEvent.RegisterListener(OnRemoveMonsterEvent);
     }
 
     private void OnSpawnMonstersEvent(SpawnMonstersEvent sme)
     {
         //Clear the list of monsters already spawned for the prevoius level
         ClearMonsterList();
-
         //Get how deep we are in the dungeon (The dungeon level)
         GetMapLevelEvent gmle = new GetMapLevelEvent();
         gmle.callerClass = "MonsterManager - OnSpawnMonsterEvent";
@@ -50,15 +39,12 @@ public class MonsterManager : Node2D
         //Loop through the base amount of montsters and spawn as we go
         for (int i = 0; i < baseMonsterCount + (gmle.mapLevel * 1.25f); i++)
         {
-
-            //The level of monster is selected 
-            int levelOfMonsterToSpawn = monsterTypesList.Count / gmle.maxLevels;
-            //If the levelOfMonsterToSpawn is zero we set it to the max monsterTypesList's count
-            //if(levelOfMonsterToSpawn == 0) levelOfMonsterToSpawn = monsterTypesList.Count;
+            //The maximum level of the monster for this level depth is selected 
+            int levelOfMonsterToSpawn = monsterScenes.Count / gmle.maxLevels;
             //Create a new node for the monster
             Node monsterToSpawn = new Node();
             //We prepare to spawn in the randomly selected monster
-            monsterToSpawn = monsterTypesList[levelOfMonsterToSpawn];
+            monsterToSpawn = monsterScenes[levelOfMonsterToSpawn].Instance();
             //We add the monster to the main monster list
             monsterList.Add(monsterToSpawn);
             //Get a random floor tile to spawn monster on
@@ -106,9 +92,7 @@ public class MonsterManager : Node2D
             sdte.actorID = monsterToSpawn.GetInstanceId();
             sdte.damageType = damageType;//Get the type of monster and set the damage type acording
             sdte.FireEvent();
-
         }
-
     }
 
     private void ClearMonsterList()
@@ -136,6 +120,26 @@ public class MonsterManager : Node2D
         CycleTurnEvent cte = new CycleTurnEvent();
         cte.callerClass = "Monster - _Process(float delta)";
         cte.FireEvent();
+    }
+
+    private void OnRemoveMonsterEvent(RemoveMonsterEvent rme)
+    {
+        GD.Print("MonsterManager - OnRemoveMonsterEvent : Called");
+        //Loop through the monster list an remove the one sent in the message 
+        for (int i = 0; i < monsterList.Count; i++)
+        {
+            //Lopp throught the list of monsters spawned
+            if (rme.monsterID == monsterList[i].GetInstanceId())
+            {
+                GD.Print("MonsterManager - OnRemoveMonsterEvent : rme.monsterID == monsterList[i].GetInstanceId() = " + i + ": " + rme.monsterID + " == " + monsterList[i].GetInstanceId());
+                GD.Print("MonsterManager - OnRemoveMonsterEvent : monsterList.Count Before = " + monsterList.Count);
+                //Remove the monster with the id that has died
+                monsterList.RemoveAt(i);
+                GD.Print("MonsterManager - OnRemoveMonsterEvent : monsterList.Count After = " + monsterList.Count);
+                //Return out of the loop to save resources, ya I know uneeded optiization but I want to do it ok!
+                return;
+            }
+        }
     }
 }
 

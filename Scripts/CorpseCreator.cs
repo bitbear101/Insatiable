@@ -1,18 +1,21 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EventCallback;
 
 public class CorpseCreator : Node
 {
     //The list of packed scenes for the monster corpses
-    [Export]
-    List<PackedScene> corpseScenes = new List<PackedScene>();
+    [Export] List<PackedScene> corpseScenes = new List<PackedScene>();
     //The list of nodes that will hold the pre loaded scenes
     List<Node> corpseNodes = new List<Node>();
 
     public override void _Ready()
     {
+        corpseScenes = corpseScenes.ToList();
+        corpseNodes = corpseNodes.ToList();
+
         //Check if the corpse scenes list is not zero 
         if (corpseScenes.Count > 0)
         {

@@ -14,7 +14,7 @@ public class Health : Node
         gse.corpseID = GetParent().GetInstanceId();
         gse.FireEvent();
         //Set the new health of the new actor
-        health += (int)(((float)gse.strength * 0.1f) + ((float)gse.level * 0.2f)); 
+        health += (int)(((float)gse.strength * 0.1f) + ((float)gse.level * 0.2f));
     }
 
     private void OnHitEvent(HitEvent he)
@@ -23,6 +23,7 @@ public class Health : Node
         {
             //Calculate the damage for the actor
             CalculateDamageEvent cde = new CalculateDamageEvent();
+            cde.callerClass = "Health - OnHitEvent()";
             cde.attackerID = he.attackerID;
             cde.targetID = he.targetID;
             cde.FireEvent();

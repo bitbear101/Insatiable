@@ -25,6 +25,9 @@ public class MonsterMovement : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        cells = cells.ToList();
+        path = path.ToList();
+
         //Get the raycast node to use in the script
         dirRay = GetNode<RayCast2D>("../HitBox/DirectionRay");
         //the listener for the StoneToFloorEvent
@@ -89,7 +92,7 @@ public class MonsterMovement : Node
         //Get the points on the path and cast it to a list of vector2s
         path = astar2d.GetPointPath(GetID(start), GetID(end)).Cast<Vector2>().ToList();
         //We remove the first entry in the list
-        path.RemoveAt(0);
+        if (path.Count != 0) path.RemoveAt(0);
     }
 
     private int GetID(Vector2 point)
@@ -199,13 +202,14 @@ public class MonsterMovement : Node
 
     private void OnEnemyMoveEvent(EnemyMoveEvent eme)
     {
+        GD.Print("MonsterMovement - OnEnemyMoveEvent : GetParent().GetInstanceId() = " + GetParent().GetInstanceId());
         //If the parent calling the move class is this scripts parent we keep running the method
         if (eme.enemyID != GetParent().GetInstanceId()) return;
         //If the target is in range we continue running the method
         if (!isInRange) return;
-        //If the target is in line of sight it continues with the method
         //We get the path from the list of tiles that can be traveled
         GetPath(((Node2D)GetParent()).Position, target.Position);
+        if (path.Count < 1) return;
         //If the player or enemy is in its way it exits out of the move function
         if (!CheckNextTile(path[0] - (((Node2D)GetParent()).Position / 16))) return;
         //Check if there are any path vectors left in the list

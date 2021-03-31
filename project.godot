@@ -32,7 +32,6 @@ enabled=PoolStringArray( "." )
 
 [mono]
 
-debugger_agent/wait_for_debugger=true
 debugger_agent/wait_timeout=5000
 
 [rendering]

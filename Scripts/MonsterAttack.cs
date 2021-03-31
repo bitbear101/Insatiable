@@ -16,13 +16,18 @@ public class MonsterAttack : Node
 
     private void OnEnemyAttackEvent(EnemyAttackEvent eae)
     {
+        if (eae.enemyID != GetParent().GetInstanceId()) return;
         CheckRange(eae.target);
     }
     private void CheckRange(Node2D target)
     {
+        //Get the normalized direction to the target
+        Vector2 rayDir = (target.Position - ((Node2D)GetParent()).Position).Normalized();
+        //Floor the dir vector for the y and x axises so as to exclude the diagonal checks
+        rayDir.x = Mathf.Floor(rayDir.x);
+        rayDir.y = Mathf.Floor(rayDir.y);
         //Cast the ray towards the direction of movement
-        dirRay.CastTo = target.Position - ((Node2D)GetParent()).Position;
-        GD.Print("MonsterAttack - CheckRange : direction = " + (target.Position - ((Node2D)GetParent()).Position) / 16);
+        dirRay.CastTo = rayDir *  16;
         //Enable the ray to detect collisions
         dirRay.Enabled = true;
         //Forces the raycast to update and detect the collision with the building object
@@ -36,10 +41,19 @@ public class MonsterAttack : Node
             if (hitNode.IsInGroup("Player"))
             {
                 HitEvent he = new HitEvent();
-                he.callerClass = "MonsterAttack - CheckRange()";
+                he.callerClass = "MoonsterAttack - CheckRange";
                 he.attackerID = GetParent().GetInstanceId();
                 he.targetID = hitNode.GetParent().GetInstanceId();
                 he.FireEvent();
+            }
+            else
+            {
+                //If the collision was not the player then switch to the move state again
+                SetEnemyStateEvent sese = new SetEnemyStateEvent();
+                sese.callerClass = "MonsterAttack";
+                sese.enemyID = GetParent().GetInstanceId();
+                sese.newState = EnemyState.MOVE;
+                sese.FireEvent();
             }
         }
         //Disable hte ray as all detection should be done

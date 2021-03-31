@@ -31,6 +31,6 @@ public class Menu : Control
 
     public void OnExitButtonPressed()
     {
-
+        GetTree().Quit();
     }
 }

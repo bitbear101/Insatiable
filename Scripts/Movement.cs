@@ -66,6 +66,7 @@ public class Movement : Node
                 canMoveRay = false;
                 HitEvent he = new HitEvent();
                 he.callerClass = "Movement - CheckDirection";
+                he.attackerID = GetParent().GetInstanceId();
                 he.targetID = hitNode.GetParent().GetInstanceId();
                 he.FireEvent();
             }

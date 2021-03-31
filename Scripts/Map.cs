@@ -27,7 +27,7 @@ public class Map : Node2D
     //The size of the tile
     const int tileSize = 16;
     //The number of the level
-    int currentLevel = 0;
+    int currentLevel = 3;
     //The max amount of levels the game can have
     int maxLevels = 9;
     //The tile map node in the node tree
@@ -40,6 +40,7 @@ public class Map : Node2D
 
     public override void _Ready()
     {
+        map = map.ToList();
         //The stone to floor listener
         StoneToFloorEvent.RegisterListener(OnStoneToFloorEvent);
         //The listener for the get tile event

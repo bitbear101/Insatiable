@@ -15,14 +15,11 @@ public enum GameStates
 public class Main : Node2D
 {
     //The external list of scenes to instantiate when the game initiates for the first time
-    [Export]
-    private List<PackedScene> mainScenes = new List<PackedScene>();
+    [Export] List<PackedScene> mainScenes = new List<PackedScene>();
     //The external list of scenes to instantiate when the game is started from the main menu
-    [Export]
-    private List<PackedScene> gameScenes = new List<PackedScene>();
+    [Export] List<PackedScene> gameScenes = new List<PackedScene>();
     //The external list of scenes to instantiate when the game menu is opened
-    [Export]
-    private List<PackedScene> menuScenes = new List<PackedScene>();
+    [Export] List<PackedScene> menuScenes = new List<PackedScene>();
     //The list of nodes that will hold the pre loaded scenes
     List<Node> mainNodes = new List<Node>();
     //The list of nodes that will hold the pre loaded scenes
@@ -37,6 +34,9 @@ public class Main : Node2D
         mainScenes = mainScenes.ToList();
         gameScenes = gameScenes.ToList();
         menuScenes = menuScenes.ToList();
+        mainNodes = mainNodes.ToList();
+        gameNodes = gameNodes.ToList();
+        menuNodes = menuNodes.ToList();
         //Check if the main scenes list is not zero 
         if (mainScenes.Count > 0)
         {
