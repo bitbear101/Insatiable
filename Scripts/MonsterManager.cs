@@ -37,7 +37,8 @@ public class MonsterManager : Node2D
         //Create a random number geneator
         RandomNumberGenerator rng = new RandomNumberGenerator();
         //Loop through the base amount of montsters and spawn as we go
-        for (int i = 0; i < baseMonsterCount + (gmle.mapLevel * 1.25f); i++)
+        //for (int i = 0; i < baseMonsterCount + (gmle.mapLevel * 1.25f); i++)
+        for (int i = 0; i < gmle.mapLevel * 1.25f; i++)
         {
             //The maximum level of the monster for this level depth is selected 
             int levelOfMonsterToSpawn = monsterScenes.Count / gmle.maxLevels;
@@ -132,10 +133,8 @@ public class MonsterManager : Node2D
             if (rme.monsterID == monsterList[i].GetInstanceId())
             {
                 GD.Print("MonsterManager - OnRemoveMonsterEvent : rme.monsterID == monsterList[i].GetInstanceId() = " + i + ": " + rme.monsterID + " == " + monsterList[i].GetInstanceId());
-                GD.Print("MonsterManager - OnRemoveMonsterEvent : monsterList.Count Before = " + monsterList.Count);
                 //Remove the monster with the id that has died
                 monsterList.RemoveAt(i);
-                GD.Print("MonsterManager - OnRemoveMonsterEvent : monsterList.Count After = " + monsterList.Count);
                 //Return out of the loop to save resources, ya I know uneeded optiization but I want to do it ok!
                 return;
             }

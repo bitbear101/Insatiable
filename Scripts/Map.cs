@@ -27,7 +27,7 @@ public class Map : Node2D
     //The size of the tile
     const int tileSize = 16;
     //The number of the level
-    int currentLevel = 3;
+    int currentLevel = 0;
     //The max amount of levels the game can have
     int maxLevels = 9;
     //The tile map node in the node tree

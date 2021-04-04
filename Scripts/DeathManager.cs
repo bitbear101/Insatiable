@@ -13,7 +13,6 @@ public class DeathManager : Node
 
     private void OnDeathEvent(DeathEvent de)
     {
-
         //If the returned object from the id is in the group monster
         if (((Node)GD.InstanceFromId(de.targetID)).IsInGroup("Monster"))
         {
@@ -24,6 +23,7 @@ public class DeathManager : Node
             cce.monsterID = de.targetID;
             cce.FireEvent();
 
+            //Send the event message ot remove the monster from the monster list
             RemoveMonsterEvent rme = new RemoveMonsterEvent();
             rme.callerClass = "DeathManager - OnDeathEvent";
             rme.monsterID = cce.monsterID;
@@ -38,6 +38,5 @@ public class DeathManager : Node
         }
         //Free the node of the monster object that has died
         ((Node)GD.InstanceFromId(de.targetID)).QueueFree();
-
     }
 }
