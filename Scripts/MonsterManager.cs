@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EventCallback;
+
+
 public class MonsterManager : Node2D
 {
 
@@ -112,11 +114,12 @@ public class MonsterManager : Node2D
         //If the state manager is not on the enemies turn we return out of the method
         if (bte.states != TurnStates.ENEMY_TURN) return;
 
-        foreach (Node monster in monsterList)
+        for (int i = 0; i < monsterList.Count; i++)
         {
-            ((Monster)monster).Process();
+            ((Monster)monsterList[i]).Process();
+            GD.Print("MonsterManager - OnBroadcastTurnEvent : Called for entry = " + i);
         }
-
+        GD.Print("MonsterManager - OnBroadcastTurnEvent : Calling CycleTurnEvent()");
         //At the end of the monsters turn we cycle the turn
         CycleTurnEvent cte = new CycleTurnEvent();
         cte.callerClass = "Monster - _Process(float delta)";
@@ -125,6 +128,7 @@ public class MonsterManager : Node2D
 
     private void OnRemoveMonsterEvent(RemoveMonsterEvent rme)
     {
+        int itemToRemove = -1;
         GD.Print("MonsterManager - OnRemoveMonsterEvent : Called");
         //Loop through the monster list an remove the one sent in the message 
         for (int i = 0; i < monsterList.Count; i++)
@@ -132,13 +136,12 @@ public class MonsterManager : Node2D
             //Lopp throught the list of monsters spawned
             if (rme.monsterID == monsterList[i].GetInstanceId())
             {
-                GD.Print("MonsterManager - OnRemoveMonsterEvent : rme.monsterID == monsterList[i].GetInstanceId() = " + i + ": " + rme.monsterID + " == " + monsterList[i].GetInstanceId());
-                //Remove the monster with the id that has died
-                monsterList.RemoveAt(i);
-                //Return out of the loop to save resources, ya I know uneeded optiization but I want to do it ok!
-                return;
+                //Get hte index to the monster to remove from the list
+                itemToRemove = i;
             }
         }
+        //Remove the monster with the id that has died if the id is not -1 (meaning the monster was not found in the list)
+        if (itemToRemove != -1) monsterList.RemoveAt(itemToRemove);
     }
 }
 

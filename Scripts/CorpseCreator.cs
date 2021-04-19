@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EventCallback;
 
-public class CorpseCreator : Node
+public class CorpseCreator : Node2D
 {
     //The list of packed scenes for the monster corpses
     [Export] List<PackedScene> corpseScenes = new List<PackedScene>();
@@ -33,10 +33,20 @@ public class CorpseCreator : Node
     private void OnCreateCorpseEvent(CreateCorpseEvent cce)
     {
         GetMonsterTypeEvent gmte = new GetMonsterTypeEvent();
+        gmte.callerClass = "CorpseCreator - OnCreateCorpseEvent()";
         gmte.monsterID = cce.monsterID;
         gmte.FireEvent();
-
+        //The new corpse to be created
+        Node newCorpse;
+        //The event message for the corpse stats setting
         SetCorpseStatsEvent scse = new SetCorpseStatsEvent();
+        //Get the monster corpse according to the monster type
+        newCorpse = corpseScenes[(int)gmte.monsterType].Instance();
+        //Add the new corpse to the scene as a child
+        AddChild(newCorpse);
+        //Add the new corpse to the list
+        corpseNodes.Add(newCorpse);
+
         switch (gmte.monsterType)
         {
             case MonsterTypes.BEHOLDER:
@@ -77,6 +87,7 @@ public class CorpseCreator : Node
                 // scse.corruption;
                 break;
         }
+
         scse.FireEvent();
     }
 

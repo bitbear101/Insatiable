@@ -23,6 +23,8 @@ public class TurnManager : Node
     {
         //Set the new state
         currentState = (TurnStates)(((int)currentState + 1) % 2);
+        
+        GD.Print("TurnManager - OnCycleTurnEvent : Cycling turn to = " + currentState);
         //Broadcasts the new state to all listeners =================
         BroadcastTurnEvent bte = new BroadcastTurnEvent();
         bte.callerClass = "TurnManager - OnChangeState()";

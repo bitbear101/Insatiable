@@ -27,7 +27,7 @@ public class MonsterAttack : Node
         rayDir.x = Mathf.Floor(rayDir.x);
         rayDir.y = Mathf.Floor(rayDir.y);
         //Cast the ray towards the direction of movement
-        dirRay.CastTo = rayDir *  16;
+        dirRay.CastTo = rayDir * 16;
         //Enable the ray to detect collisions
         dirRay.Enabled = true;
         //Forces the raycast to update and detect the collision with the building object
@@ -58,5 +58,10 @@ public class MonsterAttack : Node
         }
         //Disable hte ray as all detection should be done
         dirRay.Enabled = false;
+    }
+    public override void _ExitTree()
+    {
+        //Listen for the attack event message
+        EnemyAttackEvent.UnregisterListener(OnEnemyAttackEvent);
     }
 }

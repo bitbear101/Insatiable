@@ -202,9 +202,10 @@ public class MonsterMovement : Node
 
     private void OnEnemyMoveEvent(EnemyMoveEvent eme)
     {
-        GD.Print("MonsterMovement - OnEnemyMoveEvent : GetParent().GetInstanceId() = " + GetParent().GetInstanceId());
+        GD.Print("MonsterMovement - OnEnemyMoveEvent : before GetParent().GetInstanceId() = " + eme.enemyID + " " + GetParent().GetInstanceId());
         //If the parent calling the move class is this scripts parent we keep running the method
         if (eme.enemyID != GetParent().GetInstanceId()) return;
+        GD.Print("MonsterMovement - OnEnemyMoveEvent : after GetParent().GetInstanceId() = " + eme.enemyID + " " + GetParent().GetInstanceId());
         //If the target is in range we continue running the method
         if (!isInRange) return;
         //We get the path from the list of tiles that can be traveled
@@ -219,5 +220,11 @@ public class MonsterMovement : Node
             ((Node2D)GetParent()).Position = path[0] * 16;
             path.RemoveAt(0);
         }
+    }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        EnemyMoveEvent.UnregisterListener(OnEnemyMoveEvent);
     }
 }
