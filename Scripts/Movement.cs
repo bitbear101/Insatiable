@@ -60,6 +60,8 @@ public class Movement : Node
                 sse.intelligence = gcse.intelligence;
                 sse.corruption = gcse.corruption;
                 sse.FireEvent();
+
+                hitNode.GetParent().QueueFree();
             }
             if (hitNode.IsInGroup("Monster"))
             {

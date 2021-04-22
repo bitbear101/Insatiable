@@ -27,6 +27,7 @@ public class Corps : Node2D
 
     private void OnGetCorpseStatsEvent(GetCorpseStatsEvent gcse)
     {
+        GD.Print("Corpse - OnGetCorpseStatsEvent: Called");
         if (gcse.corpseID == GetParent().GetInstanceId())
         {
             gcse.strength = strength;
