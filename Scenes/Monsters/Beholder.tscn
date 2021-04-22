@@ -41,23 +41,22 @@ region_rect = Rect2( 0, 144, 16, 16 )
 [node name="HitBox" type="Area2D" parent="." groups=[
 "Monster",
 ]]
+position = Vector2( 8, 8 )
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2( 8, 8 )
 shape = SubResource( 1 )
 
 [node name="DirectionRay" type="RayCast2D" parent="HitBox"]
-position = Vector2( 8, 8 )
 cast_to = Vector2( 0, 16 )
 collide_with_areas = true
 
 [node name="Range" type="Area2D" parent="." groups=[
 "Range",
 ]]
+position = Vector2( 8, 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
-position = Vector2( 8, 8 )
 shape = SubResource( 2 )
 [connection signal="area_entered" from="Range" to="Movement" method="OnRangeAreaEntered"]
 [connection signal="area_exited" from="Range" to="Movement" method="OnRangeAreaExited"]

@@ -13,9 +13,6 @@ public class CorpseCreator : Node2D
 
     public override void _Ready()
     {
-        corpseScenes = corpseScenes.ToList();
-        corpseNodes = corpseNodes.ToList();
-
         //Check if the corpse scenes list is not zero 
         if (corpseScenes.Count > 0)
         {
@@ -42,6 +39,8 @@ public class CorpseCreator : Node2D
         SetCorpseStatsEvent scse = new SetCorpseStatsEvent();
         //Get the monster corpse according to the monster type
         newCorpse = corpseScenes[(int)gmte.monsterType].Instance();
+        //Set the position of hte corpse
+        ((Node2D)newCorpse).Position = ((Node2D)GD.InstanceFromId(cce.monsterID)).Position;
         //Add the new corpse to the scene as a child
         AddChild(newCorpse);
         //Add the new corpse to the list

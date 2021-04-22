@@ -97,4 +97,13 @@ public class Stats : Node
 
         }
     }
+    public override void _ExitTree()
+    {
+        //The listener for the Get stats listener 
+        GetStatsEvent.UnregisterListener(OnGetStatsEvent);
+        //Set the damage type
+        SetDamageTypeEvent.UnregisterListener(OnSetDamageTypeEvent);
+        //The listener for hte set stats listener 
+        SetStatsEvent.UnregisterListener(OnSetStatsEvent);
+    }
 }

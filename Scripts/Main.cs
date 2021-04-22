@@ -30,13 +30,6 @@ public class Main : Node2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        //Using a workaround not to crash Godot when exporting lists to use in the inspector
-        mainScenes = mainScenes.ToList();
-        gameScenes = gameScenes.ToList();
-        menuScenes = menuScenes.ToList();
-        mainNodes = mainNodes.ToList();
-        gameNodes = gameNodes.ToList();
-        menuNodes = menuNodes.ToList();
         //Check if the main scenes list is not zero 
         if (mainScenes.Count > 0)
         {

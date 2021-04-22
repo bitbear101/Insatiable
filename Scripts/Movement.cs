@@ -45,7 +45,7 @@ public class Movement : Node
         {
             //Get the node that the ray collided with
             Node2D hitNode = dirRay.GetCollider() as Node2D;
-            if (hitNode.IsInGroup("Corps"))
+            if (hitNode.IsInGroup("Corpse"))
             {
                 canMoveRay = false;
                 GetCorpseStatsEvent gcse = new GetCorpseStatsEvent();

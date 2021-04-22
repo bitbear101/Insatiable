@@ -16,7 +16,6 @@ public class DeathManager : Node
         //If the returned object from the id is in the group monster
         if (((Node)GD.InstanceFromId(de.targetID)).IsInGroup("Monster"))
         {
-            GD.Print("DeathManager - OnDeathEvent: - Called for monster");
             //Send a message out for the creation of a corpse
             CreateCorpseEvent cce = new CreateCorpseEvent();
             cce.callerClass = "DeathManager - OnDeathEvent()";
@@ -32,7 +31,6 @@ public class DeathManager : Node
         //If the returned object from the id is in the group monster
         if (((Node)GD.InstanceFromId(de.targetID)).IsInGroup("Player"))
         {
-            GD.Print("DeathManager - OnDeathEvent: - Called for player");
             //For now we return out of the function to skip the players node to be deleted (quick invincebility)
             return;
         }

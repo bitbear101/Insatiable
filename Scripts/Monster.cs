@@ -77,4 +77,13 @@ public class Monster : Node2D
             eme.FireEvent();
         }
     }
+    public override void _ExitTree()
+    {
+                //Set the enemies state
+        SetEnemyStateEvent.UnregisterListener(OnSetEnemyStateEvent);
+        //Set the monsters type
+        SetMonsterTypeEvent.UnregisterListener(OnSetMonsterTypeEvent);
+        //The listener for the get monster type event
+        GetMonsterTypeEvent.UnregisterListener(OnGetMonsterTypeEvent);
+    }
 }

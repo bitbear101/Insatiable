@@ -17,9 +17,6 @@ public class MonsterManager : Node2D
 
     public override void _Ready()
     {
-        //Set the list of monster scenes to a list, workaround for Godot not to crash with c# lists as export
-        monsterScenes = monsterScenes.ToList();
-        monsterList = monsterList.ToList();
         //The listener for the turn managers state
         BroadcastTurnEvent.RegisterListener(OnBroadcastTurnEvent);
         //The event listenenr for the monster spawner event
@@ -117,9 +114,7 @@ public class MonsterManager : Node2D
         for (int i = 0; i < monsterList.Count; i++)
         {
             ((Monster)monsterList[i]).Process();
-            GD.Print("MonsterManager - OnBroadcastTurnEvent : Called for entry = " + i);
         }
-        GD.Print("MonsterManager - OnBroadcastTurnEvent : Calling CycleTurnEvent()");
         //At the end of the monsters turn we cycle the turn
         CycleTurnEvent cte = new CycleTurnEvent();
         cte.callerClass = "Monster - _Process(float delta)";
@@ -129,7 +124,6 @@ public class MonsterManager : Node2D
     private void OnRemoveMonsterEvent(RemoveMonsterEvent rme)
     {
         int itemToRemove = -1;
-        GD.Print("MonsterManager - OnRemoveMonsterEvent : Called");
         //Loop through the monster list an remove the one sent in the message 
         for (int i = 0; i < monsterList.Count; i++)
         {

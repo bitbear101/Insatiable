@@ -40,7 +40,6 @@ public class Map : Node2D
 
     public override void _Ready()
     {
-        map = map.ToList();
         //The stone to floor listener
         StoneToFloorEvent.RegisterListener(OnStoneToFloorEvent);
         //The listener for the get tile event

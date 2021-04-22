@@ -44,4 +44,10 @@ public class Health : Node
             de.FireEvent();
         }
     }
+
+    public override void _ExitTree()
+    {
+        //The listener for the hit event
+        HitEvent.UnregisterListener(OnHitEvent);
+    }
 }
