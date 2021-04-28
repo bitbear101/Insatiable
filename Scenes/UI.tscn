@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/Menu.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/HUD.cs" type="Script" id=2]
@@ -7,10 +7,12 @@
 [ext_resource path="res://Sprites/HealtBar.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/CorruptionBar.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/XPBar.png" type="Texture" id=7]
+[ext_resource path="res://Fonts/MenuFont.tres" type="DynamicFont" id=8]
 
 [node name="UI" type="CanvasLayer"]
 
 [node name="HUD" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
@@ -125,18 +127,137 @@ __meta__ = {
 }
 
 [node name="StartButton" type="Button" parent="Menu/HBoxContainer/MenuVbox"]
-margin_top = 338.0
+margin_top = 332.0
 margin_right = 638.0
 margin_bottom = 358.0
+custom_fonts/font = ExtResource( 8 )
 text = "Start"
 
 [node name="ExitButton" type="Button" parent="Menu/HBoxContainer/MenuVbox"]
 margin_top = 362.0
 margin_right = 638.0
-margin_bottom = 382.0
+margin_bottom = 388.0
+custom_fonts/font = ExtResource( 8 )
 text = "Exit"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="StatsWindow" type="Control" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsWindow"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StrengthHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer"]
+margin_right = 204.0
+margin_bottom = 20.0
+
+[node name="LabelStr" type="Label" parent="StatsWindow/VBoxContainer/StrengthHBox"]
+margin_right = 84.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 8 )
+text = "Strength: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelStrAmount" type="Label" parent="StatsWindow/VBoxContainer/StrengthHBox"]
+margin_left = 88.0
+margin_right = 98.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 8 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DexterityHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer"]
+margin_top = 24.0
+margin_right = 204.0
+margin_bottom = 44.0
+
+[node name="LabelDex" type="Label" parent="StatsWindow/VBoxContainer/DexterityHBox"]
+margin_right = 84.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 8 )
+text = "Dexterity:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelDexAmount" type="Label" parent="StatsWindow/VBoxContainer/DexterityHBox"]
+margin_left = 88.0
+margin_right = 98.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 8 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IntelligenceHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer"]
+margin_top = 48.0
+margin_right = 204.0
+margin_bottom = 68.0
+
+[node name="LabelInt" type="Label" parent="StatsWindow/VBoxContainer/IntelligenceHBox"]
+margin_right = 106.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 8 )
+text = "Intelligence:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelIntAmount" type="Label" parent="StatsWindow/VBoxContainer/IntelligenceHBox"]
+margin_left = 110.0
+margin_right = 120.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 8 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CorruptionHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer"]
+margin_top = 72.0
+margin_right = 204.0
+margin_bottom = 92.0
+
+[node name="LabelCorruption" type="Label" parent="StatsWindow/VBoxContainer/CorruptionHBox"]
+margin_right = 96.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 8 )
+text = "Corruption:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelCorruptionAmount" type="Label" parent="StatsWindow/VBoxContainer/CorruptionHBox"]
+margin_left = 100.0
+margin_right = 110.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 8 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="Menu/HBoxContainer/MenuVbox/StartButton" to="Menu" method="OnStartButtonPressed"]
 [connection signal="pressed" from="Menu/HBoxContainer/MenuVbox/ExitButton" to="Menu" method="OnExitButtonPressed"]

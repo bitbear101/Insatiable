@@ -35,41 +35,40 @@ public class CorpseCreator : Node2D
         switch (gmte.monsterType)
         {
             case MonsterTypes.BEHOLDER:
-                //Create the node for the corpse
-                // scse.strength;
-                // scse.dexterity;
-                // scse.intelligence;
-                // scse.corruption;
+                scse.strength = 0;
+                scse.dexterity = 1;
+                scse.intelligence = 5;
+                scse.corruption = 5;
                 break;
             case MonsterTypes.FIEND:
-                // scse.strength;
-                // scse.dexterity;
-                // scse.intelligence;
-                // scse.corruption;
+                scse.strength = 1;
+                scse.dexterity = 1;
+                scse.intelligence = 1;
+                scse.corruption = 3;
                 break;
             case MonsterTypes.SLIME:
-                // scse.strength;
-                // scse.dexterity;
-                // scse.intelligence;
-                // scse.corruption;
+                scse.strength = 2;
+                scse.dexterity = 1;
+                scse.intelligence = 0;
+                scse.corruption = 2;
                 break;
             case MonsterTypes.FLAMING_SKULL:
-                // scse.strength;
-                // scse.dexterity;
-                // scse.intelligence;
-                // scse.corruption;
+                scse.strength = 2;
+                scse.dexterity = 2;
+                scse.intelligence = 0;
+                scse.corruption = 4;
                 break;
             case MonsterTypes.GOBLIN:
-                // scse.strength;
-                // scse.dexterity;
-                // scse.intelligence;
-                // scse.corruption;
+                scse.strength = 1;
+                scse.dexterity = 2;
+                scse.intelligence = 0;
+                scse.corruption = 3;
                 break;
             case MonsterTypes.SKELETON:
-                // scse.strength;
-                // scse.dexterity;
-                // scse.intelligence;
-                // scse.corruption;
+                scse.strength = 2;
+                scse.dexterity = 0;
+                scse.intelligence = 0;
+                scse.corruption = 2;
                 break;
         }
 

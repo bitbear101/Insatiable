@@ -55,10 +55,11 @@ public class Stats : Node
         //Check the id of the actor to get the defence o
         if (sse.actorID == GetParent().GetInstanceId())
         {
-            strength = sse.strength;
-            dexterity = sse.dexterity;
-            intelligence = sse.intelligence;
-            corruption = sse.corruption;
+            GD.Print("Stats - OnSetStatsEvent: Called");
+            strength += sse.strength;
+            dexterity += sse.dexterity;
+            intelligence += sse.intelligence;
+            corruption += sse.corruption;
         }
     }
     private void OnSetDamageTypeEvent(SetDamageTypeEvent sdte)
