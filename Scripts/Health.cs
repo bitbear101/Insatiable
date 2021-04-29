@@ -35,6 +35,13 @@ public class Health : Node
     private void TakeDamage(int damage)
     {
         health -= damage;
+        
+        //Send the event message for the floating text
+        FloatingTextEvent fte = new FloatingTextEvent();
+        fte.position = ((Node2D)GetParent()).Position;
+        fte.textToDisplay = damage.ToString();
+        fte.FireEvent();
+
         //If there is no more health
         if (health <= 0)
         {

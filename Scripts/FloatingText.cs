@@ -18,6 +18,15 @@ public class FloatingText : Node2D
         FloatingTextEvent.RegisterListener(OnFloatingTextEvent);
         myTween = GetNode<Tween>("Tween");
         label = GetNode<Label>("Label");
+    }
+    private void OnFloatingTextEvent(FloatingTextEvent fte)
+    {
+        //The spawn position of the floating text effect
+        Position = fte.position;
+        //The text to display
+        SetText(fte.textToDisplay);
+
+
 
         myTween.InterpolateProperty(this,
                                     "modulate",
@@ -45,18 +54,10 @@ public class FloatingText : Node2D
                                     Tween.EaseType.Out,
                                     0.6f);
 
-        myTween.InterpolateCallback(this, 1.0f, "destroy");
+        //myTween.InterpolateCallback(this, 1.0f, "visible");
 
 
         myTween.Start();
-    }
-
-    private void OnFloatingTextEvent(FloatingTextEvent fte)
-    {
-        //The spawn position of the floating text effect
-        Position = fte.position;
-        //The text to display
-        SetText(fte.textToDisplay);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
