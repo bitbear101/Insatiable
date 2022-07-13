@@ -6,9 +6,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
 
-[node name="Corps" type="Node2D" groups=[
-"Corps",
-]]
+[node name="Corps" type="Node2D" groups=["Corps"]]
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -16,9 +14,7 @@ texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 0, 80, 16, 16 )
 
-[node name="Area2D" type="Area2D" parent="." groups=[
-"Corps",
-]]
+[node name="Area2D" type="Area2D" parent="." groups=["Corps"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 1 )

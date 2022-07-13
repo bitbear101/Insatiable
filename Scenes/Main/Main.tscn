@@ -1,0 +1,22 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Scenes/CorpseCreator.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Map/Map.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/InputManager.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Camera.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/MonsterManager.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/TurnManager.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/CalculateDamage.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/GUI/UI.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/DeathManager.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/FloatingText.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scripts/Main.cs" type="Script" id=12]
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_group_": true
+}
+mainScenes = [ ExtResource( 8 ) ]
+gameScenes = [ ExtResource( 6 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 10 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 1 ), ExtResource( 11 ) ]

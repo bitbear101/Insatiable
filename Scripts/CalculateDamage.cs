@@ -19,12 +19,12 @@ public class CalculateDamage : Node
         //Get the attackers stats
         GetStatsEvent agse = new GetStatsEvent();
         agse.callerClass = "CalculateDamage - OnCalculatDamageEvent";
-        agse.corpseID = cde.attackerID;
+        agse.actorID = cde.attackerID;
         agse.FireEvent();
         //Get the targets stats
         GetStatsEvent tgse = new GetStatsEvent();
         tgse.callerClass = "CalculateDamage - OnCalculatDamageEvent";
-        tgse.corpseID = cde.targetID;
+        tgse.actorID = cde.targetID;
         tgse.FireEvent();
 
         //The initial dadge chance is gotten by sutracting on actors dexterity with the other actors

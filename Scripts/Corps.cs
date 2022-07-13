@@ -36,4 +36,8 @@ public class Corps : Node2D
             gcse.corruption = corruption;
         }
     }
+    public override void _ExitTree()
+    {
+        GetCorpseStatsEvent.UnregisterListener(OnGetCorpseStatsEvent);
+    }
 }

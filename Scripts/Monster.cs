@@ -19,7 +19,7 @@ public enum EnemyState
     ATTACK
 };
 
-public class Monster : Node2D
+public class Monster : KinematicBody2D
 {
     //The state of the enemy currently
     EnemyState currentState;

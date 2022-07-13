@@ -11,7 +11,7 @@ public class Health : Node
         HitEvent.RegisterListener(OnHitEvent);
         //Get the stats of the actor to work out its full health
         GetStatsEvent gse = new GetStatsEvent();
-        gse.corpseID = GetParent().GetInstanceId();
+        gse.actorID = GetParent().GetInstanceId();
         gse.FireEvent();
         //Set the new health of the new actor
         health += (int)(((float)gse.strength * 0.1f) + ((float)gse.level * 0.2f));

@@ -42,11 +42,13 @@ public class Stats : Node
     private void OnGetStatsEvent(GetStatsEvent gse)
     {
         //Check the id of the actor to get the defence o
-        if (gse.corpseID == GetParent().GetInstanceId())
+        if (gse.actorID == GetParent().GetInstanceId())
         {
             gse.strength = strength;
             gse.dexterity = dexterity;
             gse.intelligence = intelligence;
+            gse.corruption = corruption;
+            gse.level = level;
         }
     }
 

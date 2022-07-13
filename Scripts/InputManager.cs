@@ -36,10 +36,15 @@ public class InputManager : Node
                     mde.dir = Vector2.Right;
                     mde.FireEvent();
                 }
-                else if (keyPress.Scancode == (uint)KeyList.Escape)
+                if (keyPress.Scancode == (uint)KeyList.E)
                 {
-                    GD.Print("Escape was pressed");
-                    mde.FireEvent();
+                    ToggleStatsWindowEvent tswe = new ToggleStatsWindowEvent();
+                    tswe.callerClass = "InputManager - _UnhandledInput()";
+                    tswe.FireEvent();
+                }
+                if (keyPress.Scancode == (uint)KeyList.Escape)
+                {
+                    GetTree().Quit();
                 }
             }
         }
