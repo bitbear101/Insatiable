@@ -4,26 +4,25 @@
 [ext_resource path="res://Scenes/Player/Player.cs" type="Script" id=2]
 [ext_resource path="res://Scenes/Player/Movement.cs" type="Script" id=3]
 [ext_resource path="res://Scenes/Player/PlayerFlipSprite.cs" type="Script" id=4]
-[ext_resource path="res://Scenes/Light/LOS.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/PuchAttack/PunchAttack.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.0
 height = 4.0
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
+collision_mask = 31
 script = ExtResource( 2 )
+punchScene = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 0, 128, 16, 16 )
 script = ExtResource( 4 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
-
-[node name="CanvasModulate" parent="." instance=ExtResource( 5 )]
-color = Color( 1, 1, 1, 1 )
 
 [node name="Movement" type="Node" parent="."]
 script = ExtResource( 3 )

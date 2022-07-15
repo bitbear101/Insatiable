@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Menu.cs" type="Script" id=1]
-[ext_resource path="res://Scripts/HUD.cs" type="Script" id=2]
+[ext_resource path="res://Scenes/GUI/HUD.cs" type="Script" id=2]
 [ext_resource path="res://Sprites/Title.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/UI_BarOutline.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/HealtBar.png" type="Texture" id=5]

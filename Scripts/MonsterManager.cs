@@ -17,8 +17,6 @@ public class MonsterManager : Node2D
 
     public override void _Ready()
     {
-        //The listener for the turn managers state
-        BroadcastTurnEvent.RegisterListener(OnBroadcastTurnEvent);
         //The event listenenr for the monster spawner event
         SpawnMonstersEvent.RegisterListener(OnSpawnMonstersEvent);
         //Removes the monster form the list when sent
@@ -104,21 +102,6 @@ public class MonsterManager : Node2D
         }
         //After the nodes have been deleted we clear the list
         monsterList.Clear();
-    }
-
-    private void OnBroadcastTurnEvent(BroadcastTurnEvent bte)
-    {
-        //If the state manager is not on the enemies turn we return out of the method
-        if (bte.states != TurnStates.ENEMY_TURN) return;
-
-        for (int i = 0; i < monsterList.Count; i++)
-        {
-            ((Monster)monsterList[i]).Process();
-        }
-        //At the end of the monsters turn we cycle the turn
-        CycleTurnEvent cte = new CycleTurnEvent();
-        cte.callerClass = "Monster - _Process(float delta)";
-        cte.FireEvent();
     }
 
     private void OnRemoveMonsterEvent(RemoveMonsterEvent rme)

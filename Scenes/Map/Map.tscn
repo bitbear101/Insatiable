@@ -1,6 +1,6 @@
 [gd_scene load_steps=64 format=2]
 
-[ext_resource path="res://Scripts/Map.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/Map/Map.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/dungeon_tiles.png" type="Texture" id=2]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
