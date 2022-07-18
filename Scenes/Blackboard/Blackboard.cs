@@ -17,6 +17,7 @@ public class Blackboard : Node
     public override void _Ready()
     {
         GetBBDataEvent.RegisterListener(OnGetBBDataEvent);
+        SetBBDataEvent.RegisterListener(OnSetBBDataEvent);
     }
 
     private void OnSetBBDataEvent(SetBBDataEvent sbbde)
@@ -26,5 +27,12 @@ public class Blackboard : Node
     private void OnGetBBDataEvent(GetBBDataEvent gbbde)
     {
         gbbde.data = BBData[(BBKey)gbbde.key];
+    }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        GetBBDataEvent.UnregisterListener(OnGetBBDataEvent);
+        SetBBDataEvent.UnregisterListener(OnSetBBDataEvent);
     }
 }

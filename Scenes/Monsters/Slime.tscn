@@ -60,3 +60,6 @@ script = ExtResource( 5 )
 
 [node name="Hit" type="Node" parent="."]
 script = ExtResource( 7 )
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true

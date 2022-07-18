@@ -1,6 +1,6 @@
 using Godot;
 using System;
-
+using EventCallback;
 public class PunchAttack : Node2D
 {
     Vector2 target;
@@ -13,10 +13,12 @@ public class PunchAttack : Node2D
         SetAsToplevel(true);
         //Set the position of the punch again as it is reset with the set as top level
         GlobalPosition = parentPos;
+        //Get the modified mouse pos for the viewport
+        Vector2 mouse_pos = ((Viewport)GD.InstanceFromId((ulong)(GetBBData((int)BBKey.VIEWPORT)))).GetMousePosition() / ((float)GetBBData((int)BBKey.WINDOW_SCALE)) - (((Vector2)GetBBData((int)BBKey.GAME_SIZE)) / 2) + GlobalPosition;
         // Set the direction for the hit
-        LookAt(GetGlobalMousePosition());
+        LookAt(mouse_pos);
         // Set the taret for the hit on creation
-        target = GlobalPosition + ((GetGlobalMousePosition() - GlobalPosition).Normalized() * 50);
+        target = GlobalPosition + ((mouse_pos - GlobalPosition).Normalized() * 50);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,5 +30,23 @@ public class PunchAttack : Node2D
         {
             QueueFree();
         }
+    }
+
+    private object GetBBData(int key)
+    {
+        GetBBDataEvent gbbde = new GetBBDataEvent();
+        gbbde.callerClass = "CameraManager - GetBBData()";
+        gbbde.key = key;
+        gbbde.FireEvent();
+        return gbbde.data;
+    }
+
+    private void SetBBdata(int key, object data)
+    {
+        SetBBDataEvent sbbde = new SetBBDataEvent();
+        sbbde.callerClass = "CameraManager - GetBBData()";
+        sbbde.key = key;
+        sbbde.data = data;
+        sbbde.FireEvent();
     }
 }
