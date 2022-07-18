@@ -54,42 +54,42 @@ public class MonsterManager : Node2D
             //Add the monster node as a child of the monster manager 
             AddChild(monsterToSpawn);
             //BEHOLDER, FIEND, SLIME, FLAMING_SKULL, GOBLIN, SKELETON
-            SetMonsterTypeEvent smte = new SetMonsterTypeEvent();
-            smte.callerClass = "MonsterManager - OnSpawnMonsterEvent";
-            smte.monsterID = monsterToSpawn.GetInstanceId();
-            smte.monsterType = (MonsterTypes)levelOfMonsterToSpawn;
-            smte.FireEvent();
+            // SetMonsterTypeEvent smte = new SetMonsterTypeEvent();
+            // smte.callerClass = "MonsterManager - OnSpawnMonsterEvent";
+            // smte.monsterID = monsterToSpawn.GetInstanceId();
+            // smte.monsterType = (MonsterTypes)levelOfMonsterToSpawn;
+            // smte.FireEvent();
 
-            DamageType damageType = DamageType.SLASH;
+            // DamageType damageType = DamageType.SLASH;
 
-            switch ((MonsterTypes)levelOfMonsterToSpawn)
-            {
-                case MonsterTypes.BEHOLDER:
-                    damageType = DamageType.ELECTRIC;
-                    break;
-                case MonsterTypes.FIEND:
-                    damageType = DamageType.SLASH;
-                    break;
-                case MonsterTypes.SLIME:
-                    damageType = DamageType.PIERCE;
-                    break;
-                case MonsterTypes.FLAMING_SKULL:
-                    damageType = DamageType.FIRE;
-                    break;
-                case MonsterTypes.GOBLIN:
-                    damageType = DamageType.SLASH;
-                    break;
-                case MonsterTypes.SKELETON:
-                    damageType = DamageType.PIERCE;
-                    break;
+            // switch ((MonsterTypes)levelOfMonsterToSpawn)
+            // {
+            //     case MonsterTypes.BEHOLDER:
+            //         damageType = DamageType.ELECTRIC;
+            //         break;
+            //     case MonsterTypes.FIEND:
+            //         damageType = DamageType.SLASH;
+            //         break;
+            //     case MonsterTypes.SLIME:
+            //         damageType = DamageType.PIERCE;
+            //         break;
+            //     case MonsterTypes.FLAMING_SKULL:
+            //         damageType = DamageType.FIRE;
+            //         break;
+            //     case MonsterTypes.GOBLIN:
+            //         damageType = DamageType.SLASH;
+            //         break;
+            //     case MonsterTypes.SKELETON:
+            //         damageType = DamageType.PIERCE;
+            //         break;
 
-            }
-            //Set the monsters damage type
-            SetDamageTypeEvent sdte = new SetDamageTypeEvent();
-            sdte.callerClass = "MonsterManager - OnSpawnMonsterEvent";
-            sdte.actorID = monsterToSpawn.GetInstanceId();
-            sdte.damageType = damageType;//Get the type of monster and set the damage type acording
-            sdte.FireEvent();
+            // }
+            // //Set the monsters damage type
+            // SetDamageTypeEvent sdte = new SetDamageTypeEvent();
+            // sdte.callerClass = "MonsterManager - OnSpawnMonsterEvent";
+            // sdte.actorID = monsterToSpawn.GetInstanceId();
+            // sdte.damageType = damageType;//Get the type of monster and set the damage type acording
+            // sdte.FireEvent();
         }
     }
 

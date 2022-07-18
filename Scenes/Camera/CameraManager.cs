@@ -31,13 +31,13 @@ public class CameraManager : Camera2D
 
 		Vector2 cam_pos = player.GlobalPosition.LinearInterpolate(mouse_pos, 0.7f);
 
-		actual_cam_pos = actual_cam_pos.LinearInterpolate(cam_pos, delta * 5);
+		actual_cam_pos = actual_cam_pos.LinearInterpolate(cam_pos, delta * 3);
 
 		Vector2 subpixel_position = actual_cam_pos.Round() - actual_cam_pos;
 
 		((ShaderMaterial)viewportContainer.Material).SetShaderParam("cam_offset", subpixel_position);
 
-		GlobalPosition = actual_cam_pos.Round();
+		GlobalPosition = (actual_cam_pos).Round();
 
 	}
 

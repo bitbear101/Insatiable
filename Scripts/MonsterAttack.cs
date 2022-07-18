@@ -10,7 +10,7 @@ public class MonsterAttack : Node
     {
         //Listen for the attack event message
         EnemyAttackEvent.RegisterListener(OnEnemyAttackEvent);
-        attacktimer = GetNode<Timer>("../../../AttackTimer");
+        attacktimer = GetNode<Timer>("../AttackTimer");
     }
 
     private void OnEnemyAttackEvent(EnemyAttackEvent eae)
@@ -19,7 +19,7 @@ public class MonsterAttack : Node
         {
             attacktimer.Start();
             HitEvent he = new HitEvent();
-            he.callerClass = "MoonsterAttack - CheckRange";
+            he.callerClass = "MonsterAttack - OnEnemyAttackEvent";
             he.attackerID = GetParent().GetInstanceId();
             he.targetID = eae.target.GetParent().GetInstanceId();
             he.FireEvent();
