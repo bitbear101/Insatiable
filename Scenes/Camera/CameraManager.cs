@@ -29,9 +29,9 @@ public class CameraManager : Camera2D
 	{
 		Vector2 mouse_pos = viewport.GetMousePosition() / window_scale - (game_size / 2) + player.GlobalPosition;
 
-		Vector2 cam_pos = player.GlobalPosition.LinearInterpolate(mouse_pos, 0.7f);
+		Vector2 cam_pos = player.GlobalPosition.LinearInterpolate(mouse_pos, 0.3f);
 
-		actual_cam_pos = actual_cam_pos.LinearInterpolate(cam_pos, delta * 3);
+		actual_cam_pos = actual_cam_pos.LinearInterpolate(cam_pos, delta * 7);
 
 		Vector2 subpixel_position = actual_cam_pos.Round() - actual_cam_pos;
 

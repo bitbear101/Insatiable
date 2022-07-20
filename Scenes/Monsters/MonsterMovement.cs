@@ -110,7 +110,7 @@ public class MonsterMovement : Node
             EnemyAttackEvent eae = new EnemyAttackEvent();
             eae.callerClass = "MonsterMovement - _PhysicsProcess()";
             eae.enemyID = GetParent().GetInstanceId();
-            eae.target = target;
+            eae.target = target.GetInstanceId();
             eae.FireEvent();
             return;
         }

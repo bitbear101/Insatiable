@@ -21,7 +21,7 @@ public class MonsterAttack : Node
             HitEvent he = new HitEvent();
             he.callerClass = "MonsterAttack - OnEnemyAttackEvent";
             he.attackerID = GetParent().GetInstanceId();
-            he.targetID = eae.target.GetParent().GetInstanceId();
+            he.targetID = eae.target;
             he.FireEvent();
         }
     }
