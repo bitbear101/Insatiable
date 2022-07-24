@@ -1,0 +1,11 @@
+{
+	"title": "",
+	"category": 2,
+	"assigned": 0,
+	"timestamp": 1658608462,
+	"hash": "179f19c558701f4748841b73a214d7b9ea75ed1161a14ac8c5b8809bafbfa33b",
+	"description": "1. Get player moving\n2. Get monster to move to player\n3. Get Player to attack monster\n3.1 Made Burn Skull Basher - Chrono made it\n3.2 Added enlarged pixel display, took the whole day, still needs tweaking\n\nFixed Bugs:\n20/07/2022 - Pixel camera that moves to far away from player",
+	"todos": [
+
+	]
+}

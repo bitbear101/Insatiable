@@ -32,7 +32,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "." )
+enabled=PoolStringArray( "res://addons/NbPM/plugin.cfg" )
 
 [global]
 

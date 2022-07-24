@@ -28,11 +28,9 @@ public class CalculateDamage : Node
         tgse.FireEvent();
 
         //The initial dadge chance is gotten by sutracting on actors dexterity with the other actors
-        int tempDodgeChance = (tgse.dexterity - agse.dexterity);
+        int dodgeChance = (tgse.dexterity - agse.dexterity);
         //If the temp dodge chance is greater than zero we work out the percentage chance for a dodge
-        if (tempDodgeChance > 0) dodgeChance = (tempDodgeChance * 100) / tempDodgeChance;
-        //If the random number is greater then the dodge chance
-        if (rng.RandiRange(0, 100) > dodgeChance)
+        if (dodgeChance > 0)
         {
             //We set the damage taken to the strength added to the level then multiplied to return only 25% of the damage
             cde.damage = (int)((float)(agse.strength + agse.level) * 0.25f);
@@ -41,6 +39,7 @@ public class CalculateDamage : Node
         {
             //The actor dodged he attack and takes zero damage
             cde.damage = 0;
+            //Call the dodge floating text to say dodged!!! lol WARNING code modded on night shift
         }
     }
 
