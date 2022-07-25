@@ -26,51 +26,51 @@ __meta__ = {
 margin_right = 71.0
 
 [node name="Health" type="TextureRect" parent="HUD/HBoxContainer"]
-margin_right = 32.0
-margin_bottom = 6.0
+margin_right = 64.0
+margin_bottom = 12.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource( 4 )
 
 [node name="HealthFiller" type="TextureRect" parent="HUD/HBoxContainer/Health"]
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 124.0
-margin_bottom = 20.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 62.0
+margin_bottom = 10.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 texture = ExtResource( 5 )
 
 [node name="Corruption" type="TextureRect" parent="HUD/HBoxContainer"]
-margin_top = 14.0
-margin_right = 32.0
-margin_bottom = 20.0
+margin_top = 20.0
+margin_right = 64.0
+margin_bottom = 32.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource( 4 )
 
 [node name="CorruptionFiller" type="TextureRect" parent="HUD/HBoxContainer/Corruption"]
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 124.0
-margin_bottom = 20.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 62.0
+margin_bottom = 10.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource( 6 )
 
 [node name="XP" type="TextureRect" parent="HUD/HBoxContainer"]
-margin_top = 28.0
-margin_right = 32.0
-margin_bottom = 34.0
+margin_top = 40.0
+margin_right = 64.0
+margin_bottom = 52.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource( 4 )
 
 [node name="XPFiller" type="TextureRect" parent="HUD/HBoxContainer/XP"]
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 124.0
-margin_bottom = 20.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 62.0
+margin_bottom = 10.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource( 7 )

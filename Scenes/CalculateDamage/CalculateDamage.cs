@@ -13,6 +13,7 @@ public class CalculateDamage : Node
 
     private void OnCalculateDamageEvent(CalculateDamageEvent cde)
     {
+        GD.Print("CalculateDamage - OnCalculateDamageEvent(): Called");
         RandomNumberGenerator rng = new RandomNumberGenerator();
         rng.Randomize();
 

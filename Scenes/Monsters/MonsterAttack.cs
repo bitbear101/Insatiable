@@ -20,8 +20,8 @@ public class MonsterAttack : Node
             attacktimer.Start();
             HitEvent he = new HitEvent();
             he.callerClass = "MonsterAttack - OnEnemyAttackEvent";
-            he.attackerID = GetParent().GetInstanceId();
-            he.targetID = eae.target;
+            he.attackerID = eae.attackerID;
+            he.targetID = eae.targetID;
             he.FireEvent();
         }
     }

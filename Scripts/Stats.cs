@@ -6,6 +6,7 @@ public enum DamageType
 {
     FIRE,
     ELECTRIC,
+    CRUSHING,
     SLASH,
     PIERCE
 };

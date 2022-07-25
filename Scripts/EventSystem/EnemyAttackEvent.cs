@@ -5,8 +5,8 @@ namespace EventCallback
     public class EnemyAttackEvent : Event<EnemyAttackEvent>
     {
         //The target tot attack
-        public ulong target;
+        public ulong targetID;
         //The id to identify which enemy needs to attack
-        public ulong enemyID;
+        public ulong attackerID;
     }
 }

@@ -13,6 +13,7 @@ public class Monster : KinematicBody2D
     }
     public override void _ExitTree()
     {
-        AddChild(corpsNode);
+        ((Node2D)corpsNode).GlobalPosition = GlobalPosition;
+        GetParent().AddChild(corpsNode);
     }
 }

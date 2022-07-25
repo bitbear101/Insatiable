@@ -4,7 +4,7 @@ using EventCallback;
 public class Health : Node
 {
     //The base health of the actor
-    int health = 5;
+    [Export] int health = 5;
     public override void _Ready()
     {
         //The listener for the hit event
