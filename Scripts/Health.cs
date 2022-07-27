@@ -4,17 +4,11 @@ using EventCallback;
 public class Health : Node
 {
     //The base health of the actor
-    [Export] int health = 5;
+    [Export] int health = 10;
     public override void _Ready()
     {
         //The listener for the hit event
         HitEvent.RegisterListener(OnHitEvent);
-        //Get the stats of the actor to work out its full health
-        GetStatsEvent gse = new GetStatsEvent();
-        gse.actorID = GetParent().GetInstanceId();
-        gse.FireEvent();
-        //Set the new health of the new actor
-        health += (int)(((float)gse.strength * 0.1f) + ((float)gse.level * 0.2f));
     }
 
     private void OnHitEvent(HitEvent he)
@@ -35,7 +29,7 @@ public class Health : Node
     private void TakeDamage(int damage)
     {
         health -= damage;
-        
+         GD.Print("Health - OnHitEvent(): health left " + health);
         //Send the event message for the floating text
         FloatingTextEvent fte = new FloatingTextEvent();
         fte.position = ((Node2D)GetParent()).Position;

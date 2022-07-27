@@ -13,7 +13,6 @@ public class CalculateDamage : Node
 
     private void OnCalculateDamageEvent(CalculateDamageEvent cde)
     {
-        GD.Print("CalculateDamage - OnCalculateDamageEvent(): Called");
         RandomNumberGenerator rng = new RandomNumberGenerator();
         rng.Randomize();
 
@@ -27,21 +26,25 @@ public class CalculateDamage : Node
         tgse.callerClass = "CalculateDamage - OnCalculatDamageEvent";
         tgse.actorID = cde.targetID;
         tgse.FireEvent();
-
-        //The initial dadge chance is gotten by sutracting on actors dexterity with the other actors
-        int dodgeChance = (tgse.dexterity - agse.dexterity);
+        //The initial dadge chance is gotten here lol
+        float dodgeChance = Mathf.Abs(((tgse.dexterity * tgse.level) - (agse.dexterity * agse.level)) * 100 / (tgse.dexterity * tgse.level));
         //If the temp dodge chance is greater than zero we work out the percentage chance for a dodge
-        if (dodgeChance > 0)
+        if (rng.RandiRange(0, 100) < dodgeChance)
         {
             //We set the damage taken to the strength added to the level then multiplied to return only 25% of the damage
-            cde.damage = (int)((float)(agse.strength + agse.level) * 0.25f);
+            cde.damage = (agse.strength + agse.level);
         }
         else
         {
             //The actor dodged he attack and takes zero damage
             cde.damage = 0;
-            //Call the dodge floating text to say dodged!!! lol WARNING code modded on night shift
         }
+    }
+
+    public override void _ExitTree()
+    {
+        //The listener for the hit event
+        CalculateDamageEvent.UnregisterListener(OnCalculateDamageEvent);
     }
 
 }

@@ -29,6 +29,7 @@ script = ExtResource( 4 )
 [node name="Stats" type="Node" parent="."]
 script = ExtResource( 7 )
 damageType = 2
+level = 1
 strength = 5
 dexterity = 5
 intelligence = 5
@@ -38,4 +39,4 @@ script = ExtResource( 3 )
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource( 5 )
-health = 100
+health = 30

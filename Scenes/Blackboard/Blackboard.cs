@@ -31,7 +31,6 @@ public class Blackboard : Node
 
     public override void _ExitTree()
     {
-        base._ExitTree();
         GetBBDataEvent.UnregisterListener(OnGetBBDataEvent);
         SetBBDataEvent.UnregisterListener(OnSetBBDataEvent);
     }

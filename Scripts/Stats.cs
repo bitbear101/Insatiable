@@ -38,6 +38,7 @@ public class Stats : Node
 
     private void OnGetStatsEvent(GetStatsEvent gse)
     {
+        
         //Check the id of the actor to get the defence o
         if (gse.actorID == GetParent().GetInstanceId())
         {
@@ -54,7 +55,6 @@ public class Stats : Node
         //Check the id of the actor to get the defence o
         if (sse.actorID == GetParent().GetInstanceId())
         {
-            GD.Print("Stats - OnSetStatsEvent: Called");
             strength += sse.strength;
             dexterity += sse.dexterity;
             intelligence += sse.intelligence;

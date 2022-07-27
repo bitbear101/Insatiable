@@ -27,6 +27,9 @@ window/size/always_on_top=true
 window/size/test_width=1280
 window/size/test_height=720
 window/dpi/allow_hidpi=true
+mouse_cursor/custom_image="res://Scenes/MouseCursor/MouseCursor.png"
+mouse_cursor/custom_image_hotspot=Vector2( 15, 15 )
+mouse_cursor/tooltip_position_offset=Vector2( 36, 36 )
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
