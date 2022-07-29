@@ -23,7 +23,7 @@ public class Map : Node2D
     Vector2 spawnTile = Vector2.Zero;
     Vector2 exiTile = Vector2.Zero;
     //The size of the map
-    int width = 30, height = 30;
+    int width = 200, height = 200;
     //The size of the tile
     const int tileSize = 16;
     //The number of the level
@@ -41,13 +41,13 @@ public class Map : Node2D
     public override void _Ready()
     {
         //The stone to floor listener
-        // StoneToFloorEvent.RegisterListener(OnStoneToFloorEvent);
+        StoneToFloorEvent.RegisterListener(OnStoneToFloorEvent);
         //The listener for the get tile event
         GetTileEvent.RegisterListener(OnGetTileEvent);
         //The listener for the players spawn event
         GetPlayerSpawnPointEvent.RegisterListener(OnGetPlayerSpawnPointEvent);
-        //The event message to get he used cells from the map
-        // GetUsedCellsEvent.RegisterListener(OnGetUsedCellsEvent);
+        //The event message to get the used cells from the map
+        GetUsedCellsEvent.RegisterListener(OnGetUsedCellsEvent);
         //Get the tile map node in the scene to be able to control it from the script
         tileMap = GetNode<TileMap>("TileMap");
         //The event listener for the generate level event message
@@ -85,18 +85,18 @@ public class Map : Node2D
         GetExitTile();
     }
 
-    // private void OnStoneToFloorEvent(StoneToFloorEvent stfe)
-    // {
-    //     //Change the stone tile to a floor tile in the map list
-    //     map[(int)(stfe.TileToChange.x * width + stfe.TileToChange.y)] = TileType.FLOOR;
-    //     //Change the stone tile to a floor tile in the tile map node
-    //     tileMap.SetCell((int)stfe.TileToChange.x, (int)stfe.TileToChange.y, (int)TileType.FLOOR);
-    //     tileMap.UpdateBitmaskArea(stfe.TileToChange);
-    //     //Update the astars map of the walkable cells
-    //     // UpdateMapCellsEvent umce = new UpdateMapCellsEvent();
-    //     umce.callerClass = "Map - OnStoneToFloorEvent()";
-    //     umce.FireEvent();
-    // }
+    private void OnStoneToFloorEvent(StoneToFloorEvent stfe)
+    {
+        //Change the stone tile to a floor tile in the map list
+        map[(int)(stfe.TileToChange.x * width + stfe.TileToChange.y)] = TileType.FLOOR;
+        //Change the stone tile to a floor tile in the tile map node
+        tileMap.SetCell((int)stfe.TileToChange.x, (int)stfe.TileToChange.y, (int)TileType.FLOOR);
+        tileMap.UpdateBitmaskArea(stfe.TileToChange);
+        //Update the astars map of the walkable cells
+        UpdateMapCellsEvent umce = new UpdateMapCellsEvent();
+        umce.callerClass = "Map - OnStoneToFloorEvent()";
+        umce.FireEvent();
+    }
 
     private void OnGetTileEvent(GetTileEvent gte)
     {

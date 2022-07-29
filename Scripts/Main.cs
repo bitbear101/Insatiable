@@ -62,6 +62,10 @@ public class Main : Node2D
             ToggleStatsWindowEvent tswe = new ToggleStatsWindowEvent();
             tswe.FireEvent();
         }
+        if (Input.IsActionJustReleased("ui_escape"))
+        {
+            GetTree().Quit();
+        }
     }
     private void OnStartGameEvent(StartGameEvent sge)
     {
