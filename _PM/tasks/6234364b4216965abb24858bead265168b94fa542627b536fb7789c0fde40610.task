@@ -1,10 +1,10 @@
 {
-	"title": "",
+	"title": "8. Create map and map controller",
 	"category": 1,
 	"assigned": 0,
 	"timestamp": 1658608416,
 	"hash": "6234364b4216965abb24858bead265168b94fa542627b536fb7789c0fde40610",
-	"description": "6. Eat monster corpse",
+	"description": "1. Create the map first from the main scene\n2. Map creates monster and player spawn points\n3. When creating player and monsters from main have them request thier spawn points and set thier position acording to that",
 	"todos": [
 
 	]
