@@ -13,6 +13,11 @@ public class HUD : Control
         StartGameEvent.RegisterListener(OnStartGameEvent);
     }
 
+    private void UpdateStats()
+    {
+        
+    }
+
     private void OnStartGameEvent(StartGameEvent sge)
     {
         Visible = true;

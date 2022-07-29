@@ -16,16 +16,10 @@ public class DeathManager : Node
         //If the returned object from the id is in the group monster
         if (((Node)GD.InstanceFromId(de.targetID)).IsInGroup("Monster"))
         {
-            //Send a message out for the creation of a corpse
-            CreateCorpseEvent cce = new CreateCorpseEvent();
-            cce.callerClass = "DeathManager - OnDeathEvent()";
-            cce.monsterID = de.targetID;
-            cce.FireEvent();
-
             //Send the event message ot remove the monster from the monster list
             RemoveMonsterEvent rme = new RemoveMonsterEvent();
             rme.callerClass = "DeathManager - OnDeathEvent";
-            rme.monsterID = cce.monsterID;
+            rme.monsterID = de.targetID;
             rme.FireEvent();
         }
         //If the returned object from the id is in the group monster

@@ -16,9 +16,16 @@ region_enabled = true
 region_rect = Rect2( 32, 160, 16, 16 )
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 1 )
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource( 4 )
+level = 1
+strength = 2.0
+dexterity = 2.0
+intelligence = 2.0
+corruption = 2.0

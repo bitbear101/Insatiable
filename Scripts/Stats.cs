@@ -6,6 +6,7 @@ public enum DamageType
 {
 	FIRE,
 	ELECTRIC,
+	ACID,
 	CRUSHING,
 	SLASH,
 	PIERCE
@@ -19,13 +20,13 @@ public class Stats : Node
 	//The experience of the actor
 	[Export] float experience;
 	//The strength of the actor
-	[Export] int strength;
+	[Export] float strength;
 	//The dexterity of the actor
-	[Export] int dexterity;
+	[Export] float dexterity;
 	//The intelligence of the actor
-	[Export] int intelligence;
+	[Export] float intelligence;
 	//The corruption of the actor
-	[Export] int corruption;
+	[Export] float corruption;
 
 	//Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -54,10 +55,10 @@ public class Stats : Node
 		//Check the id of the actor to get the defence o
 		if (sse.actorID == GetParent().GetInstanceId())
 		{
+			experience += sse.experience;
 			strength += sse.strength;
 			dexterity += sse.dexterity;
 			intelligence += sse.intelligence;
-			level += sse.level;
 			corruption += sse.corruption;
 		}
 	}

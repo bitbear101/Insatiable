@@ -30,9 +30,10 @@ script = ExtResource( 4 )
 script = ExtResource( 7 )
 damageType = 2
 level = 1
-strength = 5
-dexterity = 5
-intelligence = 5
+experience = 5.0
+strength = 5.0
+dexterity = 5.0
+intelligence = 5.0
 
 [node name="Movement" type="Node" parent="."]
 script = ExtResource( 3 )

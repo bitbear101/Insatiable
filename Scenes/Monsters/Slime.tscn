@@ -55,10 +55,10 @@ shape = SubResource( 3 )
 script = ExtResource( 9 )
 damageType = 2
 level = 1
-strength = 3
-dexterity = 3
-intelligence = 1
-corruption = 2
+strength = 2.0
+dexterity = 2.0
+intelligence = 2.0
+corruption = 2.0
 
 [node name="Movement" type="Node" parent="."]
 script = ExtResource( 3 )

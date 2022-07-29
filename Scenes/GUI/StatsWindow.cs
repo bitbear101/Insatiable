@@ -23,7 +23,7 @@ public class StatsWindow : Control
     {
         if (hasPlayerID == false)
         {
-            playerID = (GetParent().GetParent().FindNode("Player", true, false)).GetInstanceId();
+            playerID = GetTree().Root.FindNode("Player", true, false).GetInstanceId();
             hasPlayerID = true;
         }
 

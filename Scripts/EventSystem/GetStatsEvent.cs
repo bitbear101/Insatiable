@@ -7,15 +7,15 @@ namespace EventCallback
         //The id of the en
         public ulong actorID;
         //The strength of the actor
-        public int strength;
+        public float strength;
         //The dexterity of the actor
-        public int dexterity;
+        public float dexterity;
         //The intelegence of the actor
-        public int intelligence;
+        public float intelligence;
         //The level of the actor
         public int level;
         //The coruption of the stats
-        public int corruption;
+        public float corruption;
         //The damage type of the actor
         public DamageType damageType;
 

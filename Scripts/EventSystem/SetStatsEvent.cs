@@ -6,17 +6,18 @@ namespace EventCallback
     {
         //The id of the en
         public ulong actorID;
+        //Set the experience of the actor
+        public float experience;
         //The strength of the actor
-        public int strength;
+        public float strength;
         //The dexterity of the actor
-        public int dexterity;
+        public float dexterity;
         //The intelegence of the actor
-        public int intelligence;
-        //The level of the actor
-        public int level;
+        public float intelligence;
+        //The corruption of the actor
+        public float corruption;
         //The damage type of the actor
         public DamageType damageType;
-        //The corruption of the actor
-        public int corruption;
+
     }
 }

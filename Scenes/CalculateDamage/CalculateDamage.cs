@@ -32,7 +32,7 @@ public class CalculateDamage : Node
         if (rng.RandiRange(0, 100) < dodgeChance)
         {
             //We set the damage taken to the strength added to the level then multiplied to return only 25% of the damage
-            cde.damage = (agse.strength + agse.level);
+            cde.damage = (int)agse.strength + agse.level;
         }
         else
         {
