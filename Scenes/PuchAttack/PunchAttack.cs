@@ -54,6 +54,33 @@ public class PunchAttack : Node2D
 			he.FireEvent();
 
 		}
+		if (area.GetParent().IsInGroup("Corps"))
+		{
+			SetStatsEvent sse = new SetStatsEvent();
+			GetStatsEvent gse = new GetStatsEvent();
+			sse.callerClass = "PunchAttack - OnAreaEntered()";
+			gse.callerClass = "PunchAttack - OnAreaEntered()";
+			//Pass in the corpse id to get the stats from
+			gse.targetID = area.GetParent.GetInstanceId();
+			gse.FireEvent();
+				//The strength of the actor
+		sse.strength = gse.strength * 0.025f;
+		//The dexterity of the actor
+		sse.dexterity = gse.dexterity * 0.025f;
+		//The intelegence of the actor
+		sse.intelligence = gse.intelligence * 0.025f;
+		//The level of the actor
+		sse.level = gse.level * 0.25f;
+		//The corruption of the actor
+		sse.corruption = gse.corruption * 0.25f;
+		sse.targetID = parentID;
+		sse.FireEvent();
+
+	DeathEvent de = new DeathEvent();
+			de.callerClass = "PunchAttack - OnAreaEntered()";
+			de.targetID = area.GetParent().GetInstanceId();
+			de.FireEvent();
+		}
 		//Free the punch attack scene
 		QueueFree();
 	}
