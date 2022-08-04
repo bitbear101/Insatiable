@@ -15,5 +15,6 @@ public class Monster : KinematicBody2D
     {
         ((Node2D)corpsNode).GlobalPosition = GlobalPosition;
         GetParent().AddChild(corpsNode);
+        // GetParent().CallDeferred("AddChild", corpsNode);
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/Menu.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/GUI/HUD.cs" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Fonts/MenuFont.tres" type="DynamicFont" id=8]
 [ext_resource path="res://Sprites/Panel.png" type="Texture" id=9]
 [ext_resource path="res://Scenes/GUI/StatsWindow.cs" type="Script" id=10]
+[ext_resource path="res://Scenes/GUI/Options.cs" type="Script" id=11]
 
 [node name="UI" type="CanvasLayer"]
 
@@ -20,7 +21,8 @@ anchor_bottom = 1.0
 script = ExtResource( 2 )
 
 [node name="HBoxContainer" type="VBoxContainer" parent="HUD"]
-margin_right = 71.0
+margin_left = 10.0
+margin_top = 10.0
 
 [node name="Health" type="TextureRect" parent="HUD/HBoxContainer"]
 margin_right = 64.0
@@ -73,6 +75,7 @@ size_flags_vertical = 0
 texture = ExtResource( 7 )
 
 [node name="Menu" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -131,14 +134,25 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 10 )
 
-[node name="NinePatchRect" type="NinePatchRect" parent="StatsWindow"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsWindow"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -90.0
-margin_top = -90.0
-rect_min_size = Vector2( 180, 180 )
+margin_left = -160.0
+margin_top = -100.0
+margin_right = 160.0
+margin_bottom = 100.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="StatsWindow/VBoxContainer"]
+margin_right = 320.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 320, 200 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
 texture = ExtResource( 9 )
 patch_margin_left = 2
 patch_margin_top = 2
@@ -147,20 +161,20 @@ patch_margin_bottom = 2
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StatsWindow"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsWindow/VBoxContainer/NinePatchRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 alignment = 1
 
-[node name="LevelHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer"]
-margin_top = 114.0
-margin_right = 640.0
-margin_bottom = 134.0
+[node name="LevelHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer"]
+margin_top = 34.0
+margin_right = 320.0
+margin_bottom = 54.0
 alignment = 1
 
-[node name="LabelLevel" type="Label" parent="StatsWindow/VBoxContainer/LevelHBox"]
-margin_left = 285.0
-margin_right = 337.0
+[node name="LabelLevel" type="Label" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer/LevelHBox"]
+margin_left = 125.0
+margin_right = 177.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 8 )
 text = "Level:"
@@ -168,9 +182,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelLevelAmount" type="Label" parent="StatsWindow/VBoxContainer/LevelHBox"]
-margin_left = 345.0
-margin_right = 355.0
+[node name="LabelLevelAmount" type="Label" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer/LevelHBox"]
+margin_left = 185.0
+margin_right = 195.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 8 )
 text = "0"
@@ -178,15 +192,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StrengthHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer"]
-margin_top = 142.0
-margin_right = 640.0
-margin_bottom = 162.0
+[node name="StrengthHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer"]
+margin_top = 62.0
+margin_right = 320.0
+margin_bottom = 82.0
 alignment = 1
 
-[node name="LabelStr" type="Label" parent="StatsWindow/VBoxContainer/StrengthHBox"]
-margin_left = 269.0
-margin_right = 353.0
+[node name="LabelStr" type="Label" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer/StrengthHBox"]
+margin_left = 109.0
+margin_right = 193.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 8 )
 text = "Strength: "
@@ -194,9 +208,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelStrAmount" type="Label" parent="StatsWindow/VBoxContainer/StrengthHBox"]
-margin_left = 361.0
-margin_right = 371.0
+[node name="LabelStrAmount" type="Label" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer/StrengthHBox"]
+margin_left = 201.0
+margin_right = 211.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 8 )
 text = "5"
@@ -204,15 +218,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DexterityHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer"]
-margin_top = 170.0
-margin_right = 640.0
-margin_bottom = 190.0
+[node name="DexterityHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer"]
+margin_top = 90.0
+margin_right = 320.0
+margin_bottom = 110.0
 alignment = 1
 
-[node name="LabelDex" type="Label" parent="StatsWindow/VBoxContainer/DexterityHBox"]
-margin_left = 269.0
-margin_right = 353.0
+[node name="LabelDex" type="Label" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer/DexterityHBox"]
+margin_left = 109.0
+margin_right = 193.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 8 )
 text = "Dexterity:"
@@ -220,9 +234,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelDexAmount" type="Label" parent="StatsWindow/VBoxContainer/DexterityHBox"]
-margin_left = 361.0
-margin_right = 371.0
+[node name="LabelDexAmount" type="Label" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer/DexterityHBox"]
+margin_left = 201.0
+margin_right = 211.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 8 )
 text = "5"
@@ -230,15 +244,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IntelligenceHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer"]
-margin_top = 198.0
-margin_right = 640.0
-margin_bottom = 218.0
+[node name="IntelligenceHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer"]
+margin_top = 118.0
+margin_right = 320.0
+margin_bottom = 138.0
 alignment = 1
 
-[node name="LabelInt" type="Label" parent="StatsWindow/VBoxContainer/IntelligenceHBox"]
-margin_left = 258.0
-margin_right = 364.0
+[node name="LabelInt" type="Label" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer/IntelligenceHBox"]
+margin_left = 98.0
+margin_right = 204.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 8 )
 text = "Intelligence:"
@@ -246,9 +260,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelIntAmount" type="Label" parent="StatsWindow/VBoxContainer/IntelligenceHBox"]
-margin_left = 372.0
-margin_right = 382.0
+[node name="LabelIntAmount" type="Label" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer/IntelligenceHBox"]
+margin_left = 212.0
+margin_right = 222.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 8 )
 text = "5"
@@ -256,15 +270,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CorruptionHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer"]
-margin_top = 226.0
-margin_right = 640.0
-margin_bottom = 246.0
+[node name="CorruptionHBox" type="HBoxContainer" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer"]
+margin_top = 146.0
+margin_right = 320.0
+margin_bottom = 166.0
 alignment = 1
 
-[node name="LabelCorruption" type="Label" parent="StatsWindow/VBoxContainer/CorruptionHBox"]
-margin_left = 263.0
-margin_right = 359.0
+[node name="LabelCorruption" type="Label" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer/CorruptionHBox"]
+margin_left = 103.0
+margin_right = 199.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 8 )
 text = "Corruption:"
@@ -272,15 +286,104 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelCorruptionAmount" type="Label" parent="StatsWindow/VBoxContainer/CorruptionHBox"]
-margin_left = 367.0
-margin_right = 377.0
+[node name="LabelCorruptionAmount" type="Label" parent="StatsWindow/VBoxContainer/NinePatchRect/VBoxContainer/CorruptionHBox"]
+margin_left = 207.0
+margin_right = 217.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 8 )
 text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Options" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 11 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -100.0
+margin_right = 160.0
+margin_bottom = 100.0
+alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Options/VBoxContainer"]
+margin_right = 320.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 320, 200 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 9 )
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Options" type="HBoxContainer" parent="Options/VBoxContainer/NinePatchRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
+alignment = 1
+
+[node name="Labels" type="VBoxContainer" parent="Options/VBoxContainer/NinePatchRect/Options"]
+margin_right = 116.0
+margin_bottom = 160.0
+size_flags_vertical = 3
+alignment = 1
+
+[node name="lblMusicVolume" type="Label" parent="Options/VBoxContainer/NinePatchRect/Options/Labels"]
+margin_right = 116.0
+margin_bottom = 76.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 8 )
+text = "Music Volume"
+align = 1
+valign = 1
+
+[node name="lblSoundVolume" type="Label" parent="Options/VBoxContainer/NinePatchRect/Options/Labels"]
+margin_top = 84.0
+margin_right = 116.0
+margin_bottom = 160.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 8 )
+text = "Sound Volume"
+align = 1
+valign = 1
+
+[node name="Controls" type="VBoxContainer" parent="Options/VBoxContainer/NinePatchRect/Options"]
+margin_left = 124.0
+margin_right = 280.0
+margin_bottom = 160.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="MusicVolume" type="HSlider" parent="Options/VBoxContainer/NinePatchRect/Options/Controls"]
+margin_right = 156.0
+margin_bottom = 76.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+value = 100.0
+
+[node name="SoundVolume" type="HSlider" parent="Options/VBoxContainer/NinePatchRect/Options/Controls"]
+margin_top = 84.0
+margin_right = 156.0
+margin_bottom = 160.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+value = 100.0
 
 [connection signal="pressed" from="Menu/HBoxContainer/MenuVbox/StartButton" to="Menu" method="OnStartButtonPressed"]
 [connection signal="pressed" from="Menu/HBoxContainer/MenuVbox/ExitButton" to="Menu" method="OnExitButtonPressed"]

@@ -1,0 +1,46 @@
+[gd_scene format=2]
+
+[node name="OptionsScreen" type="Node2D"]
+
+[node name="MusicVolume" type="HSlider" parent="."]
+margin_left = 832.0
+margin_top = 32.0
+margin_right = 1024.0
+margin_bottom = 64.0
+value = 100.0
+
+[node name="SoundVolume" type="HSlider" parent="."]
+margin_left = 832.0
+margin_top = 96.0
+margin_right = 1024.0
+margin_bottom = 128.0
+value = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lblMusicVolume" type="Label" parent="."]
+margin_left = 832.0
+margin_right = 1024.0
+margin_bottom = 32.0
+text = "Music Volume"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lblSoundVolume" type="Label" parent="."]
+margin_left = 832.0
+margin_top = 64.0
+margin_right = 1024.0
+margin_bottom = 96.0
+text = "Sound Volume"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="value_changed" from="MusicVolume" to="." method="OnMusicVolumeValueChanged"]
+[connection signal="value_changed" from="SoundVolume" to="." method="OnSoundVolumeValueChanged"]

@@ -11,7 +11,7 @@ public class MonsterMovement : Node
     Area2D viewRadius;
     KinematicBody2D body;
     KinematicBody2D target = null;
-    float speed = 250;
+    float speed = 100;
     float accel = 1000;
     float deccel = 1500;
     Vector2 vector = Vector2.Zero;
@@ -96,7 +96,7 @@ public class MonsterMovement : Node
     private void ApplyForce(Vector2 amount)
     {
         vector += amount;
-        vector = vector.LimitLength(speed);
+        vector = vector.Clamped(speed);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

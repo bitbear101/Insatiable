@@ -4,7 +4,7 @@ using EventCallback;
 public class Movement : Node
 {
 	KinematicBody2D body;
-	float speed = 300;
+	float speed = 150;
 	float accel = 1500;
 	float deccel = 1500;
 
@@ -35,7 +35,7 @@ public class Movement : Node
 	private void ApplyForce(Vector2 amount)
 	{
 		vector += amount;
-		vector = vector.LimitLength(speed);
+		vector = vector.Clamped(speed);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

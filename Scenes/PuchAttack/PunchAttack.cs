@@ -22,6 +22,8 @@ public class PunchAttack : Node2D
         hitArea = GetNode<Area2D>("HitArea");
         //Set the connection for collision detection
         hitArea.Connect("area_entered", this, nameof(OnAreaEntered));
+        //Set the connection for collision detection
+        hitArea.Connect("body_entered", this, nameof(OnBodyEntered));
         //Set the position of the punch again as it is reset with the set as top level
         GlobalPosition = parentPos;
         //Get the modified mouse pos for the viewport
@@ -54,6 +56,7 @@ public class PunchAttack : Node2D
             he.FireEvent();
 
         }
+
         if (area.GetParent().IsInGroup("Corpse"))
         {
             SetStatsEvent sse = new SetStatsEvent();
@@ -83,6 +86,24 @@ public class PunchAttack : Node2D
         }
         //Free the punch attack scene
         QueueFree();
+    }
+    private void OnBodyEntered(StaticBody2D body)
+    {
+        if (body.GetParent().IsInGroup("Map"))
+        {
+            Polygon2D poly = new Polygon2D();
+            Vector2[] shape = { new Vector2(10, 10), new Vector2(10, 20), new Vector2(20, 20), new Vector2(20, 10) };
+            Vector2 newPos;
+            newPos.x = GlobalPosition.x - GlobalPosition.x % 16;
+            newPos.y = GlobalPosition.y - GlobalPosition.y % 16;
+            StoneToFloorEvent stfe = new StoneToFloorEvent();
+            stfe.callerClass = "PunchAttack - OnBodyEntered()";
+            stfe.TileToChange = newPos / 16;
+            stfe.FireEvent();
+
+            //Free the punch attack scene
+            QueueFree();
+        }
     }
 
     private object GetBBData(int key)

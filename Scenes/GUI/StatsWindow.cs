@@ -13,11 +13,11 @@ public class StatsWindow : Control
     public override void _Ready()
     {
         ToggleStatsWindowEvent.RegisterListener(OnToggleStatsWindowEvent);
-        lvlLabel = (Label)GetNode("VBoxContainer/LevelHBox/LabelLevelAmount");
-        strLabel = (Label)GetNode("VBoxContainer/StrengthHBox/LabelStrAmount");
-        dexLabel = (Label)GetNode("VBoxContainer/DexterityHBox/LabelDexAmount");
-        intLabel = (Label)GetNode("VBoxContainer/IntelligenceHBox/LabelIntAmount");
-        corLabel = (Label)GetNode("VBoxContainer/CorruptionHBox/LabelCorruptionAmount");
+        lvlLabel = (Label)GetNode("VBoxContainer/NinePatchRect/VBoxContainer/LevelHBox/LabelLevelAmount");
+        strLabel = (Label)GetNode("VBoxContainer/NinePatchRect/VBoxContainer/StrengthHBox/LabelStrAmount");
+        dexLabel = (Label)GetNode("VBoxContainer/NinePatchRect/VBoxContainer/DexterityHBox/LabelDexAmount");
+        intLabel = (Label)GetNode("VBoxContainer/NinePatchRect/VBoxContainer/IntelligenceHBox/LabelIntAmount");
+        corLabel = (Label)GetNode("VBoxContainer/NinePatchRect/VBoxContainer/CorruptionHBox/LabelCorruptionAmount");
     }
     private void OnToggleStatsWindowEvent(ToggleStatsWindowEvent tswe)
     {
