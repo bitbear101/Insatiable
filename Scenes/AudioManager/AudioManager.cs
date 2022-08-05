@@ -8,47 +8,26 @@ public enum MusicList
 {
     MENU,
     GAME,
+    BATTLE,
     WIN,
     LOSE
 };
 
-public enum EnviromentSFX
+public enum SFXList
 {
 
 };
-
-public enum ActorSFX
-{
-    
-};
-
-public struct Asp2D
-{
-    public AudioStreamPlayer2D audioStreamPlayer2D;
-    public bool follow;
-    public bool repeat;
-    public ulong targetID;
-}
 
 public class AudioManager : Node2D
 {
-    //The lists of music
-    [Export] List<AudioStream> menuMusic = new List<AudioStream>();
-    [Export] List<AudioStream> gameMusic = new List<AudioStream>();
-    //The lists of sound effects
-    [Export] List<AudioStream> effect = new List<AudioStream>();
-
     AudioStreamPlayer musicPlayer;
-    AudioStreamPlayer effectsPlayer;
-
-        //A temporary Asp2D used to set when a sound needs to be played
-    Asp2D tempAsp2D;
     //The music volume once it has been lurped
     float lerpedMusicVolume;
     float musicVolume, soundVolume;
     bool fadeInMusic, fadeOutMusic, fadeOutMusicDone, changeMusicTrack;
-    List<Asp2D> openSoundPlayers = new List<Asp2D>();
-    List<Asp2D> closedSoundPlayers = new List<Asp2D>();
+    //Use the ID of the objects to keep track if it is in the openor closed list 
+    List<ulong> openSFXPlayers = new List<ulong>();
+    List<ulong> closedSFXPlayers = new List<ulong>();
     Dictionary<String, AudioStreamSample> musicList = new Dictionary<String, AudioStreamSample>();
     Dictionary<String, AudioStreamSample> soundsList = new Dictionary<String, AudioStreamSample>();
 
@@ -56,34 +35,13 @@ public class AudioManager : Node2D
 
     public override void _Ready()
     {
+        //The audio stream players
         musicPlayer = GetNode<AudioStreamPlayer>("MusicPlayer");
-        effectsPlayer = GetNode<AudioStreamPlayer>("SFXPlayer");
-    }
-
-    private void OnPlayeSound(int soundID)
-    {
-
-    }
-
-    private void PlayMusic(int musicID)
-    {
-        
-    }
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        //Register listeners for this class
-        ChangeVolumeEvent.RegisterListener(OnChangeVolumeEvent);
-        PlayMusicEvent.RegisterListener(OnPlayMusicEvent);
-        PlaySoundEvent.RegisterListener(OnPlaySoundEvent);
-        musicPlayer = GetNode<AudioStreamPlayer>("MusicPlayer");
-
-        //Add 20 Asp2D structs to the scene
+        //Add 20 SFXPlayers to the scene
         for (int i = 0; i < 20; i++)
         {
             //Call the Asp2D function
-            CreateAsp2D();
+            CreateSFXPlayers();
         }
         //Set the musicPlayer volume to the lowest setting
         musicPlayer.VolumeDb = -80;
@@ -97,10 +55,14 @@ public class AudioManager : Node2D
         musicPlayer.VolumeDb = ConvertToDB(gvei.soundVolume);
 
         GetSoundFiles();
+
+        //Register listeners for this class
+        ChangeVolumeEvent.RegisterListener(OnChangeVolumeEvent);
+        PlayMusicEvent.RegisterListener(OnPlayMusicEvent);
+        PlaySoundEvent.RegisterListener(OnPlaySoundEvent);
     }
     public override void _Process(float delta)
     {
-        UpdateSoundPosition();
         if (fadeInMusic) FadeInMusic();
         if (fadeOutMusic) FadeOutMusic();
 
@@ -116,26 +78,24 @@ public class AudioManager : Node2D
                 fadeInMusic = true;
             }
         }
-    }
-
-    private void UpdateSoundPosition()
-    {
-        foreach (Asp2D audioPlayer in closedSoundPlayers)
+        //Check hte closed list of sound effects to check if they have finished playing
+        foreach (ulong SFXPlayer in closedSFXPlayers)
         {
-            if (audioPlayer.audioStreamPlayer2D.Playing)
+            if (!((AudioStreamPlayer)GD.InstanceFromId(SFXPlayer)).Playing)
             {
-                audioPlayer.audioStreamPlayer2D.Position = ((Node2D)(GD.InstanceFromId(audioPlayer.targetID))).Position;
+                //Copy the player id to the open list becuse it is done playing
+                openSFXPlayers.Add(SFXPlayer);
+                //Remove the players Id from the closed list as it is done playing
+                closedSFXPlayers.Remove(SFXPlayer);
             }
         }
     }
-
     private void OnChangeVolumeEvent(ChangeVolumeEvent cvei)
     {
         musicPlayer.VolumeDb = ConvertToDB(cvei.musicVolume);
         musicVolume = cvei.musicVolume;
         soundVolume = cvei.soundVolume;
     }
-
     private void OnPlayMusicEvent(PlayMusicEvent pmei)
     {
         if (musicList.ContainsKey(pmei.music.ToString()))
@@ -174,7 +134,6 @@ public class AudioManager : Node2D
             musicPlayer.VolumeDb = ConvertToDB(musicVolume);
         }
     }
-
     private void FadeOutMusic()
     {
 
@@ -200,62 +159,44 @@ public class AudioManager : Node2D
             musicPlayer.VolumeDb = -80;
         }
     }
-
     private void OnPlaySoundEvent(PlaySoundEvent psei)
     {
-        //Check if the Asp2D struct list is empty, zero or less
-        if (openSoundPlayers.Count <= 0)
+        //Check if the SFXPlayer list is empty, zero or less
+        if (openSFXPlayers.Count <= 0)
         {
-            //Create a new Asp2D if no more exist inside the openSoundPlayers list
-            CreateAsp2D();
+            //Create a new Audiostreamplayer if no more exist inside the openSoundPlayers list
+            CreateSFXPlayers();
         }
         //Add the last entry in the openSounPlayers list to the closedSoundPlayer list
-        closedSoundPlayers.Add(openSoundPlayers.Last());
+        closedSFXPlayers.Add(openSFXPlayers.Last());
         //Remove the link to the Asp2D struct fron the opeSoundPlayer list 
-        openSoundPlayers.Remove(openSoundPlayers.Last());
+        openSFXPlayers.Remove(openSFXPlayers.Last());
 
-        tempAsp2D = closedSoundPlayers[closedSoundPlayers.Count];
-        tempAsp2D.follow = psei.follow;
-        tempAsp2D.targetID = psei.targetID;
-        tempAsp2D.audioStreamPlayer2D.Stream = soundsList[psei.sound.ToString()];
-        closedSoundPlayers[closedSoundPlayers.Count] = tempAsp2D;
-
-        closedSoundPlayers[closedSoundPlayers.Count].audioStreamPlayer2D.Play();
+        ((AudioStreamPlayer)GD.InstanceFromId(closedSFXPlayers[closedSFXPlayers.Count])).Stream = soundsList[psei.sound.ToString()];
+        ((AudioStreamPlayer)GD.InstanceFromId(closedSFXPlayers[closedSFXPlayers.Count])).Play();
     }
-
-    private void CreateAsp2D()
+    private void CreateSFXPlayers()
     {
         //Create a temporary Asp2D struct
-        Asp2D tempAsp2D = new Asp2D();
-        //Add a new AudioStreamPlayer to the tempAsp2D struct
-        tempAsp2D.audioStreamPlayer2D = new AudioStreamPlayer2D();
-        //Add a Asp2D struct in memory but not instanced into the scene yet
-        openSoundPlayers.Add(tempAsp2D);
+        AudioStreamPlayer tempSFXPlayer = new AudioStreamPlayer();
+        //Add a AudioStreamPlayer object Id to the list of open audio stream players list
+        openSFXPlayers.Add(tempSFXPlayer.GetInstanceId());
         //Changed newly created AudioStreamPlayer2D names
-        openSoundPlayers.Last().audioStreamPlayer2D.Name = "ASP2D" + openSoundPlayers.Count;
+        tempSFXPlayer.Name = "SFXPlayer" + openSFXPlayers.Count;
         //Set the volume of the AudioStreamPlayer2D
-        openSoundPlayers.Last().audioStreamPlayer2D.VolumeDb = -80;
-
-        openSoundPlayers.Last().audioStreamPlayer2D.Connect("finished", this, nameof)
-        
-        openSoundPlayers.Last().audioStreamPlayer2D.AddChild()
-        Connect()
+        tempSFXPlayer.VolumeDb = -80;
         //Add the AudioStreamPlayer2D as children in the stream
-        AddChild(openSoundPlayers.Last().audioStreamPlayer2D);
+        AddChild(tempSFXPlayer);
     }
-
-
-
     private float ConvertToDB(float value)
     {
         return ((100 - value) * -80) / 100;
     }
-
     private void GetSoundFiles()
     {
         Directory dir = new Directory();
 
-        if (dir.Open("res://Sounds/Music/") == Error.Ok)
+        if (dir.Open("res://Audio/Music/") == Error.Ok)
         {
             dir.ListDirBegin();
             string fileName = dir.GetNext();
@@ -271,7 +212,7 @@ public class AudioManager : Node2D
             }
         }
 
-        if (dir.Open("res://Sounds/ActorSounds/") == Error.Ok)
+        if (dir.Open("res://Audio/SFX/ActorSounds/") == Error.Ok)
         {
             dir.ListDirBegin();
             string fileName = dir.GetNext();
@@ -287,7 +228,7 @@ public class AudioManager : Node2D
             }
         }
 
-        if (dir.Open("res://Sounds/ObjectSounds/") == Error.Ok)
+        if (dir.Open("res://Audio/SFX/ObjectSounds/") == Error.Ok)
         {
             dir.ListDirBegin();
             string fileName = dir.GetNext();
@@ -305,10 +246,8 @@ public class AudioManager : Node2D
     }
     public override void _ExitTree()
     {
-        base._ExitTree();
         ChangeVolumeEvent.UnregisterListener(OnChangeVolumeEvent);
         PlayMusicEvent.UnregisterListener(OnPlayMusicEvent);
         PlaySoundEvent.UnregisterListener(OnPlaySoundEvent);
     }
-
 }
