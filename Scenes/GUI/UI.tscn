@@ -75,48 +75,54 @@ size_flags_vertical = 0
 texture = ExtResource( 7 )
 
 [node name="Menu" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Menu"]
-margin_right = 692.0
+margin_right = 708.0
 margin_bottom = 614.0
+alignment = 1
 
 [node name="MenuVbox" type="VBoxContainer" parent="Menu/HBoxContainer"]
-margin_right = 70.0
-margin_bottom = 614.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+margin_right = 86.0
+margin_bottom = 112.0
+size_flags_vertical = 0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="StartButton" type="Button" parent="Menu/HBoxContainer/MenuVbox"]
-margin_top = 271.0
-margin_right = 70.0
-margin_bottom = 303.0
+margin_right = 86.0
+margin_bottom = 32.0
 custom_fonts/font = ExtResource( 8 )
 text = "Start"
+flat = true
+
+[node name="OptionsButton" type="Button" parent="Menu/HBoxContainer/MenuVbox"]
+margin_top = 40.0
+margin_right = 86.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 8 )
+text = "Options"
+flat = true
 
 [node name="ExitButton" type="Button" parent="Menu/HBoxContainer/MenuVbox"]
-margin_top = 311.0
-margin_right = 70.0
-margin_bottom = 343.0
+margin_top = 80.0
+margin_right = 86.0
+margin_bottom = 112.0
 custom_fonts/font = ExtResource( 8 )
 text = "Exit"
+flat = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TitleVbox" type="VBoxContainer" parent="Menu/HBoxContainer"]
-margin_left = 78.0
-margin_right = 692.0
+margin_left = 94.0
+margin_right = 708.0
 margin_bottom = 614.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -126,7 +132,7 @@ __meta__ = {
 margin_right = 614.0
 margin_bottom = 614.0
 texture = ExtResource( 3 )
-stretch_mode = 4
+stretch_mode = 1
 
 [node name="StatsWindow" type="Control" parent="."]
 visible = false
@@ -297,8 +303,11 @@ __meta__ = {
 }
 
 [node name="Options" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 script = ExtResource( 11 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Options"]
@@ -375,7 +384,7 @@ margin_right = 156.0
 margin_bottom = 76.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-value = 100.0
+value = 40.0
 
 [node name="SoundVolume" type="HSlider" parent="Options/VBoxContainer/NinePatchRect/Options/Controls"]
 margin_top = 84.0
@@ -383,7 +392,8 @@ margin_right = 156.0
 margin_bottom = 160.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-value = 100.0
+value = 40.0
 
 [connection signal="pressed" from="Menu/HBoxContainer/MenuVbox/StartButton" to="Menu" method="OnStartButtonPressed"]
+[connection signal="pressed" from="Menu/HBoxContainer/MenuVbox/OptionsButton" to="Menu" method="OnOptionsButtonPressed"]
 [connection signal="pressed" from="Menu/HBoxContainer/MenuVbox/ExitButton" to="Menu" method="OnExitButtonPressed"]

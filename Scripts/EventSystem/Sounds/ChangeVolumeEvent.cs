@@ -6,7 +6,7 @@ namespace EventCallback
 {
     public class ChangeVolumeEvent : Event<ChangeVolumeEvent>
     {
-        public float soundVolume;
-        public float musicVolume;
+        public float soundVolume = -1;
+        public float musicVolume = -1;
     }
 }

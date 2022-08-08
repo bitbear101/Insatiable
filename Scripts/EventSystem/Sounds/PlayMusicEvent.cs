@@ -5,6 +5,6 @@ namespace EventCallback
 {
     public class PlayMusicEvent : Event<PlayMusicEvent>
     {
-        public MusicStates music;
+        public int music;
     }
 }

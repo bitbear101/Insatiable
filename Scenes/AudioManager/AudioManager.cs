@@ -15,7 +15,7 @@ public enum MusicList
 
 public enum SFXList
 {
-
+    BUTTON_CLICK
 };
 
 public class AudioManager : Node2D
@@ -28,8 +28,8 @@ public class AudioManager : Node2D
     //Use the ID of the objects to keep track if it is in the openor closed list 
     List<ulong> openSFXPlayers = new List<ulong>();
     List<ulong> closedSFXPlayers = new List<ulong>();
-    Dictionary<String, AudioStreamSample> musicList = new Dictionary<String, AudioStreamSample>();
-    Dictionary<String, AudioStreamSample> soundsList = new Dictionary<String, AudioStreamSample>();
+    Dictionary<String, AudioStream> musicDic = new Dictionary<String, AudioStream>();
+    Dictionary<String, AudioStream> sfxDic = new Dictionary<String, AudioStream>();
 
     String nextTrack;
 
@@ -43,23 +43,20 @@ public class AudioManager : Node2D
             //Call the Asp2D function
             CreateSFXPlayers();
         }
+        //Set the sound player volume
+        musicVolume = -20;
         //Set the musicPlayer volume to the lowest setting
-        musicPlayer.VolumeDb = -80;
-
-        GetVolumeEvent gvei = new GetVolumeEvent();
-        gvei.callerClass = "SoundManager - _Ready()";
-        gvei.FireEvent();
-
-        soundVolume = gvei.soundVolume;
-        musicVolume = gvei.musicVolume;
-        musicPlayer.VolumeDb = ConvertToDB(gvei.soundVolume);
-
+        musicPlayer.VolumeDb = musicVolume;
+        //Set the sound volume
+        soundVolume = -20;
+        //Get the sound files from the audio directory
         GetSoundFiles();
 
         //Register listeners for this class
         ChangeVolumeEvent.RegisterListener(OnChangeVolumeEvent);
         PlayMusicEvent.RegisterListener(OnPlayMusicEvent);
         PlaySoundEvent.RegisterListener(OnPlaySoundEvent);
+        GetVolumeEvent.RegisterListener(OnGetVolumeEvent);
     }
     public override void _Process(float delta)
     {
@@ -71,7 +68,7 @@ public class AudioManager : Node2D
             if (fadeOutMusicDone)
             {
                 musicPlayer.Stop();
-                musicPlayer.Stream = musicList[nextTrack];
+                musicPlayer.Stream = musicDic[nextTrack];
                 musicPlayer.Play();
                 fadeOutMusicDone = false;
                 changeMusicTrack = false;
@@ -90,15 +87,23 @@ public class AudioManager : Node2D
             }
         }
     }
+    private void OnGetVolumeEvent(GetVolumeEvent gvei)
+    {
+        gvei.musicVolume = musicVolume;
+        gvei.soundVolume = soundVolume;
+    }
     private void OnChangeVolumeEvent(ChangeVolumeEvent cvei)
     {
-        musicPlayer.VolumeDb = ConvertToDB(cvei.musicVolume);
-        musicVolume = cvei.musicVolume;
-        soundVolume = cvei.soundVolume;
+        //Update the music volume
+        if (cvei.musicVolume > -1) musicVolume = ConvertToDB(cvei.musicVolume);
+        //Update the music players volume
+        musicPlayer.VolumeDb = musicVolume;
+        //Update the sound volume
+        if (cvei.soundVolume > -1) soundVolume = ConvertToDB(cvei.soundVolume);
     }
     private void OnPlayMusicEvent(PlayMusicEvent pmei)
     {
-        if (musicList.ContainsKey(pmei.music.ToString()))
+        if (musicDic.ContainsKey(((MusicList)pmei.music).ToString()))
         {
             if (musicPlayer.Playing)
             {
@@ -106,19 +111,19 @@ public class AudioManager : Node2D
                 changeMusicTrack = true;
                 fadeOutMusicDone = false;
                 lerpedMusicVolume = musicVolume;
-                nextTrack = pmei.music.ToString();
+                nextTrack = ((MusicList)pmei.music).ToString();
             }
             else
             {
                 fadeInMusic = true;
                 lerpedMusicVolume = 0;
-                musicPlayer.Stream = musicList[pmei.music.ToString()];
+                musicPlayer.Stream = musicDic[((MusicList)pmei.music).ToString()];
                 musicPlayer.Play();
             }
         }
         else
         {
-            GD.Print("SoundManager - OnPlayMusicEvent = " + pmei.music.ToString() + " musicList key was NOT found");
+            GD.Print("SoundManager - OnPlayMusicEvent = " + ((MusicList)pmei.music).ToString() + " musicList key was NOT found");
         }
 
         //Fade out old music and fade in new music
@@ -161,36 +166,43 @@ public class AudioManager : Node2D
     }
     private void OnPlaySoundEvent(PlaySoundEvent psei)
     {
-        //Check if the SFXPlayer list is empty, zero or less
-        if (openSFXPlayers.Count <= 0)
+        if (sfxDic.ContainsKey(((SFXList)psei.sound).ToString()))
         {
-            //Create a new Audiostreamplayer if no more exist inside the openSoundPlayers list
-            CreateSFXPlayers();
+            //Check if the SFXPlayer list is empty, zero or less
+            if (openSFXPlayers.Count <= 0)
+            {
+                //Create a new Audiostreamplayer if no more exist inside the openSoundPlayers list
+                CreateSFXPlayers();
+            }
+            //Add the last entry in the openSounPlayers list to the closedSoundPlayer list
+            closedSFXPlayers.Add(openSFXPlayers.Last());
+            //Remove the link to the Asp2D struct fron the opeSoundPlayer list 
+            openSFXPlayers.Remove(openSFXPlayers.Last());
+            //Set the volume of the player before playing the sound
+            ((AudioStreamPlayer)GD.InstanceFromId(closedSFXPlayers[closedSFXPlayers.Count])).VolumeDb = soundVolume;
+            //Set the sound to be played
+            ((AudioStreamPlayer)GD.InstanceFromId(closedSFXPlayers[closedSFXPlayers.Count])).Stream = sfxDic[((SFXList)psei.sound).ToString()];
+            //Play the sound      
+            ((AudioStreamPlayer)GD.InstanceFromId(closedSFXPlayers[closedSFXPlayers.Count])).Play();
         }
-        //Add the last entry in the openSounPlayers list to the closedSoundPlayer list
-        closedSFXPlayers.Add(openSFXPlayers.Last());
-        //Remove the link to the Asp2D struct fron the opeSoundPlayer list 
-        openSFXPlayers.Remove(openSFXPlayers.Last());
-
-        ((AudioStreamPlayer)GD.InstanceFromId(closedSFXPlayers[closedSFXPlayers.Count])).Stream = soundsList[psei.sound.ToString()];
-        ((AudioStreamPlayer)GD.InstanceFromId(closedSFXPlayers[closedSFXPlayers.Count])).Play();
+                else
+        {
+            GD.Print("SoundManager - OnPlaySoundEvent = " + sfxDic[((SFXList)psei.sound).ToString() + " musicList key was NOT found");
+        }
     }
+
     private void CreateSFXPlayers()
     {
         //Create a temporary Asp2D struct
         AudioStreamPlayer tempSFXPlayer = new AudioStreamPlayer();
-        //Add a AudioStreamPlayer object Id to the list of open audio stream players list
-        openSFXPlayers.Add(tempSFXPlayer.GetInstanceId());
         //Changed newly created AudioStreamPlayer2D names
         tempSFXPlayer.Name = "SFXPlayer" + openSFXPlayers.Count;
         //Set the volume of the AudioStreamPlayer2D
-        tempSFXPlayer.VolumeDb = -80;
+        tempSFXPlayer.VolumeDb = soundVolume;
         //Add the AudioStreamPlayer2D as children in the stream
         AddChild(tempSFXPlayer);
-    }
-    private float ConvertToDB(float value)
-    {
-        return ((100 - value) * -80) / 100;
+        //Add a AudioStreamPlayer object Id to the list of open audio stream players list
+        openSFXPlayers.Add(tempSFXPlayer.GetInstanceId());
     }
     private void GetSoundFiles()
     {
@@ -198,54 +210,64 @@ public class AudioManager : Node2D
 
         if (dir.Open("res://Audio/Music/") == Error.Ok)
         {
-            dir.ListDirBegin();
+            //We start looping throuugh the files in the given directory and skip all the navigation directories
+            dir.ListDirBegin(true, true);
             string fileName = dir.GetNext();
             while (fileName != "")
             {
-                if (fileName != "" && fileName != "." && fileName != ".." && !fileName.Contains(".import"))
+                if (fileName != "" && !fileName.Contains(".import"))
                 {
-                    String name = fileName.Remove(fileName.Find(".wav"), fileName.Length - fileName.Find(".wav"));
-                    AudioStreamSample tempAudio = ResourceLoader.Load<AudioStreamSample>("res://Sounds/Music/" + fileName) as AudioStreamSample;
-                    musicList.Add(name, tempAudio);
+                    String name = fileName.Remove(fileName.Find(".ogg"), fileName.Length - fileName.Find(".ogg"));
+                    AudioStream tempAudio = ResourceLoader.Load<AudioStream>("res://Audio/Music/" + fileName) as AudioStream;
+                    musicDic.Add(name, tempAudio);
                 }
                 fileName = dir.GetNext();
             }
+            dir.ListDirEnd();
         }
 
         if (dir.Open("res://Audio/SFX/ActorSounds/") == Error.Ok)
         {
-            dir.ListDirBegin();
+            dir.ListDirBegin(true, true);
             string fileName = dir.GetNext();
             while (fileName != "")
             {
-                if (fileName != "" && fileName != "." && fileName != ".." && !fileName.Contains(".import"))
+                if (fileName != "" && !fileName.Contains(".import"))
                 {
                     String name = fileName.Remove(fileName.Find(".wav"), fileName.Length - fileName.Find(".wav"));
-                    AudioStreamSample tempAudio = ResourceLoader.Load<AudioStreamSample>("res://Sounds/ActorSounds/" + fileName) as AudioStreamSample;
+                    AudioStream tempAudio = ResourceLoader.Load<AudioStream>("res://Audio/ActorSounds/" + fileName) as AudioStream;
                     soundsList.Add(name, tempAudio);
                 }
                 fileName = dir.GetNext();
             }
+            dir.ListDirEnd();
         }
 
         if (dir.Open("res://Audio/SFX/ObjectSounds/") == Error.Ok)
         {
-            dir.ListDirBegin();
+            dir.ListDirBegin(true, true);
             string fileName = dir.GetNext();
             while (fileName != "")
             {
-                if (fileName != "" && fileName != "." && fileName != ".." && !fileName.Contains(".import"))
+                if (fileName != "" && !fileName.Contains(".import"))
                 {
                     String name = fileName.Remove(fileName.Find(".wav"), fileName.Length - fileName.Find(".wav"));
-                    AudioStreamSample tempAudio = ResourceLoader.Load<AudioStreamSample>("res://Sounds/ObjectSounds/" + fileName) as AudioStreamSample;
+                    AudioStream tempAudio = ResourceLoader.Load<AudioStream>("res://Audio/SFX/ObjectSounds/" + fileName) as AudioStream;
                     soundsList.Add(name, tempAudio);
                 }
                 fileName = dir.GetNext();
             }
+            dir.ListDirEnd();
         }
+    }
+    private float ConvertToDB(float value)
+    {
+        return ((100 - value) * -80) / 100;
     }
     public override void _ExitTree()
     {
+        //Stop the music when the audiomanager is destroyed
+        musicPlayer.Stop();
         ChangeVolumeEvent.UnregisterListener(OnChangeVolumeEvent);
         PlayMusicEvent.UnregisterListener(OnPlayMusicEvent);
         PlaySoundEvent.UnregisterListener(OnPlaySoundEvent);

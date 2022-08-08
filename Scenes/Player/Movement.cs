@@ -35,7 +35,7 @@ public class Movement : Node
 	private void ApplyForce(Vector2 amount)
 	{
 		vector += amount;
-		vector = vector.Clamped(speed);
+		vector = vector.LimitLength(speed);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
