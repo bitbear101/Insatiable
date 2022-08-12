@@ -10,12 +10,6 @@ public class Options : Control
         //Connect the mgodot messaging for the change of values on the sliders in the options menu 
         musicSlider = GetNode<Slider>("VBoxContainer/NinePatchRect/Options/Controls/MusicVolume");
         soundSlider = GetNode<Slider>("VBoxContainer/NinePatchRect/Options/Controls/SoundVolume");
-        // Get the set volumes for hte music and sound at the creation of hte options menu node
-        GetVolumeEvent gvei = new GetVolumeEvent();
-        gvei.callerClass = "Options - _Ready()";
-        gvei.FireEvent();
-        musicSlider.Value = BDToInt(gvei.musicVolume);
-        soundSlider.Value = BDToInt(gvei.soundVolume);
 
         musicSlider.Connect("value_changed", this, nameof(OnMusicVolumeValueChanged));
 
@@ -46,11 +40,7 @@ public class Options : Control
         GetVolumeEvent gvei = new GetVolumeEvent();
         gvei.callerClass = "Options - OnVisibilityChanged()";
         gvei.FireEvent();
-        musicSlider.Value = BDToInt(gvei.musicVolume);
-        soundSlider.Value = BDToInt(gvei.soundVolume);
-    }
-    private float BDToInt(float value)
-    {
-        return ((80 + value) * 100) / 80;
+        musicSlider.Value = gvei.musicVolume;
+        soundSlider.Value = gvei.soundVolume;
     }
 }

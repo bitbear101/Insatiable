@@ -15,20 +15,18 @@ public class Menu : Control
         pme.music = (int)MusicList.MENU;
         pme.FireEvent();
     }
-
-    //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-    //  public override void _Process(float delta)
-    //  {
-    //      
-    //  }
-
     public void OnStartButtonPressed()
     {
-		//Play the button click sound
+        //Play the button click sound
         PlaySoundEvent pse = new PlaySoundEvent();
         pse.callerClass = "Menu - _Ready()";
         pse.sound = (int)SFXList.BUTTON_CLICK;
         pse.FireEvent();
+        //Play the in  game music
+        PlayMusicEvent pme = new PlayMusicEvent();
+        pme.callerClass = "Menu - OnStartButtonPressed()";
+        pme.music = (int)MusicList.GAME;
+        pme.FireEvent();
         //Send the start game event message
         StartGameEvent sge = new StartGameEvent();
         sge.callerClass = "Menu - OnStartGamePressed()";
@@ -38,10 +36,20 @@ public class Menu : Control
     }
     public void OnOptionsButtonPressed()
     {
-		GetNode<Control>("../Options").Visible = !GetNode<Control>("../Options").Visible;
+        GetNode<Control>("../Options").Visible = !GetNode<Control>("../Options").Visible;
+        //Play the button click sound
+        PlaySoundEvent pse = new PlaySoundEvent();
+        pse.callerClass = "Menu - _Ready()";
+        pse.sound = (int)SFXList.BUTTON_CLICK;
+        pse.FireEvent();
     }
     public void OnExitButtonPressed()
     {
+        //Play the button click sound
+        PlaySoundEvent pse = new PlaySoundEvent();
+        pse.callerClass = "Menu - _Ready()";
+        pse.sound = (int)SFXList.BUTTON_CLICK;
+        pse.FireEvent();
         GetTree().Quit();
     }
 }
