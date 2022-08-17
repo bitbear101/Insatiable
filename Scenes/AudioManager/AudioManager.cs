@@ -10,6 +10,7 @@ public enum MusicList
     GAME,
     BATTLE,
     WIN,
+    DARK_CAVE_AMBIENT,
     LOSE
 };
 
@@ -45,7 +46,7 @@ public class AudioManager : Node2D
             CreateSFXPlayers();
         }
         //Set the sound player volume
-        musicVolume = 70;
+        musicVolume = 55;
         //Set the musicPlayer volume to the lowest setting
         musicPlayer.VolumeDb = ConvertToDB(musicVolume);
         //Set the sound volume

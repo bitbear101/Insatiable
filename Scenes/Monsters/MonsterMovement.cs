@@ -20,7 +20,7 @@ public class MonsterMovement : Node
     public override void _Ready()
     {
         //Get the kinematic body of hte monster
-        body = GetNode<KinematicBody2D>("../../Slime");
+        body = GetNode<KinematicBody2D>("../../Body");
         //Get the LOS ray for the monster
         LOSRay = GetNode<RayCast2D>("../LOSRay");
         //Get the view radius of the monster

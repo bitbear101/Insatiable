@@ -93,14 +93,27 @@ public class PunchAttack : Node2D
         {
             Polygon2D poly = new Polygon2D();
             Vector2[] shape = { new Vector2(10, 10), new Vector2(10, 20), new Vector2(20, 20), new Vector2(20, 10) };
-            Vector2 newPos;
-            newPos.x = GlobalPosition.x - GlobalPosition.x % 16;
-            newPos.y = GlobalPosition.y - GlobalPosition.y % 16;
-            StoneToFloorEvent stfe = new StoneToFloorEvent();
-            stfe.callerClass = "PunchAttack - OnBodyEntered()";
-            stfe.TileToChange = newPos / 16;
-            stfe.FireEvent();
+            poly.Polygon = shape;
 
+
+
+            Vector2 globPos = GlobalPosition.LinearInterpolate(target, .2f);
+            Vector2 newPos;
+
+            newPos.x = Mathf.Round(globPos.x / 16) - globPos.x % 16;
+            newPos.y = Mathf.Round(globPos.y) - globPos.y % 16;
+
+    poly.GlobalPosition = GlobalPosition.LinearInterpolate(target, .1f);;
+        
+            // newPos.x = globPos.x - globPos.x % 16;
+            // newPos.y = globPos.y - globPos.y % 16;
+            // newPos.x = GlobalPosition.x - GlobalPosition.x % 16;
+            // newPos.y = GlobalPosition.y - GlobalPosition.y % 16;
+            // StoneToFloorEvent stfe = new StoneToFloorEvent();
+            // stfe.callerClass = "PunchAttack - OnBodyEntered()";
+            // stfe.TileToChange = newPos / 16;
+            // stfe.FireEvent();
+            GetParent().GetParent().AddChild(poly);
             //Free the punch attack scene
             QueueFree();
         }

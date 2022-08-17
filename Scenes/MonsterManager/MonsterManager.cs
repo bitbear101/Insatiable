@@ -35,14 +35,15 @@ public class MonsterManager : Node2D
         RandomNumberGenerator rng = new RandomNumberGenerator();
         //Loop through the base amount of montsters and spawn as we go
         //for (int i = 0; i < baseMonsterCount + (gmle.mapLevel * 1.25f); i++)
-        for (int i = 0; i < gmle.mapLevel * 1.25f; i++)
+        // for (int i = 0; i < gmle.mapLevel * 1.25f; i++)
+        for (int i = 0; i < 20; i++)
         {
             //The maximum level of the monster for this level depth is selected 
             int levelOfMonsterToSpawn = monsterScenes.Count / gmle.maxLevels;
             //Create a new node for the monster
             Node monsterToSpawn = new Node();
             //We prepare to spawn in the randomly selected monster
-            monsterToSpawn = monsterScenes[levelOfMonsterToSpawn].Instance();
+            monsterToSpawn = monsterScenes[0].Instance();
             //We add the monster to the main monster list
             monsterList.Add(monsterToSpawn);
             //Get a random floor tile to spawn monster on

@@ -27,7 +27,7 @@ public class Map : Node2D
     //The size of the tile
     const int tileSize = 16;
     //The number of the level
-    int currentLevel = 5;
+    int currentLevel = 1;
     //The max amount of levels the game can have
     int maxLevels = 5;
     //The tile map node in the node tree
@@ -69,7 +69,7 @@ public class Map : Node2D
     private void GenerateLevel()
     {
         //Inciment the level whenever a new levl is generated
-        currentLevel--;
+        currentLevel++;
         //Set the new map size
         width += (int)((float)width * 0.25f);
         height += (int)((float)height * 0.25f);

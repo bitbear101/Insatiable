@@ -25,7 +25,7 @@ public class Menu : Control
         //Play the in  game music
         PlayMusicEvent pme = new PlayMusicEvent();
         pme.callerClass = "Menu - OnStartButtonPressed()";
-        pme.music = (int)MusicList.GAME;
+        pme.music = (int)MusicList.DARK_CAVE_AMBIENT;
         pme.FireEvent();
         //Send the start game event message
         StartGameEvent sge = new StartGameEvent();
