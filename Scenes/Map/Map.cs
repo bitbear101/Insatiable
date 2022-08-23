@@ -23,7 +23,7 @@ public class Map : Node2D
     //The location where the lader tile spawns for the exit to the level
     Vector2 exiTile = Vector2.Zero;
     //The size of the map
-    int width = 200, height = 200;
+    int width = 20, height = 20; //200X200
     //The size of the tile
     const int tileSize = 16;
     //The number of the level
@@ -87,7 +87,7 @@ public class Map : Node2D
 
     private void OnStoneToFloorEvent(StoneToFloorEvent stfe)
     {
-        if (map[(int)(stfe.TileToChange.x * width + stfe.TileToChange.y)] != TileType.WALL)
+        if (map[(int)(stfe.TileToChange.x * width + stfe.TileToChange.y)] == TileType.STONE)
         {
             //Change the stone tile to a floor tile in the map list
             map[(int)(stfe.TileToChange.x * width + stfe.TileToChange.y)] = TileType.FLOOR;
@@ -96,7 +96,6 @@ public class Map : Node2D
             //Update the tile maps bit mask to show in game
             tileMap.UpdateBitmaskArea(stfe.TileToChange);
         }
-
     }
 
     private void OnGetTileEvent(GetTileEvent gte)
@@ -114,7 +113,7 @@ public class Map : Node2D
     private void OnGetPlayerSpawnPointEvent(GetPlayerSpawnPointEvent gpspe)
     {
         //Return the players spawn point to the message sender
-        gpspe.spawnPos = spawnTile * tileSize;
+        gpspe.spawnPos = (spawnTile * tileSize) + Vector2.One * 8;
     }
 
     private void OnGetMapLevelEvent(GetMapLevelEvent gmle)

@@ -9,21 +9,25 @@ public class PunchAttack : Node2D
     ulong parentID;
     //The hit box of the attack
     Area2D hitArea;
+    //The hit ray for the puch attack
+    RayCast2D hitRay;
+    //The position of the parent
+    Vector2 parentPos;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         //Get the ID of the parent
         parentID = GetParent().GetInstanceId();
         //Get the parents global positioning before setting it a stop level
-        Vector2 parentPos = ((Node2D)GetParent()).GlobalPosition;
+        parentPos = ((Node2D)GetParent()).GlobalPosition;
         //Set the punch as a top level as not to move with player anymore
         SetAsToplevel(true);
+        //Get the scene instanced hit ray for use in the script
+        hitRay = GetNode<RayCast2D>("HitRay");
         //Set the hit area in script to the on instanced in the scene
         hitArea = GetNode<Area2D>("HitArea");
         //Set the connection for collision detection
         hitArea.Connect("area_entered", this, nameof(OnAreaEntered));
-        //Set the connection for collision detection
-        hitArea.Connect("body_entered", this, nameof(OnBodyEntered));
         //Set the position of the punch again as it is reset with the set as top level
         GlobalPosition = parentPos;
         //Get the modified mouse pos for the viewport
@@ -41,6 +45,69 @@ public class PunchAttack : Node2D
 
         if (GlobalPosition.DistanceTo(target) < 1)
         {
+            QueueFree();
+        }
+    }
+
+    public override void _PhysicsProcess(float delta)
+    {
+        if (hitRay.IsColliding() && ((Node)hitRay.GetCollider()).GetParent().IsInGroup("Map"))
+        {
+            Vector2 tilePos = Vector2.Zero;
+
+            if (Mathf.Abs(hitRay.GetCollisionPoint().x - parentPos.x) > Mathf.Abs(hitRay.GetCollisionPoint().y - parentPos.y))
+            {
+                if ((hitRay.GetCollisionPoint().x - parentPos.x) > 0)
+                {
+                    tilePos.x = (hitRay.GetCollisionPoint().x - (hitRay.GetCollisionPoint().x % 16));
+                }
+                else
+                {
+                    tilePos.x = (hitRay.GetCollisionPoint().x - (hitRay.GetCollisionPoint().x % 16)) - 16;
+                }
+
+                tilePos.y = hitRay.GetCollisionPoint().y;
+            }
+            else
+            {
+                if ((hitRay.GetCollisionPoint().y - parentPos.y) > 0)
+                {
+                    tilePos.y = (hitRay.GetCollisionPoint().y - (hitRay.GetCollisionPoint().y % 16));
+                }
+                else
+                {
+                    tilePos.y = (hitRay.GetCollisionPoint().y - (hitRay.GetCollisionPoint().y % 16)) - 16;
+                }
+
+                tilePos.x = hitRay.GetCollisionPoint().x;
+            }
+
+            GD.Print("PunchAttack - _PhysicsProcess: x pos related to player = " + (hitRay.GetCollisionPoint() - parentPos));
+            GD.Print("PunchAttack - _PhysicsProcess: tilePos = " + tilePos);
+            StoneToFloorEvent stfe = new StoneToFloorEvent();
+            stfe.callerClass = "PunchAttack - OnBodyEntered()";
+            stfe.TileToChange = tilePos / 16;
+            stfe.FireEvent();
+
+            Polygon2D poly = new Polygon2D();
+            Vector2[] shape = { new Vector2(1, 1), new Vector2(1, 2), new Vector2(2, 2), new Vector2(2, 1) };
+            poly.Color = new Color(2, 0, 0, 1);
+            poly.Polygon = shape;
+            poly.GlobalPosition = hitRay.GetCollisionPoint();
+            GetParent().GetParent().AddChild(poly);
+
+            // Polygon2D poly1 = new Polygon2D();
+            // Vector2[] shape1 = { new Vector2(1, 1), new Vector2(1, 2), new Vector2(2, 2), new Vector2(2, 1) };
+            // poly1.Color = new Color(0, 0, 2, 1);
+            // poly1.Polygon = shape1;
+            // poly1.GlobalPosition = GlobalPosition.LinearInterpolate(target, .1f);
+            // GetParent().GetParent().AddChild(poly1);
+
+            /*
+            When hittng the tile aiming left to right or from top aiming down, the collision is within the tile and when hitting
+            the tile from the bottom aiming up or from the right aiming left the collision is out of the tiles area
+
+            */
             QueueFree();
         }
     }
@@ -87,38 +154,6 @@ public class PunchAttack : Node2D
         //Free the punch attack scene
         QueueFree();
     }
-    private void OnBodyEntered(StaticBody2D body)
-    {
-        if (body.GetParent().IsInGroup("Map"))
-        {
-            Polygon2D poly = new Polygon2D();
-            Vector2[] shape = { new Vector2(10, 10), new Vector2(10, 20), new Vector2(20, 20), new Vector2(20, 10) };
-            poly.Polygon = shape;
-
-
-
-            Vector2 globPos = GlobalPosition.LinearInterpolate(target, .2f);
-            Vector2 newPos;
-
-            newPos.x = Mathf.Round(globPos.x / 16) - globPos.x % 16;
-            newPos.y = Mathf.Round(globPos.y) - globPos.y % 16;
-
-    poly.GlobalPosition = GlobalPosition.LinearInterpolate(target, .1f);;
-        
-            // newPos.x = globPos.x - globPos.x % 16;
-            // newPos.y = globPos.y - globPos.y % 16;
-            // newPos.x = GlobalPosition.x - GlobalPosition.x % 16;
-            // newPos.y = GlobalPosition.y - GlobalPosition.y % 16;
-            // StoneToFloorEvent stfe = new StoneToFloorEvent();
-            // stfe.callerClass = "PunchAttack - OnBodyEntered()";
-            // stfe.TileToChange = newPos / 16;
-            // stfe.FireEvent();
-            GetParent().GetParent().AddChild(poly);
-            //Free the punch attack scene
-            QueueFree();
-        }
-    }
-
     private object GetBBData(int key)
     {
         GetBBDataEvent gbbde = new GetBBDataEvent();
