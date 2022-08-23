@@ -13,7 +13,7 @@ public class MonsterManager : Node2D
     //The list of monsters spawned on the level
     List<Node> monsterList = new List<Node>();
     //The base amount of monsters to spawn
-    int baseMonsterCount = 1;
+    int baseMonsterCount = 5;
 
     public override void _Ready()
     {
@@ -34,9 +34,7 @@ public class MonsterManager : Node2D
         //Create a random number geneator
         RandomNumberGenerator rng = new RandomNumberGenerator();
         //Loop through the base amount of montsters and spawn as we go
-        //for (int i = 0; i < baseMonsterCount + (gmle.mapLevel * 1.25f); i++)
-        // for (int i = 0; i < gmle.mapLevel * 1.25f; i++)
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < gmle.mapLevel * (gmle.mapLevel + 1.25f); i++)
         {
             //The maximum level of the monster for this level depth is selected 
             int levelOfMonsterToSpawn = monsterScenes.Count / gmle.maxLevels;
@@ -51,7 +49,7 @@ public class MonsterManager : Node2D
             grfte.callerClass = "MonsterManager - OnSpawnMonstersEvent";
             grfte.FireEvent();
             //Set the monsters position to the tile position in the world
-            ((Node2D)monsterToSpawn).Position = grfte.tilePos * 16;
+            ((Node2D)monsterToSpawn).Position = (grfte.tilePos * 16) + (Vector2.One * 8);
             //Add the monster node as a child of the monster manager 
             AddChild(monsterToSpawn);
         }

@@ -23,13 +23,13 @@ public class Map : Node2D
     //The location where the lader tile spawns for the exit to the level
     Vector2 exiTile = Vector2.Zero;
     //The size of the map
-    int width = 20, height = 20; //200X200
+    int width = 5, height = 5;
     //The size of the tile
     const int tileSize = 16;
     //The number of the level
     int currentLevel = 1;
     //The max amount of levels the game can have
-    int maxLevels = 5;
+    int maxLevels = 10;
     //The tile map node in the node tree
     TileMap tileMap;
     List<TileType> map = new List<TileType>();
@@ -71,8 +71,8 @@ public class Map : Node2D
         //Inciment the level whenever a new levl is generated
         currentLevel++;
         //Set the new map size
-        width += (int)((float)width * 0.25f);
-        height += (int)((float)height * 0.25f);
+        width += (int)((float)width * (currentLevel + 1.25f));
+        height += (int)((float)height * (currentLevel + 1.25f));
         //Randomaize the output of the generator
         rng.Randomize();
         //Generates the noise
@@ -95,6 +95,11 @@ public class Map : Node2D
             tileMap.SetCell((int)stfe.TileToChange.x, (int)stfe.TileToChange.y, (int)TileType.FLOOR);
             //Update the tile maps bit mask to show in game
             tileMap.UpdateBitmaskArea(stfe.TileToChange);
+
+            PlaySoundEvent pse = new PlaySoundEvent();
+            pse.callerClass = "Map - OnStoneToFloorEvent()";
+            pse.sound = (int)SFXList.ROCK_SMASH2;
+            pse.FireEvent();
         }
     }
 

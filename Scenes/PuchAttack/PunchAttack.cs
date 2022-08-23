@@ -55,31 +55,21 @@ public class PunchAttack : Node2D
         {
             Vector2 tilePos = Vector2.Zero;
 
-            if (Mathf.Abs(hitRay.GetCollisionPoint().x - parentPos.x) > Mathf.Abs(hitRay.GetCollisionPoint().y - parentPos.y))
+            if ((hitRay.GetCollisionPoint().x - parentPos.x) > 0)
             {
-                if ((hitRay.GetCollisionPoint().x - parentPos.x) > 0)
-                {
-                    tilePos.x = (hitRay.GetCollisionPoint().x - (hitRay.GetCollisionPoint().x % 16));
-                }
-                else
-                {
-                    tilePos.x = (hitRay.GetCollisionPoint().x - (hitRay.GetCollisionPoint().x % 16)) - 16;
-                }
-
-                tilePos.y = hitRay.GetCollisionPoint().y;
+                tilePos.x = (hitRay.GetCollisionPoint().x - (hitRay.GetCollisionPoint().x % 16));
             }
             else
             {
-                if ((hitRay.GetCollisionPoint().y - parentPos.y) > 0)
-                {
-                    tilePos.y = (hitRay.GetCollisionPoint().y - (hitRay.GetCollisionPoint().y % 16));
-                }
-                else
-                {
-                    tilePos.y = (hitRay.GetCollisionPoint().y - (hitRay.GetCollisionPoint().y % 16)) - 16;
-                }
-
-                tilePos.x = hitRay.GetCollisionPoint().x;
+                tilePos.x = (hitRay.GetCollisionPoint().x - (hitRay.GetCollisionPoint().x % 16)) - 16;
+            }
+            if ((hitRay.GetCollisionPoint().y - parentPos.y) > 0)
+            {
+                tilePos.y = (hitRay.GetCollisionPoint().y - (hitRay.GetCollisionPoint().y % 16));
+            }
+            else
+            {
+                tilePos.y = (hitRay.GetCollisionPoint().y - (hitRay.GetCollisionPoint().y % 16)) - 16;
             }
 
             GD.Print("PunchAttack - _PhysicsProcess: x pos related to player = " + (hitRay.GetCollisionPoint() - parentPos));
@@ -89,25 +79,14 @@ public class PunchAttack : Node2D
             stfe.TileToChange = tilePos / 16;
             stfe.FireEvent();
 
-            Polygon2D poly = new Polygon2D();
-            Vector2[] shape = { new Vector2(1, 1), new Vector2(1, 2), new Vector2(2, 2), new Vector2(2, 1) };
-            poly.Color = new Color(2, 0, 0, 1);
-            poly.Polygon = shape;
-            poly.GlobalPosition = hitRay.GetCollisionPoint();
-            GetParent().GetParent().AddChild(poly);
+            // Polygon2D poly = new Polygon2D();
+            // Vector2[] shape = { new Vector2(1, 1), new Vector2(1, 2), new Vector2(2, 2), new Vector2(2, 1) };
+            // poly.Color = new Color(2, 0, 0, 1);
+            // poly.Polygon = shape;
+            // // poly.GlobalPosition = hitRay.GetCollisionPoint();
+            // poly.GlobalPosition = tilePos;
+            // GetParent().GetParent().AddChild(poly);
 
-            // Polygon2D poly1 = new Polygon2D();
-            // Vector2[] shape1 = { new Vector2(1, 1), new Vector2(1, 2), new Vector2(2, 2), new Vector2(2, 1) };
-            // poly1.Color = new Color(0, 0, 2, 1);
-            // poly1.Polygon = shape1;
-            // poly1.GlobalPosition = GlobalPosition.LinearInterpolate(target, .1f);
-            // GetParent().GetParent().AddChild(poly1);
-
-            /*
-            When hittng the tile aiming left to right or from top aiming down, the collision is within the tile and when hitting
-            the tile from the bottom aiming up or from the right aiming left the collision is out of the tiles area
-
-            */
             QueueFree();
         }
     }
@@ -121,7 +100,6 @@ public class PunchAttack : Node2D
             he.attackerID = parentID;
             he.targetID = area.GetParent().GetInstanceId();
             he.FireEvent();
-
         }
 
         if (area.GetParent().IsInGroup("Corpse"))

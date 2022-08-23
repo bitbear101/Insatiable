@@ -16,7 +16,11 @@ public enum MusicList
 
 public enum SFXList
 {
-    BUTTON_CLICK
+    BUTTON_CLICK,
+    GRAVEL_FOOTSTEP,
+    ROCK_SMASH1,
+    ROCK_SMASH2,
+    ROCK_SMASH3
 };
 
 public class AudioManager : Node2D

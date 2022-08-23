@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/ROCK_SMASH.wav-9f703e253634c60fef21252f82d0eaf3.sample"
+path="res://.import/ROCK_SMASH3.wav-4606d8823d01080acfa721ca0007e948.sample"
 
 [deps]
 
-source_file="res://Audio/SFX/ObjectSounds/ROCK_SMASH.wav"
-dest_files=[ "res://.import/ROCK_SMASH.wav-9f703e253634c60fef21252f82d0eaf3.sample" ]
+source_file="res://Audio/SFX/ObjectSounds/ROCK_SMASH3.wav"
+dest_files=[ "res://.import/ROCK_SMASH3.wav-4606d8823d01080acfa721ca0007e948.sample" ]
 
 [params]
 
