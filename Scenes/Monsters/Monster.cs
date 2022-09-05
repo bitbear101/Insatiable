@@ -15,6 +15,10 @@ public class Monster : KinematicBody2D
     {
         ((Node2D)corpsNode).GlobalPosition = GlobalPosition;
         GetParent().AddChild(corpsNode);
+        RemoveMonsterEvent rme = new RemoveMonsterEvent();
+        rme.callerClass = "Monster - _ExitTree()";
+        rme.monsterID = GetInstanceId();
+        rme.FireEvent();
         // GetParent().CallDeferred("AddChild", corpsNode);
     }
 }

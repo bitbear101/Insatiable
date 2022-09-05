@@ -100,6 +100,7 @@ ui_escape={
 
 [mono]
 
+project/assembly_name="Insatiable"
 debugger_agent/wait_timeout=5000
 
 [rendering]

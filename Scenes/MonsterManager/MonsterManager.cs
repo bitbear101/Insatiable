@@ -48,6 +48,8 @@ public class MonsterManager : Node2D
             GetRandomFloorTileEvent grfte = new GetRandomFloorTileEvent();
             grfte.callerClass = "MonsterManager - OnSpawnMonstersEvent";
             grfte.FireEvent();
+            //Change the name of the monster
+            monsterToSpawn.Name = "Monster" + monsterList.Count;
             //Set the monsters position to the tile position in the world
             ((Node2D)monsterToSpawn).Position = (grfte.tilePos * 16) + (Vector2.One * 8);
             //Add the monster node as a child of the monster manager 

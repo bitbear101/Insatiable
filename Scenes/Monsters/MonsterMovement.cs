@@ -9,7 +9,7 @@ public class MonsterMovement : Node
     RayCast2D LOSRay;
     //The view radius of the monster
     Area2D viewRadius;
-    KinematicBody2D body;
+    KinematicBody2D myBody;
     KinematicBody2D target = null;
     float speed = 100;
     float accel = 1000;
@@ -19,8 +19,12 @@ public class MonsterMovement : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        
         //Get the kinematic body of hte monster
-        body = GetNode<KinematicBody2D>("../../Body");
+        myBody = GetTree().Root.GetNode("Main").GetNode<Node2D>("ViewportContainer/Viewport/MonsterManager/" + GetParent().Name) as KinematicBody2D;
+        // myBody = GetNode<KinematicBody2D>("../../../../" + GetParent().Name);
+        // GD.Print("../../../" + GetParent().Name);
+        // myBody = GetNode<KinematicBody2D>("../../../Body");
         //Get the LOS ray for the monster
         LOSRay = GetNode<RayCast2D>("../LOSRay");
         //Get the view radius of the monster
@@ -58,7 +62,7 @@ public class MonsterMovement : Node
     {
         //Add the los checks for the line of sight  
         if (target == null) return false;
-        LOSRay.CastTo = target.GlobalPosition - body.GlobalPosition;
+       LOSRay.CastTo = target.GlobalPosition - myBody.GlobalPosition; 
         LOSRay.ForceRaycastUpdate();
         if (LOSRay.IsColliding())
         {
@@ -70,7 +74,7 @@ public class MonsterMovement : Node
 
     private bool InRange()
     {
-        if (body.GlobalPosition.DistanceTo(target.GlobalPosition) <= 25)
+        if (myBody.GlobalPosition.DistanceTo(target.GlobalPosition) <= 25)
         {
             return true;
         }
@@ -82,7 +86,7 @@ public class MonsterMovement : Node
         //Set the target to zero
         Vector2 dir = Vector2.Zero;
         //Get the direction of the target if it is not null
-        dir = target.GlobalPosition - body.GlobalPosition;
+        dir = target.GlobalPosition - myBody.GlobalPosition;
         //Return the normalized vector for the direction ot the target
         return dir.Normalized();
     }
@@ -120,6 +124,6 @@ public class MonsterMovement : Node
         if (dir == Vector2.Zero) ApplyFriction(deccel * delta);
         else ApplyForce(dir * accel * delta);
 
-        vector = body.MoveAndSlide(vector);
+        vector = myBody.MoveAndSlide(vector);
     }
 }

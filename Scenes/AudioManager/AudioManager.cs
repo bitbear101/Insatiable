@@ -18,6 +18,7 @@ public enum SFXList
 {
     BUTTON_CLICK,
     GRAVEL_FOOTSTEP,
+    ROCK_SMASH,
     ROCK_SMASH1,
     ROCK_SMASH2,
     ROCK_SMASH3
